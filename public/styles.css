@@ -37,7 +37,7 @@ body::before {
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-blend-mode: overlay;
-    opacity: 0.1;
+    opacity: 0.05; /* Reducimos la opacidad para que no interfiera con las categorías */
     z-index: -1;
 }
 
@@ -47,18 +47,19 @@ body.dark-mode {
 }
 
 body.dark-mode::before {
-    opacity: 0.08;
+    opacity: 0.03; /* Aún más baja en modo oscuro */
 }
 
 header {
     background: linear-gradient(135deg, var(--verde-amazonico), #1B5E20, var(--terracota));
     color: white;
-    padding: 4rem 1rem 2rem; /* Aumenta el padding-top para dejar espacio al botón */
+    padding: 5rem 1rem 2rem; /* Aumenta el padding-top para dejar más espacio */
     text-align: center;
     box-shadow: var(--sombra);
     position: relative;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
+    min-height: 150px; /* Asegura suficiente espacio vertical */
 }
 
 .header-content {
@@ -71,7 +72,7 @@ header {
     font-weight: 600;
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Añade sombra para mejorar legibilidad */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Mejora legibilidad */
 }
 
 .header-content p {
@@ -109,7 +110,7 @@ header {
     text-decoration: none;
     font-weight: 500;
     transition: background 0.3s;
-    z-index: 10; /* Asegura que el botón esté por encima de otros elementos */
+    z-index: 10;
 }
 
 .dashboard-link:hover {
@@ -166,7 +167,7 @@ header {
 }
 
 body.dark-mode .filters {
-    background: #333333; /* Un gris más claro que --dark-card para mejor contraste */
+    background: var(--dark-card); /* Fondo más oscuro para modo oscuro */
 }
 
 .filter-btn {
@@ -193,13 +194,15 @@ body.dark-mode .filters {
     bottom: -20px;
     font-size: 0.65rem;
     text-transform: lowercase;
-    color: #333; /* Color oscuro para mejor contraste con fondo blanco */
+    color: #1a1a1a; /* Color más oscuro para mejor contraste en modo claro */
     text-align: center;
     width: 100%;
+    font-weight: 600; /* Texto más grueso para mayor legibilidad */
 }
 
 body.dark-mode .filter-btn span {
-    color: #e0e0e0; /* Color claro para contraste con fondo oscuro */
+    color: #ffffff; /* Color más claro para modo oscuro */
+    font-weight: 600;
 }
 
 .filter-btn:hover, .filter-btn.active {
@@ -395,37 +398,21 @@ body.dark-mode .producer-card {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-top: 15px;
-    padding: 10px 20px;
+    padding: 8px 16px; /* Reducimos el padding para que sea más discreto */
     background-color: var(--terracota);
     color: white;
     text-decoration: none;
     border-radius: 8px;
     font-weight: 500;
     transition: background-color 0.3s, transform 0.2s;
+    position: fixed;
+    bottom: 80px; /* Ajustamos para que esté más arriba de las categorías */
+    right: 20px;
+    z-index: 1001;
+    font-size: 0.9rem; /* Texto más pequeño */
 }
 
 .whatsapp-btn:hover {
-    background-color: #B75902;
-    transform: translateY(-2px);
-}
-
-/* Nueva regla para el botón de WhatsApp en el footer */
-.whatsapp-link {
-    position: fixed;
-    bottom: 70px; /* Ajusta para que esté por encima de las categorías */
-    right: 20px;
-    background-color: var(--terracota);
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 8px;
-    z-index: 1001; /* Asegura que esté por encima de las categorías */
-    font-weight: 500;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.whatsapp-link:hover {
     background-color: #B75902;
     transform: translateY(-2px);
 }
@@ -679,6 +666,22 @@ body.dark-mode .stats-section p {
 }
 
 @media (max-width: 768px) {
+    header {
+        padding: 6rem 1rem 2rem; /* Más padding en pantallas pequeñas */
+        min-height: 180px; /* Asegura más espacio vertical */
+    }
+
+    .dashboard-link {
+        top: 2rem; /* Mueve el botón hacia abajo en pantallas pequeñas */
+        left: 1rem;
+        padding: 6px 12px; /* Reduce el tamaño del botón */
+        font-size: 0.9rem; /* Texto más pequeño */
+    }
+
+    .header-content h1 {
+        font-size: 1.5rem;
+    }
+
     .producers-list {
         grid-template-columns: 1fr;
         padding: 1rem;
@@ -708,11 +711,13 @@ body.dark-mode .stats-section p {
         padding: 1.5rem;
     }
 
-    .header-content h1 {
-        font-size: 1.5rem;
-    }
-
     .producer-card img {
         height: 180px;
+    }
+
+    .whatsapp-btn {
+        bottom: 70px; /* Ajusta la posición en pantallas pequeñas */
+        padding: 6px 12px; /* Más pequeño */
+        font-size: 0.8rem; /* Texto más pequeño */
     }
 }
