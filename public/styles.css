@@ -1,0 +1,697 @@
+:root {
+    --verde-amazonico: #2e7d32;
+    --terracota: #D76A03;
+    --amarillo-Artesania: #FFD700;
+    --azul-Turismo: #1E88E5;
+    --morado-Agroindustria: #7B1FA2;
+    --gris-Varios: #616161;
+    --sombra: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --dark-bg: #1a1a1a;
+    --dark-text: #e0e0e0;
+    --dark-card: #2c2c2c;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 100px;
+    background-color: #f8f9fa;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+    position: relative;
+    z-index: 1;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/selva2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-blend-mode: overlay;
+    opacity: 0.1;
+    z-index: -1;
+}
+
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+body.dark-mode::before {
+    opacity: 0.08;
+}
+
+header {
+    background: linear-gradient(135deg, var(--verde-amazonico), #1B5E20, var(--terracota));
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+    box-shadow: var(--sombra);
+    position: relative;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.header-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.header-content h1 {
+    font-weight: 600;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.header-content p {
+    font-weight: 400;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+#theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.dashboard-link {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--terracota);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.dashboard-link:hover {
+    background: #B75902;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+    background: white;
+    border-radius: 30px;
+    box-shadow: var(--sombra);
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 30px 0 0 30px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.search-bar i {
+    padding: 12px;
+    background: var(--verde-amazonico);
+    color: white;
+    border-radius: 0 30px 30px 0;
+    transition: background 0.3s;
+}
+
+.search-bar i:hover {
+    background: #1B5E20;
+}
+
+.filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0.75rem;
+    background: white;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+body.dark-mode .filters {
+    background: var(--dark-card);
+}
+
+.filter-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.filter-btn i {
+    font-size: 1rem;
+}
+
+.filter-btn span {
+    position: absolute;
+    bottom: -20px;
+    font-size: 0.65rem;
+    text-transform: lowercase;
+    color: #333;
+    text-align: center;
+    width: 100%;
+}
+
+body.dark-mode .filter-btn span {
+    color: #ffffff;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-btn[data-filter="all"]:hover, .filter-btn[data-filter="all"].active {
+    box-shadow: 0 0 10px #666, 0 0 20px #666, 0 0 30px #666;
+}
+.filter-btn[data-filter="agricultura"]:hover, .filter-btn[data-filter="agricultura"].active {
+    box-shadow: 0 0 10px var(--verde-amazonico), 0 0 20px var(--verde-amazonico), 0 0 30px var(--verde-amazonico);
+}
+.filter-btn[data-filter="artesania"]:hover, .filter-btn[data-filter="artesania"].active {
+    box-shadow: 0 0 10px var(--amarillo-Artesania), 0 0 20px var(--amarillo-Artesania), 0 0 30px var(--amarillo-Artesania);
+}
+.filter-btn[data-filter="turismo"]:hover, .filter-btn[data-filter="turismo"].active {
+    box-shadow: 0 0 10px var(--azul-Turismo), 0 0 20px var(--azul-Turismo), 0 0 30px var(--azul-Turismo);
+}
+.filter-btn[data-filter="agroindustria"]:hover, .filter-btn[data-filter="agroindustria"].active {
+    box-shadow: 0 0 10px var(--morado-Agroindustria), 0 0 20px var(--morado-Agroindustria), 0 0 30px var(--morado-Agroindustria);
+}
+.filter-btn[data-filter="varios"]:hover, .filter-btn[data-filter="varios"].active {
+    box-shadow: 0 0 10px var(--gris-Varios), 0 0 20px var(--gris-Varios), 0 0 30px var(--gris-Varios);
+}
+
+.filter-btn.active {
+    color: white;
+}
+
+.filter-btn:active {
+    transform: scale(0.95);
+}
+
+.filter-btn[data-filter="all"] i, .filter-btn[data-filter="all"] span {
+    color: #666;
+}
+.filter-btn[data-filter="all"].active {
+    background-color: #666;
+}
+.filter-btn[data-filter="all"].active i, .filter-btn[data-filter="all"].active span {
+    color: white;
+}
+
+.filter-btn[data-filter="agricultura"] i, .filter-btn[data-filter="agricultura"] span {
+    color: var(--verde-amazonico);
+}
+.filter-btn[data-filter="agricultura"].active {
+    background-color: var(--verde-amazonico);
+}
+.filter-btn[data-filter="agricultura"].active i, .filter-btn[data-filter="agricultura"].active span {
+    color: white;
+}
+
+.filter-btn[data-filter="artesania"] i, .filter-btn[data-filter="artesania"] span {
+    color: var(--amarillo-Artesania);
+}
+.filter-btn[data-filter="artesania"].active {
+    background-color: var(--amarillo-Artesania);
+}
+.filter-btn[data-filter="artesania"].active i, .filter-btn[data-filter="artesania"].active span {
+    color: white;
+}
+
+.filter-btn[data-filter="turismo"] i, .filter-btn[data-filter="turismo"] span {
+    color: var(--azul-Turismo);
+}
+.filter-btn[data-filter="turismo"].active {
+    background-color: var(--azul-Turismo);
+}
+.filter-btn[data-filter="turismo"].active i, .filter-btn[data-filter="turismo"].active span {
+    color: white;
+}
+
+.filter-btn[data-filter="agroindustria"] i, .filter-btn[data-filter="agroindustria"] span {
+    color: var(--morado-Agroindustria);
+}
+.filter-btn[data-filter="agroindustria"].active {
+    background-color: var(--morado-Agroindustria);
+}
+.filter-btn[data-filter="agroindustria"].active i, .filter-btn[data-filter="agroindustria"].active span {
+    color: white;
+}
+
+.filter-btn[data-filter="varios"] i, .filter-btn[data-filter="varios"] span {
+    color: var(--gris-Varios);
+}
+.filter-btn[data-filter="varios"].active {
+    background-color: var(--gris-Varios);
+}
+.filter-btn[data-filter="varios"].active i, .filter-btn[data-filter="varios"].active span {
+    color: white;
+}
+
+.stats {
+    text-align: center;
+    padding: 1.5rem;
+    font-style: italic;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+body.dark-mode .stats {
+    color: var(--dark-text);
+}
+
+.producers-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.producer-card {
+    background: #f8f9fa;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-mode .producer-card {
+    background: var(--dark-card);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.1);
+}
+
+.producer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.15), -8px -8px 16px rgba(255, 255, 255, 0.7);
+}
+
+.producer-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 4px solid var(--verde-amazonico);
+    loading: lazy;
+}
+
+.producer-info {
+    padding: 1.75rem;
+}
+
+.producer-info h3 {
+    margin: 0 0 12px 0;
+    color: var(--verde-amazonico);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 14px;
+    transition: transform 0.2s ease;
+}
+
+.category-badge:hover {
+    transform: scale(1.1);
+}
+
+.agricultura-badge {
+    background-color: #E8F5E9;
+    color: var(--verde-amazonico);
+}
+
+.artesania-badge {
+    background-color: #FFF8E1;
+    color: #FF8F00;
+}
+
+.turismo-badge {
+    background-color: #E3F2FD;
+    color: var(--azul-Turismo);
+}
+
+.agroindustria-badge {
+    background-color: #F3E5F5;
+    color: var(--morado-Agroindustria);
+}
+
+.varios-badge {
+    background-color: #F5F5F5;
+    color: var(--gris-Varios);
+}
+
+.whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: var(--terracota);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.whatsapp-btn:hover {
+    background-color: #B75902;
+    transform: translateY(-2px);
+}
+
+.loading-spinner {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: var(--verde-amazonico);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
+    max-height: 80vh; /* Limita la altura máxima del modal */
+    overflow-y: auto; /* Habilita la barra de desplazamiento vertical */
+}
+
+/* Estilizar la barra de desplazamiento para navegadores WebKit (Chrome, Safari, Edge) */
+.modal-content::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento */
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color del fondo de la pista */
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--verde-amazonico); /* Color del pulgar (la parte que se mueve) */
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: #1B5E20; /* Color al pasar el mouse */
+}
+
+body.dark-mode .modal-content {
+    background: var(--dark-card);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .modal-content::-webkit-scrollbar-track {
+    background: #444;
+}
+
+body.dark-mode .modal-content::-webkit-scrollbar-thumb {
+    background: #81c784;
+}
+
+body.dark-mode .modal-content::-webkit-scrollbar-thumb:hover {
+    background: #6db370;
+}
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}
+
+body.dark-mode .close {
+    color: var(--dark-text);
+}
+
+#register-form, #login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Aumenta el espaciado entre los campos */
+}
+
+#register-form label,
+#login-form label {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+#register-form input,
+#register-form select,
+#register-form textarea,
+#login-form input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.3s;
+}
+
+#register-form input:focus,
+#register-form select:focus,
+#register-form textarea:focus,
+#login-form input:focus {
+    outline: none;
+    border-color: var(--verde-amazonico);
+}
+
+body.dark-mode #register-form input,
+body.dark-mode #register-form select,
+body.dark-mode #register-form textarea,
+body.dark-mode #login-form input {
+    background: #333;
+    color: var(--dark-text);
+    border-color: #555;
+}
+
+body.dark-mode #register-form input:focus,
+body.dark-mode #register-form select:focus,
+body.dark-mode #register-form textarea:focus,
+body.dark-mode #login-form input:focus {
+    border-color: #81c784;
+}
+
+#register-form input[type="file"] {
+    padding: 8px;
+}
+
+#register-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+#register-form button, #login-form button {
+    padding: 12px;
+    background: var(--verde-amazonico);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#register-form button:hover, #login-form button:hover {
+    background: #1B5E20;
+    transform: translateY(-2px);
+}
+
+#form-message, #login-message {
+    margin-top: 12px;
+    color: var(--verde-amazonico);
+    font-size: 0.9rem;
+}
+
+body.dark-mode #form-message, body.dark-mode #login-message {
+    color: #81c784;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f0f0f0;
+    margin-top: 2rem;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+body.dark-mode footer {
+    background: var(--dark-card);
+}
+
+footer p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: var(--verde-amazonico);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #1B5E20;
+}
+
+footer a[href*="wa.me"] {
+    color: #1B5E20;
+}
+
+.login-section, .stats-section {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--sombra);
+    text-align: center;
+}
+
+body.dark-mode .login-section, body.dark-mode .stats-section {
+    background: var(--dark-card);
+}
+
+.login-section h2, .stats-section h2 {
+    color: var(--verde-amazonico);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.stats-section p {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+body.dark-mode .stats-section p {
+    color: var(--dark-text);
+}
+
+.stats-section a {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--terracota);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.stats-section a:hover {
+    color: #B75902;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .producers-list {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .search-bar {
+        padding: 0 0.5rem;
+        margin: 1rem auto;
+    }
+
+    .filter-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .filter-btn i {
+        font-size: 0.9rem;
+    }
+
+    .filter-btn span {
+        font-size: 0.55rem;
+        bottom: -16px;
+    }
+
+    .modal-content, .login-section, .stats-section {
+        max-width: 350px;
+        padding: 1.5rem;
+    }
+
+    .header-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .producer-card img {
+        height: 180px;
+    }
+}
