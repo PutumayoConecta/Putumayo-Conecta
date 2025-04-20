@@ -53,7 +53,7 @@ body.dark-mode::before {
 header {
     background: linear-gradient(135deg, var(--verde-amazonico), #1B5E20, var(--terracota));
     color: white;
-    padding: 2rem 1rem; /* Reducimos el padding-top porque el botón ya no está superpuesto */
+    padding: 2rem 1rem;
     text-align: center;
     box-shadow: var(--sombra);
     position: relative;
@@ -67,10 +67,20 @@ header {
     position: relative;
 }
 
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre los botones */
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
 .header-content h1 {
     font-weight: 600;
     font-size: 2rem;
     margin-bottom: 0.5rem;
+    margin-top: 3rem; /* Espacio para los botones */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -78,13 +88,9 @@ header {
     font-weight: 400;
     font-size: 1rem;
     opacity: 0.9;
-    margin-bottom: 1rem; /* Añadimos margen para separar del botón */
 }
 
 #theme-toggle {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
     background: rgba(255, 255, 255, 0.2);
     border: none;
     color: white;
@@ -100,7 +106,7 @@ header {
 }
 
 .dashboard-link {
-    display: inline-block; /* Lo ponemos en el flujo normal */
+    display: inline-block;
     background: var(--terracota);
     color: white;
     padding: 8px 16px;
@@ -151,7 +157,7 @@ header {
     justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
-    padding: 1rem; /* Aumentamos el padding */
+    padding: 1rem;
     background: #ffffff;
     position: fixed;
     bottom: 0;
@@ -161,7 +167,7 @@ header {
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
-    min-height: 60px; /* Aseguramos suficiente altura */
+    min-height: 60px;
 }
 
 body.dark-mode .filters {
@@ -170,7 +176,7 @@ body.dark-mode .filters {
 
 .filter-btn {
     display: flex;
-    flex-direction: column; /* Cambiamos a columna para que el texto esté dentro */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 50px;
@@ -181,7 +187,7 @@ body.dark-mode .filters {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
-    padding-bottom: 5px; /* Espacio para el texto */
+    padding-bottom: 5px;
 }
 
 .filter-btn i {
@@ -194,7 +200,7 @@ body.dark-mode .filters {
     color: #1a1a1a;
     text-align: center;
     font-weight: 600;
-    margin-top: 2px; /* Espacio entre el ícono y el texto */
+    margin-top: 2px;
 }
 
 body.dark-mode .filter-btn span {
@@ -394,18 +400,13 @@ body.dark-mode .producer-card {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
+    padding: 10px 20px;
     background-color: var(--terracota);
     color: white;
     text-decoration: none;
     border-radius: 8px;
     font-weight: 500;
     transition: background-color 0.3s, transform 0.2s;
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    z-index: 1001;
-    font-size: 0.9rem;
 }
 
 .whatsapp-btn:hover {
@@ -662,8 +663,13 @@ body.dark-mode .stats-section p {
 }
 
 @media (max-width: 768px) {
+    .header-buttons {
+        gap: 8px;
+    }
+
     .header-content h1 {
         font-size: 1.5rem;
+        margin-top: 2.5rem; /* Ajustamos para pantallas pequeñas */
     }
 
     .header-content p {
@@ -673,6 +679,11 @@ body.dark-mode .stats-section p {
     .dashboard-link {
         padding: 6px 12px;
         font-size: 0.9rem;
+    }
+
+    #theme-toggle {
+        padding: 6px;
+        font-size: 1.2rem;
     }
 
     .producers-list {
@@ -687,13 +698,13 @@ body.dark-mode .stats-section p {
 
     .filters {
         padding: 0.5rem;
-        min-height: 50px; /* Ajustamos la altura */
+        min-height: 50px;
     }
 
     .filter-btn {
         width: 40px;
         height: 40px;
-        padding-bottom: 3px; /* Menos espacio */
+        padding-bottom: 3px;
     }
 
     .filter-btn i {
@@ -701,7 +712,7 @@ body.dark-mode .stats-section p {
     }
 
     .filter-btn span {
-        font-size: 0.5rem; /* Texto más pequeño */
+        font-size: 0.5rem;
         margin-top: 1px;
     }
 
@@ -712,11 +723,5 @@ body.dark-mode .stats-section p {
 
     .producer-card img {
         height: 180px;
-    }
-
-    .whatsapp-btn {
-        bottom: 60px;
-        padding: 6px 12px;
-        font-size: 0.8rem;
     }
 }
