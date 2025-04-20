@@ -53,7 +53,7 @@ body.dark-mode::before {
 header {
     background: linear-gradient(135deg, var(--verde-amazonico), #1B5E20, var(--terracota));
     color: white;
-    padding: 2rem 1rem;
+    padding: 4rem 1rem 2rem; /* Aumenta el padding-top para dejar espacio al botón */
     text-align: center;
     box-shadow: var(--sombra);
     position: relative;
@@ -71,6 +71,7 @@ header {
     font-weight: 600;
     font-size: 2rem;
     margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Añade sombra para mejorar legibilidad */
 }
 
 .header-content p {
@@ -108,6 +109,7 @@ header {
     text-decoration: none;
     font-weight: 500;
     transition: background 0.3s;
+    z-index: 10; /* Asegura que el botón esté por encima de otros elementos */
 }
 
 .dashboard-link:hover {
@@ -152,7 +154,7 @@ header {
     flex-wrap: wrap;
     gap: 10px;
     padding: 0.75rem;
-    background: white;
+    background: #ffffff; /* Fondo blanco para mejor contraste */
     position: fixed;
     bottom: 0;
     left: 0;
@@ -164,7 +166,7 @@ header {
 }
 
 body.dark-mode .filters {
-    background: var(--dark-card);
+    background: #333333; /* Un gris más claro que --dark-card para mejor contraste */
 }
 
 .filter-btn {
@@ -191,13 +193,13 @@ body.dark-mode .filters {
     bottom: -20px;
     font-size: 0.65rem;
     text-transform: lowercase;
-    color: #333;
+    color: #333; /* Color oscuro para mejor contraste con fondo blanco */
     text-align: center;
     width: 100%;
 }
 
 body.dark-mode .filter-btn span {
-    color: #ffffff;
+    color: #e0e0e0; /* Color claro para contraste con fondo oscuro */
 }
 
 .filter-btn:hover, .filter-btn.active {
@@ -408,6 +410,26 @@ body.dark-mode .producer-card {
     transform: translateY(-2px);
 }
 
+/* Nueva regla para el botón de WhatsApp en el footer */
+.whatsapp-link {
+    position: fixed;
+    bottom: 70px; /* Ajusta para que esté por encima de las categorías */
+    right: 20px;
+    background-color: var(--terracota);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    z-index: 1001; /* Asegura que esté por encima de las categorías */
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.whatsapp-link:hover {
+    background-color: #B75902;
+    transform: translateY(-2px);
+}
+
 .loading-spinner {
     display: none;
     position: fixed;
@@ -438,27 +460,26 @@ body.dark-mode .producer-card {
     max-width: 400px;
     width: 90%;
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
-    max-height: 80vh; /* Limita la altura máxima del modal */
-    overflow-y: auto; /* Habilita la barra de desplazamiento vertical */
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
-/* Estilizar la barra de desplazamiento para navegadores WebKit (Chrome, Safari, Edge) */
 .modal-content::-webkit-scrollbar {
-    width: 8px; /* Ancho de la barra de desplazamiento */
+    width: 8px;
 }
 
 .modal-content::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Color del fondo de la pista */
+    background: #f1f1f1;
     border-radius: 10px;
 }
 
 .modal-content::-webkit-scrollbar-thumb {
-    background: var(--verde-amazonico); /* Color del pulgar (la parte que se mueve) */
+    background: var(--verde-amazonico);
     border-radius: 10px;
 }
 
 .modal-content::-webkit-scrollbar-thumb:hover {
-    background: #1B5E20; /* Color al pasar el mouse */
+    background: #1B5E20;
 }
 
 body.dark-mode .modal-content {
@@ -492,7 +513,7 @@ body.dark-mode .close {
 #register-form, #login-form {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Aumenta el espaciado entre los campos */
+    gap: 20px;
 }
 
 #register-form label,
