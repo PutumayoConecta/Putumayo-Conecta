@@ -71,7 +71,7 @@ header {
     font-weight: 600;
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    margin-top: 3rem; /* Ajustamos para evitar superposición */
+    margin-top: 3rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -84,7 +84,7 @@ header {
 #theme-toggle {
     position: absolute;
     top: 1rem;
-    right: 1rem; /* Movemos a la esquina superior derecha */
+    right: 1rem;
     background: rgba(255, 255, 255, 0.2);
     border: none;
     color: white;
@@ -102,7 +102,7 @@ header {
 .dashboard-link {
     position: absolute;
     top: 1rem;
-    left: 1rem; /* Mantenemos en la esquina superior izquierda */
+    left: 1rem;
     display: inline-block;
     background: var(--terracota);
     color: white;
@@ -662,12 +662,12 @@ body.dark-mode .stats-section p {
 
 @media (max-width: 768px) {
     header {
-        padding: 4rem 1rem;
+        padding: 5rem 1rem; /* Aumentamos el padding-top para dar más espacio */
     }
 
     .header-content h1 {
         font-size: 1.5rem;
-        margin-top: 3rem;
+        margin-top: 4.5rem; /* Aumentamos el margin-top para empujar el título hacia abajo */
     }
 
     .header-content p {
@@ -675,13 +675,13 @@ body.dark-mode .stats-section p {
     }
 
     .dashboard-link {
-        padding: 4px 8px;
-        font-size: 0.8rem;
+        padding: 3px 6px; /* Reducimos aún más el tamaño del botón */
+        font-size: 0.7rem; /* Texto más pequeño */
     }
 
     #theme-toggle {
-        padding: 4px;
-        font-size: 1rem;
+        padding: 3px; /* Reducimos el padding */
+        font-size: 0.9rem; /* Ícono más pequeño */
     }
 
     .producers-list {
