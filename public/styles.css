@@ -37,7 +37,7 @@ body::before {
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-blend-mode: overlay;
-    opacity: 0.05; /* Reducimos la opacidad para que no interfiera con las categorías */
+    opacity: 0.05;
     z-index: -1;
 }
 
@@ -47,19 +47,18 @@ body.dark-mode {
 }
 
 body.dark-mode::before {
-    opacity: 0.03; /* Aún más baja en modo oscuro */
+    opacity: 0.03;
 }
 
 header {
     background: linear-gradient(135deg, var(--verde-amazonico), #1B5E20, var(--terracota));
     color: white;
-    padding: 5rem 1rem 2rem; /* Aumenta el padding-top para dejar más espacio */
+    padding: 2rem 1rem; /* Reducimos el padding-top porque el botón ya no está superpuesto */
     text-align: center;
     box-shadow: var(--sombra);
     position: relative;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
-    min-height: 150px; /* Asegura suficiente espacio vertical */
 }
 
 .header-content {
@@ -72,13 +71,14 @@ header {
     font-weight: 600;
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Mejora legibilidad */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .header-content p {
     font-weight: 400;
     font-size: 1rem;
     opacity: 0.9;
+    margin-bottom: 1rem; /* Añadimos margen para separar del botón */
 }
 
 #theme-toggle {
@@ -100,9 +100,7 @@ header {
 }
 
 .dashboard-link {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
+    display: inline-block; /* Lo ponemos en el flujo normal */
     background: var(--terracota);
     color: white;
     padding: 8px 16px;
@@ -110,7 +108,6 @@ header {
     text-decoration: none;
     font-weight: 500;
     transition: background 0.3s;
-    z-index: 10;
 }
 
 .dashboard-link:hover {
@@ -154,8 +151,8 @@ header {
     justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
-    padding: 0.75rem;
-    background: #ffffff; /* Fondo blanco para mejor contraste */
+    padding: 1rem; /* Aumentamos el padding */
+    background: #ffffff;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -164,15 +161,16 @@ header {
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
+    min-height: 60px; /* Aseguramos suficiente altura */
 }
 
 body.dark-mode .filters {
-    background: var(--dark-card); /* Fondo más oscuro para modo oscuro */
+    background: var(--dark-card);
 }
 
 .filter-btn {
-    position: relative;
     display: flex;
+    flex-direction: column; /* Cambiamos a columna para que el texto esté dentro */
     align-items: center;
     justify-content: center;
     width: 50px;
@@ -183,6 +181,7 @@ body.dark-mode .filters {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
+    padding-bottom: 5px; /* Espacio para el texto */
 }
 
 .filter-btn i {
@@ -190,19 +189,16 @@ body.dark-mode .filters {
 }
 
 .filter-btn span {
-    position: absolute;
-    bottom: -20px;
     font-size: 0.65rem;
     text-transform: lowercase;
-    color: #1a1a1a; /* Color más oscuro para mejor contraste en modo claro */
+    color: #1a1a1a;
     text-align: center;
-    width: 100%;
-    font-weight: 600; /* Texto más grueso para mayor legibilidad */
+    font-weight: 600;
+    margin-top: 2px; /* Espacio entre el ícono y el texto */
 }
 
 body.dark-mode .filter-btn span {
-    color: #ffffff; /* Color más claro para modo oscuro */
-    font-weight: 600;
+    color: #ffffff;
 }
 
 .filter-btn:hover, .filter-btn.active {
@@ -398,7 +394,7 @@ body.dark-mode .producer-card {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px; /* Reducimos el padding para que sea más discreto */
+    padding: 8px 16px;
     background-color: var(--terracota);
     color: white;
     text-decoration: none;
@@ -406,10 +402,10 @@ body.dark-mode .producer-card {
     font-weight: 500;
     transition: background-color 0.3s, transform 0.2s;
     position: fixed;
-    bottom: 80px; /* Ajustamos para que esté más arriba de las categorías */
+    bottom: 80px;
     right: 20px;
     z-index: 1001;
-    font-size: 0.9rem; /* Texto más pequeño */
+    font-size: 0.9rem;
 }
 
 .whatsapp-btn:hover {
@@ -666,20 +662,17 @@ body.dark-mode .stats-section p {
 }
 
 @media (max-width: 768px) {
-    header {
-        padding: 6rem 1rem 2rem; /* Más padding en pantallas pequeñas */
-        min-height: 180px; /* Asegura más espacio vertical */
+    .header-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .header-content p {
+        font-size: 0.9rem;
     }
 
     .dashboard-link {
-        top: 2rem; /* Mueve el botón hacia abajo en pantallas pequeñas */
-        left: 1rem;
-        padding: 6px 12px; /* Reduce el tamaño del botón */
-        font-size: 0.9rem; /* Texto más pequeño */
-    }
-
-    .header-content h1 {
-        font-size: 1.5rem;
+        padding: 6px 12px;
+        font-size: 0.9rem;
     }
 
     .producers-list {
@@ -692,9 +685,15 @@ body.dark-mode .stats-section p {
         margin: 1rem auto;
     }
 
+    .filters {
+        padding: 0.5rem;
+        min-height: 50px; /* Ajustamos la altura */
+    }
+
     .filter-btn {
         width: 40px;
         height: 40px;
+        padding-bottom: 3px; /* Menos espacio */
     }
 
     .filter-btn i {
@@ -702,8 +701,8 @@ body.dark-mode .stats-section p {
     }
 
     .filter-btn span {
-        font-size: 0.55rem;
-        bottom: -16px;
+        font-size: 0.5rem; /* Texto más pequeño */
+        margin-top: 1px;
     }
 
     .modal-content, .login-section, .stats-section {
@@ -716,8 +715,8 @@ body.dark-mode .stats-section p {
     }
 
     .whatsapp-btn {
-        bottom: 70px; /* Ajusta la posición en pantallas pequeñas */
-        padding: 6px 12px; /* Más pequeño */
-        font-size: 0.8rem; /* Texto más pequeño */
+        bottom: 60px;
+        padding: 6px 12px;
+        font-size: 0.8rem;
     }
 }
