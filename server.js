@@ -3,7 +3,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const multer = require('multer');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Configuración de multer para subir imágenes
 const storage = multer.diskStorage({
@@ -164,5 +164,5 @@ app.post('/api/reset-data', async (req, res) => {
 
 // Iniciar servidor
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    console.log(`Server running on port ${port}`);
 });
