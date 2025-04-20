@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Putumayo Conecta</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta name="description" content="Conecta con productores, artesanos y emprendedores turísticos del Putumayo">
+    <meta property="og:image" content="https://ejemplo.com/logo-putumayo.jpg">
+    <meta name="theme-color" content="#2e7d32">
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="/images/selva2.jpg" alt="Putumayo Conecta Logo" class="header-logo" style="max-width: 80px; display: none;">
+            <h1>🌿 Putumayo Conecta</h1>
+            <p>La plataforma que visibiliza los Emprendimientos de la Amazonía Colombiana</p>
+            <button id="theme-toggle" aria-label="Alternar modo oscuro">
+                <i class="fas fa-moon"></i>
+            </button>
+            <a href="/dashboard.html" class="dashboard-link">Mi Dashboard</a>
+        </div>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Busca emprendimientos por nombre o producto..." aria-label="Buscar emprendimientos" autocomplete="off">
+        <i class="fas fa-search"></i>
+    </div>
+
+    <div class="stats">
+        <p id="counter">Cargando emprendimientos...</p>
+    </div>
+
+    <div class="producers-list" id="producers-list">
+        <!-- Los datos se cargarán dinámicamente con JavaScript -->
+    </div>
+
+    <div id="loading" class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+    </div>
+
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all" aria-label="Filtrar por todos">
+            <i class="fas fa-th"></i>
+            <span>Todos</span>
+        </button>
+        <button class="filter-btn" data-filter="agricultura" aria-label="Filtrar por agricultura">
+            <i class="fas fa-leaf"></i>
+            <span>Agricultura</span>
+        </button>
+        <button class="filter-btn" data-filter="artesania" aria-label="Filtrar por artesanía">
+            <i class="fas fa-paint-brush"></i>
+            <span>Artesanía</span>
+        </button>
+        <button class="filter-btn" data-filter="turismo" aria-label="Filtrar por turismo">
+            <i class="fas fa-mountain"></i>
+            <span>Turismo</span>
+        </button>
+        <button class="filter-btn" data-filter="agroindustria" aria-label="Filtrar por agroindustria">
+            <i class="fas fa-cog"></i>
+            <span>Agroindustria</span>
+        </button>
+        <button class="filter-btn" data-filter="varios" aria-label="Filtrar por varios">
+            <i class="fas fa-shapes"></i>
+            <span>Varios</span>
+        </button>
+    </div>
+
+    <footer>
+        <p>¿Eres Emprendedor? <a href="#" id="add-btn">¡Regístrate aquí!</a></p>
+        <p>Para desarrollo de software, contactar a:</p> 
+        <p>Jose Alexis Tejada Angulo - Ingeniero Industrial</p>
+        <a href="https://wa.me/573227994023" class="whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+        </a>
+    </footer>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h2>¡Registra tu Emprendimiento!</h2>
+            <form id="register-form" enctype="multipart/form-data">
+                <label for="email">Correo Electrónico *</label>
+                <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required autocomplete="email">
+                
+                <label for="password">Contraseña *</label>
+                <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
+                
+                <label for="name">Nombre del Emprendimiento *</label>
+                <input type="text" id="name" name="name" placeholder="Ej. Miel del Putumayo" required autocomplete="name">
+                
+                <label for="category">Categoría *</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Selecciona una categoría</option>
+                    <option value="Agricultura">Agricultura</option>
+                    <option value="Artesania">Artesanía</option>
+                    <option value="Turismo">Turismo</option>
+                    <option value="Gastronomia">Gastronomía</option>
+                    <option value="Agroindustria">Agroindustria</option>
+                    <option value="Varios">Varios</option>
+                </select>
+                
+                <label for="product">Producto o Servicio *</label>
+                <input type="text" id="product" name="product" placeholder="Ej. Miel orgánica" required autocomplete="off">
+                
+                <label for="description">Descripción *</label>
+                <textarea id="description" name="description" placeholder="Describe tu emprendimiento" required></textarea>
+                
+                <label for="location">Ubicación *</label>
+                <input type="text" id="location" name="location" placeholder="Ej. Mocoa, Putumayo" required autocomplete="off">
+                
+                <label for="whatsapp">WhatsApp (con código del país) *</label>
+                <input type="tel" id="whatsapp" name="whatsapp" placeholder="Ej. +573123456789" required autocomplete="tel">
+                
+                <label for="image">Imagen del Emprendimiento *</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+                
+                <button type="submit">Registrar</button>
+                <p id="form-message"></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado con éxito:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Error al registrar el Service Worker:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
