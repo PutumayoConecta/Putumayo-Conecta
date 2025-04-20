@@ -53,10 +53,9 @@ body.dark-mode::before {
 header {
     background: linear-gradient(135deg, var(--verde-amazonico), #1B5E20, var(--terracota));
     color: white;
-    padding: 3rem 1rem;
+    padding: 2rem 1rem;
     text-align: center;
     box-shadow: var(--sombra);
-    position: relative;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
 }
@@ -64,14 +63,12 @@ header {
 .header-content {
     max-width: 800px;
     margin: 0 auto;
-    position: relative;
 }
 
 .header-content h1 {
     font-weight: 600;
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    margin-top: 3rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -81,13 +78,23 @@ header {
     opacity: 0.9;
 }
 
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .nav-bar {
+    background: var(--dark-card);
+}
+
 #theme-toggle {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.1);
     border: none;
-    color: white;
+    color: var(--verde-amazonico);
     font-size: 1.2rem;
     padding: 6px;
     border-radius: 50%;
@@ -96,13 +103,19 @@ header {
 }
 
 #theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode #theme-toggle {
+    color: #81c784;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode #theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .dashboard-link {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
     display: inline-block;
     background: var(--terracota);
     color: white;
@@ -662,26 +675,29 @@ body.dark-mode .stats-section p {
 
 @media (max-width: 768px) {
     header {
-        padding: 5rem 1rem; /* Aumentamos el padding-top para dar más espacio */
+        padding: 2rem 1rem;
     }
 
     .header-content h1 {
         font-size: 1.5rem;
-        margin-top: 4.5rem; /* Aumentamos el margin-top para empujar el título hacia abajo */
     }
 
     .header-content p {
         font-size: 0.9rem;
     }
 
+    .nav-bar {
+        padding: 0.5rem;
+    }
+
     .dashboard-link {
-        padding: 3px 6px; /* Reducimos aún más el tamaño del botón */
-        font-size: 0.7rem; /* Texto más pequeño */
+        padding: 4px 8px;
+        font-size: 0.8rem;
     }
 
     #theme-toggle {
-        padding: 3px; /* Reducimos el padding */
-        font-size: 0.9rem; /* Ícono más pequeño */
+        padding: 4px;
+        font-size: 1rem;
     }
 
     .producers-list {
