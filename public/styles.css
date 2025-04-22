@@ -16,13 +16,13 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    padding-bottom: 80px; /* Reducido para móviles */
+    padding-bottom: 100px; /* Aumentado para dejar espacio a la barra de categorías */
     background-color: #f8f9fa;
     color: #333;
     transition: background-color 0.3s, color 0.3s;
     position: relative;
     z-index: 1;
-    overflow-x: hidden; /* Evitar desbordamiento horizontal */
+    overflow-x: hidden;
 }
 
 body::before {
@@ -382,6 +382,7 @@ footer {
     padding: 1.5rem;
     background-color: #f0f0f0;
     margin-top: 2rem;
+    margin-bottom: 80px; /* Espacio para la barra de categorías */
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
@@ -424,6 +425,94 @@ footer a[href*="wa.me"] {
 
 footer a[href*="wa.me"]:hover {
     background-color: #1EBE54;
+}
+
+.category-buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+body.dark-mode .category-buttons {
+    background: rgba(44, 44, 44, 0.95);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.category-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s, box-shadow 0.3s;
+    min-width: 90px;
+    text-align: center;
+}
+
+.category-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .category-btn:hover {
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+}
+
+.category-btn[data-category="all"] {
+    background-color: #888;
+}
+
+.category-btn[data-category="agricultura"] {
+    background-color: var(--verde-amazonico);
+}
+
+.category-btn[data-category="artesania"] {
+    background-color: var(--amarillo-Artesania);
+    color: #333;
+}
+
+.category-btn[data-category="turismo"] {
+    background-color: var(--azul-Turismo);
+}
+
+.category-btn[data-category="gastronomia"] {
+    background-color: var(--terracota);
+}
+
+.category-btn[data-category="agroindustria"] {
+    background-color: var(--morado-Agroindustria);
+}
+
+.category-btn[data-category="varios"] {
+    background-color: var(--gris-Varios);
+}
+
+.category-btn.active {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+}
+
+body.dark-mode .category-btn[data-category="all"] {
+    background-color: #aaa;
+}
+
+body.dark-mode .category-btn[data-category="artesania"] {
+    color: #333;
+}
+
+body.dark-mode .category-btn.active {
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
 .modal {
@@ -617,7 +706,7 @@ body.dark-mode #form-message {
 /* Media Queries para Dispositivos Móviles */
 @media (max-width: 768px) {
     body {
-        padding-bottom: 70px;
+        padding-bottom: 90px;
     }
 
     .header-content h1 {
@@ -692,6 +781,16 @@ body.dark-mode #form-message {
         font-size: 0.85rem;
     }
 
+    .category-buttons {
+        padding: 8px 0;
+    }
+
+    .category-btn {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        min-width: 80px;
+    }
+
     .modal-content {
         max-width: 90%;
         padding: 1.25rem;
@@ -719,6 +818,7 @@ body.dark-mode #form-message {
 
     footer {
         padding: 1rem;
+        margin-bottom: 70px;
     }
 
     footer p {
@@ -728,7 +828,7 @@ body.dark-mode #form-message {
 
 @media (max-width: 480px) {
     body {
-        padding-bottom: 60px;
+        padding-bottom: 80px;
     }
 
     .header-content h1 {
@@ -805,6 +905,16 @@ body.dark-mode #form-message {
         font-size: 0.8rem;
     }
 
+    .category-buttons {
+        padding: 6px 0;
+    }
+
+    .category-btn {
+        padding: 5px 8px;
+        font-size: 0.7rem;
+        min-width: 70px;
+    }
+
     .modal-content {
         max-width: 95%;
         padding: 1rem;
@@ -832,78 +942,10 @@ body.dark-mode #form-message {
 
     footer {
         padding: 0.75rem;
+        margin-bottom: 60px;
     }
 
     footer p {
         font-size: 0.8rem;
     }
 }
-.category-buttons {
-       display: flex;
-       flex-wrap: wrap;
-       justify-content: center;
-       gap: 10px;
-       margin: 1rem 0;
-       padding: 0 1rem;
-   }
-
-   .category-btn {
-       padding: 8px 16px;
-       border: none;
-       border-radius: 20px;
-       font-size: 0.9rem;
-       font-weight: 500;
-       color: white;
-       cursor: pointer;
-       transition: transform 0.2s ease, background-color 0.3s;
-   }
-
-   .category-btn:hover {
-       transform: scale(1.05);
-   }
-
-   .category-btn[data-category="all"] {
-       background-color: #888;
-   }
-
-   .category-btn[data-category="agricultura"] {
-       background-color: var(--verde-amazonico);
-   }
-
-   .category-btn[data-category="artesania"] {
-       background-color: var(--amarillo-Artesania);
-       color: #333;
-   }
-
-   .category-btn[data-category="turismo"] {
-       background-color: var(--azul-Turismo);
-   }
-
-   .category-btn[data-category="gastronomia"] {
-       background-color: var(--terracota);
-   }
-
-   .category-btn[data-category="agroindustria"] {
-       background-color: var(--morado-Agroindustria);
-   }
-
-   .category-btn[data-category="varios"] {
-       background-color: var(--gris-Varios);
-   }
-
-   .category-btn.active {
-       box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-       transform: scale(1.05);
-   }
-
-   body.dark-mode .category-btn[data-category="all"] {
-       background-color: #aaa;
-   }
-
-   body.dark-mode .category-btn[data-category="artesania"] {
-       color: #333;
-   }
-
-   body.dark-mode .category-btn.active {
-       box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-   }
