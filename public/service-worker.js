@@ -1,5 +1,5 @@
-const CACHE_NAME = 'putumayo-conecta-v3';
-const DYNAMIC_CACHE_NAME = 'putumayo-conecta-dynamic-v3';
+const CACHE_NAME = 'putumayo-conecta-v4'; // Cambiado a v4 para forzar actualización
+const DYNAMIC_CACHE_NAME = 'putumayo-conecta-dynamic-v4'; // Cambiado a v4
 
 const urlsToCache = [
     '/',
@@ -7,12 +7,12 @@ const urlsToCache = [
     '/dashboard.html',
     '/styles.css',
     '/script.js',
-    '/dashboard.js',              // Añadido para el dashboard
-    '/manifest.json',             // Añadido para la PWA
+    '/dashboard.js',
+    '/manifest.json',
     '/images/selva2.jpg',
-    '/images/icon-192x192.png',   // Añadido para los íconos de la PWA
-    '/images/icon-512x512.png',   // Añadido para los íconos de la PWA
-    '/images/logo.png'            // Añadido para el logo
+    '/images/icon-192x192.png',
+    '/images/icon-512x192.png',
+    '/images/logo.png'
 ];
 
 self.addEventListener('install', event => {
@@ -42,22 +42,32 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
     const requestUrl = event.request.url;
 
+    // No usar caché para solicitudes a la API
+    if (requestUrl.includes('/api/')) {
+        event.respondWith(
+            fetch(event.request)
+                .catch(error => {
+                    console.error('Error al obtener datos de la API:', requestUrl, error);
+                    return new Response(JSON.stringify({ error: 'No se pudo conectar a la API' }), {
+                        status: 503,
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                })
+        );
+    }
     // Manejar imágenes dinámicamente (cache-first strategy)
-    if (requestUrl.includes('/images/') && requestUrl.match(/\.(jpg|jpeg|png|gif)$/)) {
+    else if (requestUrl.includes('/images/') && requestUrl.match(/\.(jpg|jpeg|png|gif)$/)) {
         event.respondWith(
             caches.match(event.request)
                 .then(response => {
-                    // Si la imagen está en caché, devolverla
                     if (response) {
                         return response;
                     }
-                    // Si no está en caché, obtenerla de la red y almacenarla
                     return fetch(event.request)
                         .then(networkResponse => {
                             if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
                                 return networkResponse;
                             }
-                            // Clonar la respuesta para almacenarla en caché
                             const responseToCache = networkResponse.clone();
                             caches.open(DYNAMIC_CACHE_NAME)
                                 .then(cache => {
@@ -67,12 +77,12 @@ self.addEventListener('fetch', event => {
                         })
                         .catch(error => {
                             console.error('Error al obtener la imagen:', requestUrl, error);
-                            // Opcional: devolver una imagen por defecto si falla
                         });
                 })
         );
-    } else {
-        // Para otros recursos, usar cache-first strategy
+    }
+    // Para otros recursos, usar cache-first strategy
+    else {
         event.respondWith(
             caches.match(event.request)
                 .then(response => response || fetch(event.request))
