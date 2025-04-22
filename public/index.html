@@ -1,116 +1,126 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Putumayo Conecta</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <meta name="description" content="Conecta con productores, artesanos y emprendedores turísticos del Putumayo">
-    <meta property="og:image" content="https://ejemplo.com/logo-putumayo.jpg">
-    <meta name="theme-color" content="#2e7d32">
-    <link rel="apple-touch-icon" href="/images/icon-192x192.png">
-</head>
-<body>
-    <header>
-        <div class="header-content">
-            <img src="/images/selva2.jpg" alt="Putumayo Conecta Logo" class="header-logo" style="max-width: 80px;">
-            <h1>🌿 Putumayo Conecta</h1>
-            <p>Visibilizando Emprendimientos Amazónicos</p>
-            <button id="theme-toggle" aria-label="Alternar modo oscuro">
-                <i class="fas fa-moon"></i>
-            </button>
-            <a href="/dashboard.html" class="dashboard-link">Mi Dashboard</a>
-        </div>
-    </header>
+   <html lang="es">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Putumayo Conecta</title>
+       <link rel="stylesheet" href="styles.css">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+       <link rel="manifest" href="manifest.json">
+       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+       <meta name="description" content="Conecta con productores, artesanos y emprendedores turísticos del Putumayo">
+       <meta property="og:image" content="https://ejemplo.com/logo-putumayo.jpg">
+       <meta name="theme-color" content="#2e7d32">
+       <link rel="apple-touch-icon" href="/images/icon-192x192.png">
+   </head>
+   <body>
+       <header>
+           <div class="header-content">
+               <img src="/images/selva2.jpg" alt="Putumayo Conecta Logo" class="header-logo">
+               <h1>🌿 Putumayo Conecta</h1>
+               <p>Visibilizando Emprendimientos Amazónicos</p>
+               <button id="theme-toggle" aria-label="Alternar modo oscuro">
+                   <i class="fas fa-moon"></i>
+               </button>
+               <a href="/dashboard.html" class="dashboard-link">Mi Dashboard</a>
+           </div>
+       </header>
 
-    <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Busca emprendimientos por nombre o producto..." aria-label="Buscar emprendimientos">
-        <i class="fas fa-search"></i>
-    </div>
+       <div class="search-bar">
+           <input type="text" id="search-input" placeholder="Busca emprendimientos por nombre o producto..." aria-label="Buscar emprendimientos">
+           <i class="fas fa-search"></i>
+       </div>
 
-    <div class="producers-count" id="producers-count">
-        <p><span id="count">0</span> Emprendimientos</p>
-    </div>
+       <div class="producers-count" id="producers-count">
+           <p><span id="count">0</span> Emprendimientos</p>
+       </div>
 
-    <div class="producers-list" id="producers-list">
-        <!-- Los datos se cargarán dinámicamente con JavaScript -->
-    </div>
+       <div class="category-buttons">
+           <button class="category-btn" data-category="all">Todos</button>
+           <button class="category-btn" data-category="agricultura">Agricultura</button>
+           <button class="category-btn" data-category="artesania">Artesanía</button>
+           <button class="category-btn" data-category="turismo">Turismo</button>
+           <button class="category-btn" data-category="gastronomia">Gastronomía</button>
+           <button class="category-btn" data-category="agroindustria">Agroindustria</button>
+           <button class="category-btn" data-category="varios">Varios</button>
+       </div>
 
-    <div id="loading" class="loading-spinner">
-        <i class="fas fa-spinner fa-spin"></i>
-    </div>
+       <div class="producers-list" id="producers-list">
+           <!-- Los datos se cargarán dinámicamente con JavaScript -->
+       </div>
 
-    <footer>
-        <p>¿Eres Emprendedor? <a href="#" id="add-btn">¡Regístrate aquí!</a></p>
-        <p>Para desarrollo de software, contactar a:</p> 
-        <p>Jose Alexis Tejada Angulo - Ingeniero Industrial</p>
-        <a href="https://wa.me/+573227994023" class="whatsapp-btn" target="_blank">
-            <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
-        </a>
-    </footer>
+       <div id="loading" class="loading-spinner">
+           <i class="fas fa-spinner fa-spin"></i>
+       </div>
 
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">×</span>
-            <h2>¡Registra tu Emprendimiento!</h2>
-            <form id="register-form" enctype="multipart/form-data">
-                <label for="email">Correo Electrónico *</label>
-                <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required autocomplete="email">
-                
-                <label for="password">Contraseña *</label>
-                <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
-                
-                <label for="name">Nombre del Emprendimiento *</label>
-                <input type="text" id="name" name="name" placeholder="Ej. Miel del Putumayo" required autocomplete="organization">
-                
-                <label for="category">Categoría *</label>
-                <select id="category" name="category" required>
-                    <option value="" disabled selected>Selecciona una categoría</option>
-                    <option value="agricultura">Agricultura</option>
-                    <option value="artesania">Artesanía</option>
-                    <option value="turismo">Turismo</option>
-                    <option value="gastronomia">Gastronomía</option>
-                    <option value="agroindustria">Agroindustria</option>
-                    <option value="varios">Varios</option>
-                </select>
-                
-                <label for="product">Producto o Servicio *</label>
-                <input type="text" id="product" name="product" placeholder="Ej. Miel orgánica" required autocomplete="off">
-                
-                <label for="description">Descripción *</label>
-                <textarea id="description" name="description" placeholder="Describe tu emprendimiento" required></textarea>
-                
-                <label for="location">Ubicación *</label>
-                <input type="text" id="location" name="location" placeholder="Ej. Mocoa, Putumayo" required autocomplete="address-level1">
-                
-                <label for="whatsapp">WhatsApp (con código del país) *</label>
-                <input type="text" id="whatsapp" name="whatsapp" placeholder="Ej. +573123456789" required autocomplete="tel">
-                
-                <label for="image">Imagen del Emprendimiento *</label>
-                <input type="file" id="image" name="image" accept="image/*" required>
-                
-                <button type="submit">Registrar</button>
-                <p id="form-message"></p>
-            </form>
-        </div>
-    </div>
+       <footer>
+           <p>¿Eres Emprendedor? <a href="#" id="add-btn">¡Regístrate aquí!</a></p>
+           <p>Para desarrollo de software, contactar a:</p> 
+           <p>Jose Alexis Tejada Angulo - Ingeniero Industrial</p>
+           <a href="https://wa.me/+573227994023" class="whatsapp-btn" target="_blank">
+               <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+           </a>
+       </footer>
 
-    <script src="script.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registrado con éxito:', registration);
-                    })
-                    .catch(error => {
-                        console.log('Error al registrar el Service Worker:', error);
-                    });
-            });
-        }
-    </script>
-</body>
-</html>
+       <div id="modal" class="modal">
+           <div class="modal-content">
+               <span class="close">×</span>
+               <h2>¡Registra tu Emprendimiento!</h2>
+               <form id="register-form" enctype="multipart/form-data">
+                   <label for="email">Correo Electrónico *</label>
+                   <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required autocomplete="email">
+                   
+                   <label for="password">Contraseña *</label>
+                   <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
+                   
+                   <label for="name">Nombre del Emprendimiento *</label>
+                   <input type="text" id="name" name="name" placeholder="Ej. Miel del Putumayo" required autocomplete="organization">
+                   
+                   <label for="category">Categoría *</label>
+                   <select id="category" name="category" required>
+                       <option value="" disabled selected>Selecciona una categoría</option>
+                       <option value="agricultura">Agricultura</option>
+                       <option value="artesania">Artesanía</option>
+                       <option value="turismo">Turismo</option>
+                       <option value="gastronomia">Gastronomía</option>
+                       <option value="agroindustria">Agroindustria</option>
+                       <option value="varios">Varios</option>
+                   </select>
+                   
+                   <label for="product">Producto o Servicio *</label>
+                   <input type="text" id="product" name="product" placeholder="Ej. Miel orgánica" required autocomplete="off">
+                   
+                   <label for="description">Descripción *</label>
+                   <textarea id="description" name="description" placeholder="Describe tu emprendimiento" required></textarea>
+                   
+                   <label for="location">Ubicación *</label>
+                   <input type="text" id="location" name="location" placeholder="Ej. Mocoa, Putumayo" required autocomplete="address-level1">
+                   
+                   <label for="whatsapp">WhatsApp (con código del país) *</label>
+                   <input type="text" id="whatsapp" name="whatsapp" placeholder="Ej. +573123456789" required autocomplete="tel">
+                   
+                   <label for="image">Imagen del Emprendimiento *</label>
+                   <input type="file" id="image" name="image" accept="image/*" required>
+                   
+                   <button type="submit">Registrar</button>
+                   <p id="form-message"></p>
+               </form>
+           </div>
+       </div>
+
+       <script src="script.js"></script>
+       <script>
+           if ('serviceWorker' in navigator) {
+               window.addEventListener('load', () => {
+                   navigator.serviceWorker.register('/service-worker.js')
+                       .then(registration => {
+                           console.log('Service Worker registrado con éxito:', registration);
+                       })
+                       .catch(error => {
+                           console.log('Error al registrar el Service Worker:', error);
+                       });
+               });
+           }
+       </script>
+   </body>
+   </html>

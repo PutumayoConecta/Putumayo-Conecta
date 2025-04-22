@@ -838,3 +838,72 @@ body.dark-mode #form-message {
         font-size: 0.8rem;
     }
 }
+.category-buttons {
+       display: flex;
+       flex-wrap: wrap;
+       justify-content: center;
+       gap: 10px;
+       margin: 1rem 0;
+       padding: 0 1rem;
+   }
+
+   .category-btn {
+       padding: 8px 16px;
+       border: none;
+       border-radius: 20px;
+       font-size: 0.9rem;
+       font-weight: 500;
+       color: white;
+       cursor: pointer;
+       transition: transform 0.2s ease, background-color 0.3s;
+   }
+
+   .category-btn:hover {
+       transform: scale(1.05);
+   }
+
+   .category-btn[data-category="all"] {
+       background-color: #888;
+   }
+
+   .category-btn[data-category="agricultura"] {
+       background-color: var(--verde-amazonico);
+   }
+
+   .category-btn[data-category="artesania"] {
+       background-color: var(--amarillo-Artesania);
+       color: #333;
+   }
+
+   .category-btn[data-category="turismo"] {
+       background-color: var(--azul-Turismo);
+   }
+
+   .category-btn[data-category="gastronomia"] {
+       background-color: var(--terracota);
+   }
+
+   .category-btn[data-category="agroindustria"] {
+       background-color: var(--morado-Agroindustria);
+   }
+
+   .category-btn[data-category="varios"] {
+       background-color: var(--gris-Varios);
+   }
+
+   .category-btn.active {
+       box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+       transform: scale(1.05);
+   }
+
+   body.dark-mode .category-btn[data-category="all"] {
+       background-color: #aaa;
+   }
+
+   body.dark-mode .category-btn[data-category="artesania"] {
+       color: #333;
+   }
+
+   body.dark-mode .category-btn.active {
+       box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+   }
