@@ -83,7 +83,7 @@ async function loadProducers(searchQuery = "") {
             <img src="${producer.image || '/images/logo.png'}" alt="${producer.product}" loading="lazy">
             <div class="producer-info">
                 <h3>${producer.name}</h3>
-                <span class="category-badge">${categoryName}</span>
+                <span class="category-badge ${producer.category.toLowerCase()}">${categoryName}</span>
                 <p><strong>Producto:</strong> ${producer.product}</p>
                 <p><strong>Ubicación:</strong> ${producer.location}</p>
                 <p>${producer.description}</p>
