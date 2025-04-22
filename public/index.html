@@ -11,7 +11,7 @@
     <meta name="description" content="Conecta con productores, artesanos y emprendedores turísticos del Putumayo">
     <meta property="og:image" content="https://ejemplo.com/logo-putumayo.jpg">
     <meta name="theme-color" content="#2e7d32">
-    <link rel="apple-touch-icon" href="/icon-192x192.png">
+    <link rel="apple-touch-icon" href="/images/icon-192x192.png">
 </head>
 <body>
     <header>
@@ -19,18 +19,15 @@
             <img src="/images/selva2.jpg" alt="Putumayo Conecta Logo" class="header-logo" style="max-width: 80px; display: none;">
             <h1>🌿 Putumayo Conecta</h1>
             <p>La plataforma que visibiliza los Emprendimientos de la Amazonía Colombiana</p>
+            <button id="theme-toggle" aria-label="Alternar modo oscuro">
+                <i class="fas fa-moon"></i>
+            </button>
+            <a href="/dashboard.html" class="dashboard-link">Mi Dashboard</a>
         </div>
     </header>
 
-    <div class="nav-bar">
-        <a href="/dashboard.html" class="dashboard-link">Mi Dashboard</a>
-        <button id="theme-toggle" aria-label="Alternar modo oscuro">
-            <i class="fas fa-moon"></i>
-        </button>
-    </div>
-
     <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Busca emprendimientos por nombre o producto..." aria-label="Buscar emprendimientos" autocomplete="off">
+        <input type="text" id="search-input" placeholder="Busca emprendimientos por nombre o producto..." aria-label="Buscar emprendimientos">
         <i class="fas fa-search"></i>
     </div>
 
@@ -47,7 +44,7 @@
     </div>
 
     <div class="filters">
-        <button class="filter-btn active" data-filter="all" aria-label="Filtrar por todos">
+        <button class="filter-btn active" data-filter="all" aria-queue="Filtrar por todos">
             <i class="fas fa-th"></i>
             <span>Todos</span>
         </button>
@@ -77,8 +74,7 @@
         <p>¿Eres Emprendedor? <a href="#" id="add-btn">¡Regístrate aquí!</a></p>
         <p>Para desarrollo de software, contactar a:</p> 
         <p>Jose Alexis Tejada Angulo - Ingeniero Industrial</p>
-        <p>Número de WhatsApp: +573227994023</p>
-        <a href="https://wa.me/+573227994023" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+        <a href="https://wa.me/+573227994023" class="whatsapp-btn" target="_blank">
             <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
         </a>
     </footer>
@@ -95,17 +91,17 @@
                 <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
                 
                 <label for="name">Nombre del Emprendimiento *</label>
-                <input type="text" id="name" name="name" placeholder="Ej. Miel del Putumayo" required autocomplete="name">
+                <input type="text" id="name" name="name" placeholder="Ej. Miel del Putumayo" required autocomplete="organization">
                 
                 <label for="category">Categoría *</label>
                 <select id="category" name="category" required>
                     <option value="" disabled selected>Selecciona una categoría</option>
-                    <option value="Agricultura">Agricultura</option>
-                    <option value="Artesania">Artesanía</option>
-                    <option value="Turismo">Turismo</option>
-                    <option value="Gastronomia">Gastronomía</option>
-                    <option value="Agroindustria">Agroindustria</option>
-                    <option value="Varios">Varios</option>
+                    <option value="agricultura">Agricultura</option>
+                    <option value="artesania">Artesanía</option>
+                    <option value="turismo">Turismo</option>
+                    <option value="gastronomia">Gastronomía</option>
+                    <option value="agroindustria">Agroindustria</option>
+                    <option value="varios">Varios</option>
                 </select>
                 
                 <label for="product">Producto o Servicio *</label>
@@ -115,10 +111,10 @@
                 <textarea id="description" name="description" placeholder="Describe tu emprendimiento" required></textarea>
                 
                 <label for="location">Ubicación *</label>
-                <input type="text" id="location" name="location" placeholder="Ej. Mocoa, Putumayo" required autocomplete="off">
+                <input type="text" id="location" name="location" placeholder="Ej. Mocoa, Putumayo" required autocomplete="address-level1">
                 
                 <label for="whatsapp">WhatsApp (con código del país) *</label>
-                <input type="tel" id="whatsapp" name="whatsapp" placeholder="Ej. +573123456789" required autocomplete="tel">
+                <input type="text" id="whatsapp" name="whatsapp" placeholder="Ej. +573123456789" required autocomplete="tel">
                 
                 <label for="image">Imagen del Emprendimiento *</label>
                 <input type="file" id="image" name="image" accept="image/*" required>

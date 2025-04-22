@@ -7,7 +7,12 @@ const urlsToCache = [
     '/dashboard.html',
     '/styles.css',
     '/script.js',
-    '/images/selva2.jpg'
+    '/dashboard.js',              // Añadido para el dashboard
+    '/manifest.json',             // Añadido para la PWA
+    '/images/selva2.jpg',
+    '/images/icon-192x192.png',   // Añadido para los íconos de la PWA
+    '/images/icon-512x512.png',   // Añadido para los íconos de la PWA
+    '/images/logo.png'            // Añadido para el logo
 ];
 
 self.addEventListener('install', event => {

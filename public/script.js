@@ -1,27 +1,30 @@
-// Show loading spinner
 function showLoading(show) {
     document.getElementById('loading').style.display = show ? 'block' : 'none';
 }
 
-// Fetch data from producers.json
 async function fetchData() {
     try {
         showLoading(true);
-        const res = await fetch('/producers.json', { cache: 'no-store' });
-        if (!res.ok) throw new Error(`Error fetching producers.json: ${res.status}`);
+        const res = await fetch('/api/producers', { cache: 'no-store' });
+        if (!res.ok) {
+            throw new Error(`Error fetching producers: ${res.status} - ${await res.text()}`);
+        }
         const data = await res.json();
+        console.log('Datos recibidos de /api/producers:', data);
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
-        return []; // Retorna un array vacío como fallback
+        return [];
     } finally {
         showLoading(false);
     }
 }
 
-// Track click on WhatsApp link
 async function trackClick(producerId, whatsappUrl) {
     try {
+        if (!producerId || !whatsappUrl) {
+            throw new Error('Faltan datos: producerId o whatsappUrl no están definidos');
+        }
         await fetch('/api/track-click', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -30,26 +33,26 @@ async function trackClick(producerId, whatsappUrl) {
         window.open(whatsappUrl, '_blank');
     } catch (error) {
         console.error('Error tracking click:', error);
-        window.open(whatsappUrl, '_blank');
+        if (whatsappUrl) {
+            window.open(whatsappUrl, '_blank');
+        }
     }
 }
 
-// Load producers with optional filters
 async function loadProducers(filter = "all", searchQuery = "") {
     const producersList = document.getElementById('producers-list');
     producersList.innerHTML = '';
     
     let producers = await fetchData();
     
-    // Apply category filter
+    console.log('Productores antes de filtrar:', producers);
+    
     let filteredProducers = filter === "all" 
         ? producers 
         : producers.filter(producer => producer.category.toLowerCase() === filter.toLowerCase());
     
-    // Debug: Log filtered producers
     console.log(`Filtro: ${filter}, Productores encontrados:`, filteredProducers);
     
-    // Apply search filter
     if (searchQuery) {
         searchQuery = searchQuery.toLowerCase();
         filteredProducers = filteredProducers.filter(producer =>
@@ -58,11 +61,9 @@ async function loadProducers(filter = "all", searchQuery = "") {
         );
     }
     
-    // Update counter
     document.getElementById('counter').textContent = 
         `${filteredProducers.length} emprendimientos ${filter === "all" ? "" : "de " + filter.charAt(0).toUpperCase() + filter.slice(1)}${searchQuery ? " (búsqueda)" : ""}`;
     
-    // Generate cards with animation delay
     filteredProducers.forEach((producer, index) => {
         const badgeClass = `${producer.category.toLowerCase()}-badge`;
         const categoryName = 
@@ -83,7 +84,7 @@ async function loadProducers(filter = "all", searchQuery = "") {
                 <p><strong>Producto:</strong> ${producer.product}</p>
                 <p><strong>Ubicación:</strong> ${producer.location}</p>
                 <p>${producer.description}</p>
-                <a href="#" class="whatsapp-btn" data-producer-id="${producer.id}" data-whatsapp="https://wa.me/${producer.whatsapp}">
+                <a href="#" class="producer-whatsapp-btn whatsapp-btn" data-producer-id="${producer.id}" data-whatsapp="https://wa.me/${producer.whatsapp}">
                     <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
                 </a>
             </div>
@@ -91,8 +92,7 @@ async function loadProducers(filter = "all", searchQuery = "") {
         producersList.appendChild(card);
     });
 
-    // Add click listeners to WhatsApp buttons
-    document.querySelectorAll('.whatsapp-btn').forEach(button => {
+    document.querySelectorAll('.producer-whatsapp-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
             const producerId = button.dataset.producerId;
@@ -102,7 +102,6 @@ async function loadProducers(filter = "all", searchQuery = "") {
     });
 }
 
-// Initialize filters
 function setupFilters() {
     document.querySelectorAll('.filter-btn').forEach(button => {
         button.addEventListener('click', () => {
@@ -113,7 +112,6 @@ function setupFilters() {
     });
 }
 
-// Setup search
 function setupSearch() {
     const searchInput = document.getElementById('search-input');
     searchInput.addEventListener('input', () => {
@@ -122,7 +120,6 @@ function setupSearch() {
     });
 }
 
-// Setup modal
 function setupModal() {
     const modal = document.getElementById('modal');
     const addBtn = document.getElementById('add-btn');
@@ -144,7 +141,6 @@ function setupModal() {
     });
 }
 
-// Handle form submission
 function setupForm() {
     const form = document.getElementById('register-form');
     const formMessage = document.getElementById('form-message');
@@ -152,7 +148,6 @@ function setupForm() {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Validar que se haya seleccionado una imagen
         const imageInput = form.querySelector('input[name="image"]');
         if (!imageInput.files || imageInput.files.length === 0) {
             formMessage.textContent = 'Por favor, selecciona una imagen para tu emprendimiento.';
@@ -163,13 +158,12 @@ function setupForm() {
         
         const formData = new FormData(form);
         const producerId = Date.now().toString();
-        formData.append('producerId', producerId); // Añade producerId al FormData
+        formData.append('producerId', producerId);
 
         try {
-            // Registrar usuario y emprendimiento en una sola solicitud
             const response = await fetch('/api/register-user', {
                 method: 'POST',
-                body: formData // Envía FormData directamente, incluyendo la imagen
+                body: formData
             });
             
             const result = await response.json();
@@ -179,7 +173,6 @@ function setupForm() {
 
             formMessage.textContent = '¡Emprendimiento y usuario registrados con éxito!';
 
-            // Preguntar si desea guardar las credenciales
             const email = formData.get('email');
             const password = formData.get('password');
             const saveCredentials = confirm('¿Deseas guardar tu usuario y contraseña para futuros ingresos?');
@@ -204,7 +197,6 @@ function setupForm() {
     });
 }
 
-// Dark mode toggle
 function setupDarkMode() {
     const toggle = document.getElementById('theme-toggle');
     const body = document.body;
@@ -222,7 +214,6 @@ function setupDarkMode() {
     });
 }
 
-// Initialize app
 function init() {
     setupFilters();
     setupSearch();
