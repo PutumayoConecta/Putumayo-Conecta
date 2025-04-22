@@ -39,19 +39,15 @@ async function trackClick(producerId, whatsappUrl) {
     }
 }
 
-async function loadProducers(filter = "all", searchQuery = "") {
+async function loadProducers(searchQuery = "") {
     const producersList = document.getElementById('producers-list');
-    producersList.innerHTML = '';
+    producersList.innerHTML = '<p>Cargando productores...</p>';
     
     let producers = await fetchData();
     
-    console.log('Productores antes de filtrar:', producers);
+    console.log('Productores cargados:', producers);
     
-    let filteredProducers = filter === "all" 
-        ? producers 
-        : producers.filter(producer => producer.category.toLowerCase() === filter.toLowerCase());
-    
-    console.log(`Filtro: ${filter}, Productores encontrados:`, filteredProducers);
+    let filteredProducers = producers;
     
     if (searchQuery) {
         searchQuery = searchQuery.toLowerCase();
@@ -61,11 +57,10 @@ async function loadProducers(filter = "all", searchQuery = "") {
         );
     }
     
-    document.getElementById('counter').textContent = 
-        `${filteredProducers.length} emprendimientos ${filter === "all" ? "" : "de " + filter.charAt(0).toUpperCase() + filter.slice(1)}${searchQuery ? " (búsqueda)" : ""}`;
+    producersList.setAttribute('data-count', filteredProducers.length);
+    producersList.innerHTML = '';
     
     filteredProducers.forEach((producer, index) => {
-        const badgeClass = `${producer.category.toLowerCase()}-badge`;
         const categoryName = 
             producer.category.toLowerCase() === 'agricultura' ? 'Agricultura' : 
             producer.category.toLowerCase() === 'artesania' ? 'Artesanía' : 
@@ -77,10 +72,10 @@ async function loadProducers(filter = "all", searchQuery = "") {
         card.className = 'producer-card';
         card.style.animationDelay = `${index * 0.1}s`;
         card.innerHTML = `
-            <img src="${producer.image}" alt="${producer.product}" loading="lazy">
+            <img src="${producer.image || '/images/logo.png'}" alt="${producer.product}" loading="lazy">
             <div class="producer-info">
                 <h3>${producer.name}</h3>
-                <span class="category-badge ${badgeClass}">${categoryName}</span>
+                <span class="category-badge">${categoryName}</span>
                 <p><strong>Producto:</strong> ${producer.product}</p>
                 <p><strong>Ubicación:</strong> ${producer.location}</p>
                 <p>${producer.description}</p>
@@ -102,26 +97,23 @@ async function loadProducers(filter = "all", searchQuery = "") {
     });
 }
 
-function setupFilters() {
-    document.querySelectorAll('.filter-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            loadProducers(button.dataset.filter, document.getElementById('search-input').value);
-        });
-    });
-}
-
 function setupSearch() {
     const searchInput = document.getElementById('search-input');
     searchInput.addEventListener('input', () => {
-        const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
-        loadProducers(activeFilter, searchInput.value);
+        loadProducers(searchInput.value);
     });
 }
 
 function setupModal() {
-    const modal = document.getElementById('modal');
+    const modal = document.get
+
+
+
+
+
+
+
+    Id('modal');
     const addBtn = document.getElementById('add-btn');
     const closeBtn = document.querySelector('.close');
     
@@ -185,10 +177,7 @@ function setupForm() {
             setTimeout(() => {
                 document.getElementById('modal').style.display = 'none';
                 formMessage.textContent = '';
-                loadProducers(
-                    document.querySelector('.filter-btn.active').dataset.filter,
-                    document.getElementById('search-input').value
-                );
+                loadProducers(document.getElementById('search-input').value);
             }, 2000);
         } catch (error) {
             formMessage.textContent = error.message || 'Error al registrar. Intenta de nuevo.';
@@ -215,7 +204,6 @@ function setupDarkMode() {
 }
 
 function init() {
-    setupFilters();
     setupSearch();
     setupModal();
     setupForm();

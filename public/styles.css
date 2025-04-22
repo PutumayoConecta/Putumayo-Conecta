@@ -16,13 +16,13 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    padding-bottom: 80px; /* Reducido para móviles */
+    padding-bottom: 80px;
     background-color: #f8f9fa;
     color: #333;
     transition: background-color 0.3s, color 0.3s;
     position: relative;
     z-index: 1;
-    overflow-x: hidden; /* Evitar desbordamiento horizontal */
+    overflow-x: hidden;
 }
 
 body::before {
@@ -52,9 +52,9 @@ body.dark-mode::before {
 }
 
 header {
-    background: linear-gradient(135deg, var(--verde-amazonico), #1B5E20, var(--terracota));
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.8), rgba(27, 94, 32, 0.8), rgba(215, 106, 3, 0.8)), url('/images/selva2.jpg') center/cover no-repeat;
     color: white;
-    padding: 1.5rem 1rem; /* Reducido para móviles */
+    padding: 1.5rem 1rem;
     text-align: center;
     box-shadow: var(--sombra);
     position: relative;
@@ -78,6 +78,8 @@ header {
     font-weight: 400;
     font-size: 1rem;
     opacity: 0.9;
+    max-width: 80%;
+    margin: 0 auto;
 }
 
 #theme-toggle {
@@ -102,17 +104,17 @@ header {
     position: absolute;
     top: 1rem;
     left: 1rem;
-    background: var(--terracota);
+    background: var(--verde-amazonico);
     color: white;
     padding: 8px 16px;
-    border-radius: 8px;
+    border-radius: 20px;
     text-decoration: none;
     font-weight: 500;
     transition: background 0.3s;
 }
 
 .dashboard-link:hover {
-    background: #B75902;
+    background: #1B5E20;
 }
 
 .search-bar {
@@ -123,7 +125,7 @@ header {
     padding: 0 1rem;
     background: white;
     border-radius: 30px;
-    box-shadow: var(--sombra);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .search-bar input {
@@ -139,6 +141,7 @@ header {
     padding: 12px;
     background: var(--verde-amazonico);
     color: white;
+    font-size: 1.2rem;
     border-radius: 0 30px 30px 0;
     transition: background 0.3s;
 }
@@ -147,171 +150,27 @@ header {
     background: #1B5E20;
 }
 
-.filters {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px; /* Aumentado para mejor separación en móviles */
-    padding: 0.75rem;
-    background: white;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-}
-
-body.dark-mode .filters {
-    background: var(--dark-card);
-}
-
-.filter-btn {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    background-color: #f0f0f0;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.filter-btn i {
-    font-size: 1rem;
-}
-
-.filter-btn span {
-    position: absolute;
-    bottom: -20px;
-    font-size: 0.65rem;
-    text-transform: lowercase;
-    color: #333;
-    text-align: center;
-    width: 100%;
-}
-
-body.dark-mode .filter-btn span {
-    color: #ffffff;
-}
-
-.filter-btn:hover, .filter-btn.active {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.filter-btn[data-filter="all"]:hover, .filter-btn[data-filter="all"].active {
-    box-shadow: 0 0 10px #666, 0 0 20px #666, 0 0 30px #666;
-}
-.filter-btn[data-filter="agricultura"]:hover, .filter-btn[data-filter="agricultura"].active {
-    box-shadow: 0 0 10px var(--verde-amazonico), 0 0 20px var(--verde-amazonico), 0 0 30px var(--verde-amazonico);
-}
-.filter-btn[data-filter="artesania"]:hover, .filter-btn[data-filter="artesania"].active {
-    box-shadow: 0 0 10px var(--amarillo-Artesania), 0 0 20px var(--amarillo-Artesania), 0 0 30px var(--amarillo-Artesania);
-}
-.filter-btn[data-filter="turismo"]:hover, .filter-btn[data-filter="turismo"].active {
-    box-shadow: 0 0 10px var(--azul-Turismo), 0 0 20px var(--azul-Turismo), 0 0 30px var(--azul-Turismo);
-}
-.filter-btn[data-filter="agroindustria"]:hover, .filter-btn[data-filter="agroindustria"].active {
-    box-shadow: 0 0 10px var(--morado-Agroindustria), 0 0 20px var(--morado-Agroindustria), 0 0 30px var(--morado-Agroindustria);
-}
-.filter-btn[data-filter="varios"]:hover, .filter-btn[data-filter="varios"].active {
-    box-shadow: 0 0 10px var(--gris-Varios), 0 0 20px var(--gris-Varios), 0 0 30px var(--gris-Varios);
-}
-
-.filter-btn.active {
-    color: white;
-}
-
-.filter-btn:active {
-    transform: scale(0.95);
-}
-
-.filter-btn[data-filter="all"] i, .filter-btn[data-filter="all"] span {
-    color: #666;
-}
-.filter-btn[data-filter="all"].active {
-    background-color: #666;
-}
-.filter-btn[data-filter="all"].active i, .filter-btn[data-filter="all"].active span {
-    color: white;
-}
-
-.filter-btn[data-filter="agricultura"] i, .filter-btn[data-filter="agricultura"] span {
-    color: var(--verde-amazonico);
-}
-.filter-btn[data-filter="agricultura"].active {
-    background-color: var(--verde-amazonico);
-}
-.filter-btn[data-filter="agricultura"].active i, .filter-btn[data-filter="agricultura"].active span {
-    color: white;
-}
-
-.filter-btn[data-filter="artesania"] i, .filter-btn[data-filter="artesania"] span {
-    color: var(--amarillo-Artesania);
-}
-.filter-btn[data-filter="artesania"].active {
-    background-color: var(--amarillo-Artesania);
-}
-.filter-btn[data-filter="artesania"].active i, .filter-btn[data-filter="artesania"].active span {
-    color: white;
-}
-
-.filter-btn[data-filter="turismo"] i, .filter-btn[data-filter="turismo"] span {
-    color: var(--azul-Turismo);
-}
-.filter-btn[data-filter="turismo"].active {
-    background-color: var(--azul-Turismo);
-}
-.filter-btn[data-filter="turismo"].active i, .filter-btn[data-filter="turismo"].active span {
-    color: white;
-}
-
-.filter-btn[data-filter="agroindustria"] i, .filter-btn[data-filter="agroindustria"] span {
-    color: var(--morado-Agroindustria);
-}
-.filter-btn[data-filter="agroindustria"].active {
-    background-color: var(--morado-Agroindustria);
-}
-.filter-btn[data-filter="agroindustria"].active i, .filter-btn[data-filter="agroindustria"].active span {
-    color: white;
-}
-
-.filter-btn[data-filter="varios"] i, .filter-btn[data-filter="varios"] span {
-    color: var(--gris-Varios);
-}
-.filter-btn[data-filter="varios"].active {
-    background-color: var(--gris-Varios);
-}
-.filter-btn[data-filter="varios"].active i, .filter-btn[data-filter="varios"].active span {
-    color: white;
-}
-
-.stats {
-    text-align: center;
-    padding: 1rem; /* Reducido para móviles */
-    font-style: italic;
-    color: #666;
-    font-size: 0.9rem;
-}
-
-body.dark-mode .stats {
-    color: var(--dark-text);
-}
-
 .producers-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Ajustado para móviles */
-    gap: 20px; /* Reducido para móviles */
-    padding: 1.5rem; /* Reducido para móviles */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+.producers-list::before {
+    content: attr(data-count) " emprendimientos";
+    display: block;
+    font-size: 1.2rem;
+    color: var(--verde-amazonico);
+    margin-bottom: 1rem;
+    text-align: center;
+    font-style: italic;
+}
+
+body.dark-mode .producers-list::before {
+    color: var(--dark-text);
 }
 
 .producer-card {
@@ -320,6 +179,7 @@ body.dark-mode .stats {
     overflow: hidden;
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 1rem;
 }
 
 body.dark-mode .producer-card {
@@ -333,19 +193,23 @@ body.dark-mode .producer-card {
 }
 
 .producer-card img {
-    width: 100%;
-    height: 200px; /* Reducido para móviles */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid var(--verde-amazonico);
+    margin: 0 auto;
+    display: block;
     object-fit: cover;
-    border-bottom: 4px solid var(--verde-amazonico);
     loading: lazy;
 }
 
 .producer-info {
-    padding: 1.25rem; /* Reducido para móviles */
+    padding: 1.25rem;
+    text-align: center;
 }
 
 .producer-info h3 {
-    margin: 0 0 12px 0;
+    margin: 0.5rem 0;
     color: var(--verde-amazonico);
     font-size: 1.5rem;
     font-weight: 600;
@@ -358,6 +222,8 @@ body.dark-mode .producer-card {
     font-size: 0.85rem;
     font-weight: 500;
     margin-bottom: 14px;
+    background-color: var(--verde-amazonico);
+    color: white;
     transition: transform 0.2s ease;
 }
 
@@ -365,48 +231,23 @@ body.dark-mode .producer-card {
     transform: scale(1.1);
 }
 
-.agricultura-badge {
-    background-color: #E8F5E9;
-    color: var(--verde-amazonico);
-}
-
-.artesania-badge {
-    background-color: #FFF8E1;
-    color: #FF8F00;
-}
-
-.turismo-badge {
-    background-color: #E3F2FD;
-    color: var(--azul-Turismo);
-}
-
-.agroindustria-badge {
-    background-color: #F3E5F5;
-    color: var(--morado-Agroindustria);
-}
-
-.varios-badge {
-    background-color: #F5F5F5;
-    color: var(--gris-Varios);
-}
-
 .whatsapp-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     margin-top: 15px;
-    padding: 8px 16px; /* Reducido para móviles */
-    background-color: var(--terracota);
+    padding: 8px 16px;
+    background-color: #25D366;
     color: white;
     text-decoration: none;
     border-radius: 8px;
     font-weight: 500;
-    font-size: 0.9rem; /* Reducido para móviles */
+    font-size: 0.9rem;
     transition: background-color 0.3s, transform 0.2s;
 }
 
 .whatsapp-btn:hover {
-    background-color: #B75902;
+    background-color: #1EBE54;
     transform: translateY(-2px);
 }
 
@@ -435,16 +276,15 @@ body.dark-mode .producer-card {
 
 .modal-content {
     background: white;
-    padding: 1.5rem; /* Reducido para móviles */
+    padding: 1.5rem;
     border-radius: 16px;
-    max-width: 95%; /* Más flexible para móviles */
+    max-width: 95%;
     width: 90%;
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
     max-height: 80vh;
     overflow-y: auto;
 }
 
-/* Estilizar la barra de desplazamiento para navegadores WebKit (Chrome, Safari, Edge) */
 .modal-content::-webkit-scrollbar {
     width: 8px;
 }
@@ -494,7 +334,7 @@ body.dark-mode .close {
 #register-form, #login-form {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Reducido para móviles */
+    gap: 15px;
 }
 
 #register-form label,
@@ -507,10 +347,10 @@ body.dark-mode .close {
 #register-form select,
 #register-form textarea,
 #login-form input {
-    padding: 10px; /* Reducido para móviles */
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    font-size: 0.9rem; /* Reducido para móviles */
+    font-size: 0.9rem;
     font-family: 'Poppins', sans-serif;
     transition: border-color 0.3s;
 }
@@ -540,23 +380,23 @@ body.dark-mode #login-form input:focus {
 }
 
 #register-form input[type="file"] {
-    padding: 6px; /* Reducido para móviles */
+    padding: 6px;
 }
 
 #register-form textarea {
     resize: vertical;
-    min-height: 80px; /* Reducido para móviles */
+    min-height: 80px;
 }
 
 #register-form button, #login-form button {
-    padding: 10px; /* Reducido para móviles */
+    padding: 10px;
     background: var(--verde-amazonico);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 500;
-    font-size: 0.9rem; /* Reducido para móviles */
+    font-size: 0.9rem;
     transition: background 0.3s, transform 0.2s;
 }
 
@@ -568,7 +408,7 @@ body.dark-mode #login-form input:focus {
 #form-message, #login-message {
     margin-top: 10px;
     color: var(--verde-amazonico);
-    font-size: 0.85rem; /* Reducido para móviles */
+    font-size: 0.85rem;
 }
 
 body.dark-mode #form-message, body.dark-mode #login-message {
@@ -577,7 +417,7 @@ body.dark-mode #form-message, body.dark-mode #login-message {
 
 footer {
     text-align: center;
-    padding: 1.5rem; /* Reducido para móviles */
+    padding: 1.5rem;
     background-color: #f0f0f0;
     margin-top: 2rem;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
@@ -660,10 +500,9 @@ body.dark-mode .stats-section p {
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* Media Queries para Dispositivos Móviles */
 @media (max-width: 768px) {
     body {
-        padding-bottom: 70px; /* Ajustado para filtros más pequeños */
+        padding-bottom: 70px;
     }
 
     .header-content h1 {
@@ -685,7 +524,7 @@ body.dark-mode .stats-section p {
     }
 
     .search-bar {
-        max-width: 90%; /* Más flexible para móviles */
+        max-width: 90%;
         padding: 0 0.5rem;
         margin: 1rem auto;
     }
@@ -697,30 +536,7 @@ body.dark-mode .stats-section p {
 
     .search-bar i {
         padding: 10px;
-    }
-
-    .filters {
-        gap: 10px;
-        padding: 0.5rem;
-    }
-
-    .filter-btn {
-        width: 40px;
-        height: 40px;
-    }
-
-    .filter-btn i {
-        font-size: 0.9rem;
-    }
-
-    .filter-btn span {
-        font-size: 0.6rem; /* Ligeramente más grande para legibilidad */
-        bottom: -18px;
-    }
-
-    .stats {
-        padding: 0.75rem;
-        font-size: 0.85rem;
+        font-size: 1.1rem;
     }
 
     .producers-list {
@@ -729,8 +545,13 @@ body.dark-mode .stats-section p {
         gap: 15px;
     }
 
+    .producers-list::before {
+        font-size: 1rem;
+    }
+
     .producer-card img {
-        height: 180px;
+        width: 80px;
+        height: 80px;
     }
 
     .producer-info {
@@ -752,7 +573,7 @@ body.dark-mode .stats-section p {
     }
 
     .modal-content, .login-section, .stats-section {
-        max-width: 90%; /* Más flexible para móviles */
+        max-width: 90%;
         padding: 1.25rem;
     }
 
@@ -829,30 +650,7 @@ body.dark-mode .stats-section p {
 
     .search-bar i {
         padding: 8px;
-    }
-
-    .filters {
-        gap: 8px;
-        padding: 0.4rem;
-    }
-
-    .filter-btn {
-        width: 36px;
-        height: 36px;
-    }
-
-    .filter-btn i {
-        font-size: 0.8rem;
-    }
-
-    .filter-btn span {
-        font-size: 0.55rem;
-        bottom: -16px;
-    }
-
-    .stats {
-        padding: 0.5rem;
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 
     .producers-list {
@@ -860,8 +658,13 @@ body.dark-mode .stats-section p {
         gap: 10px;
     }
 
+    .producers-list::before {
+        font-size: 0.9rem;
+    }
+
     .producer-card img {
-        height: 150px;
+        width: 70px;
+        height: 70px;
     }
 
     .producer-info {
