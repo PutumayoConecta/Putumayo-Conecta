@@ -16,7 +16,7 @@
 <body>
     <header>
         <div class="header-content">
-            <img src="/images/selva2.jpg" alt="Putumayo Conecta Logo" class="header-logo" style="max-width: 80px; display: none;">
+            <img src="/images/selva2.jpg" alt="Putumayo Conecta Logo" class="header-logo" style="max-width: 80px;">
             <h1>🌿 Putumayo Conecta</h1>
             <p>Visibilizando Emprendimientos Amazónicos</p>
             <button id="theme-toggle" aria-label="Alternar modo oscuro">
@@ -29,6 +29,10 @@
     <div class="search-bar">
         <input type="text" id="search-input" placeholder="Busca emprendimientos por nombre o producto..." aria-label="Buscar emprendimientos">
         <i class="fas fa-search"></i>
+    </div>
+
+    <div class="producers-count" id="producers-count">
+        <p><span id="count">0</span> Emprendimientos</p>
     </div>
 
     <div class="producers-list" id="producers-list">

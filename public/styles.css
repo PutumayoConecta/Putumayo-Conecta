@@ -16,13 +16,13 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    padding-bottom: 80px;
+    padding-bottom: 80px; /* Reducido para móviles */
     background-color: #f8f9fa;
     color: #333;
     transition: background-color 0.3s, color 0.3s;
     position: relative;
     z-index: 1;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Evitar desbordamiento horizontal */
 }
 
 body::before {
@@ -66,6 +66,19 @@ header {
     max-width: 800px;
     margin: 0 auto;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid white;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
 }
 
 .header-content h1 {
@@ -93,11 +106,16 @@ header {
     padding: 8px;
     border-radius: 50%;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s, transform 0.3s;
 }
 
 #theme-toggle:hover {
     background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+body.dark-mode #theme-toggle {
+    color: var(--amarillo-Artesania);
 }
 
 .dashboard-link {
@@ -126,6 +144,16 @@ header {
     background: white;
     border-radius: 30px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+body.dark-mode .search-bar {
+    background: var(--dark-card);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.search-bar:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .search-bar input {
@@ -135,6 +163,20 @@ header {
     border-radius: 30px 0 0 30px;
     font-size: 1rem;
     font-family: 'Poppins', sans-serif;
+    background: transparent;
+    color: #333;
+}
+
+body.dark-mode .search-bar input {
+    color: var(--dark-text);
+}
+
+.search-bar input::placeholder {
+    color: #888;
+}
+
+body.dark-mode .search-bar input::placeholder {
+    color: #aaa;
 }
 
 .search-bar i {
@@ -150,6 +192,35 @@ header {
     background: #1B5E20;
 }
 
+body.dark-mode .search-bar i {
+    background: #81c784;
+}
+
+body.dark-mode .search-bar i:hover {
+    background: #6db370;
+}
+
+.producers-count {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--verde-amazonico);
+}
+
+body.dark-mode .producers-count {
+    color: var(--dark-text);
+}
+
+.producers-count #count {
+    font-weight: 600;
+    color: var(--terracota);
+}
+
+body.dark-mode .producers-count #count {
+    color: var(--amarillo-Artesania);
+}
+
 .producers-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -159,20 +230,6 @@ header {
     margin: 0 auto;
 }
 
-.producers-list::before {
-    content: attr(data-count) " emprendimientos";
-    display: block;
-    font-size: 1.2rem;
-    color: var(--verde-amazonico);
-    margin-bottom: 1rem;
-    text-align: center;
-    font-style: italic;
-}
-
-body.dark-mode .producers-list::before {
-    color: var(--dark-text);
-}
-
 .producer-card {
     background: #f8f9fa;
     border-radius: 16px;
@@ -180,6 +237,8 @@ body.dark-mode .producers-list::before {
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     padding: 1rem;
+    animation: fadeIn 0.5s ease forwards;
+    opacity: 0;
 }
 
 body.dark-mode .producer-card {
@@ -192,6 +251,10 @@ body.dark-mode .producer-card {
     box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.15), -8px -8px 16px rgba(255, 255, 255, 0.7);
 }
 
+body.dark-mode .producer-card:hover {
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.3), -8px -8px 16px rgba(255, 255, 255, 0.2);
+}
+
 .producer-card img {
     width: 100px;
     height: 100px;
@@ -201,6 +264,10 @@ body.dark-mode .producer-card {
     display: block;
     object-fit: cover;
     loading: lazy;
+}
+
+body.dark-mode .producer-card img {
+    border-color: #81c784;
 }
 
 .producer-info {
@@ -215,6 +282,10 @@ body.dark-mode .producer-card {
     font-weight: 600;
 }
 
+body.dark-mode .producer-info h3 {
+    color: #81c784;
+}
+
 .category-badge {
     display: inline-block;
     padding: 6px 14px;
@@ -222,13 +293,54 @@ body.dark-mode .producer-card {
     font-size: 0.85rem;
     font-weight: 500;
     margin-bottom: 14px;
-    background-color: var(--verde-amazonico);
     color: white;
     transition: transform 0.2s ease;
 }
 
+.category-badge.agricultura {
+    background-color: var(--verde-amazonico);
+}
+
+.category-badge.artesania {
+    background-color: var(--amarillo-Artesania);
+    color: #333;
+}
+
+.category-badge.turismo {
+    background-color: var(--azul-Turismo);
+}
+
+.category-badge.gastronomia {
+    background-color: var(--terracota);
+}
+
+.category-badge.agroindustria {
+    background-color: var(--morado-Agroindustria);
+}
+
+.category-badge.varios {
+    background-color: var(--gris-Varios);
+}
+
 .category-badge:hover {
     transform: scale(1.1);
+}
+
+body.dark-mode .category-badge.artesania {
+    color: #333;
+}
+
+.producer-info p {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.producer-info p strong {
+    color: #555;
+}
+
+body.dark-mode .producer-info p strong {
+    color: var(--dark-text);
 }
 
 .whatsapp-btn {
@@ -261,6 +373,59 @@ body.dark-mode .producer-card {
     color: var(--verde-amazonico);
 }
 
+body.dark-mode .loading-spinner {
+    color: #81c784;
+}
+
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #f0f0f0;
+    margin-top: 2rem;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+body.dark-mode footer {
+    background: var(--dark-card);
+}
+
+footer p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: var(--verde-amazonico);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #1B5E20;
+}
+
+body.dark-mode footer a {
+    color: #81c784;
+}
+
+body.dark-mode footer a:hover {
+    color: #6db370;
+}
+
+footer a[href*="wa.me"] {
+    color: white;
+    background-color: #25D366;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+footer a[href*="wa.me"]:hover {
+    background-color: #1EBE54;
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -283,6 +448,7 @@ body.dark-mode .producer-card {
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
     max-height: 80vh;
     overflow-y: auto;
+    animation: slideIn 0.3s ease;
 }
 
 .modal-content::-webkit-scrollbar {
@@ -331,22 +497,39 @@ body.dark-mode .close {
     color: var(--dark-text);
 }
 
-#register-form, #login-form {
+body.dark-mode .close:hover {
+    color: #bbb;
+}
+
+.modal-content h2 {
+    color: var(--verde-amazonico);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+body.dark-mode .modal-content h2 {
+    color: #81c784;
+}
+
+#register-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-#register-form label,
-#login-form label {
+#register-form label {
     font-weight: 500;
     margin-bottom: 0.25rem;
+    color: #555;
+}
+
+body.dark-mode #register-form label {
+    color: var(--dark-text);
 }
 
 #register-form input,
 #register-form select,
-#register-form textarea,
-#login-form input {
+#register-form textarea {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -357,16 +540,14 @@ body.dark-mode .close {
 
 #register-form input:focus,
 #register-form select:focus,
-#register-form textarea:focus,
-#login-form input:focus {
+#register-form textarea:focus {
     outline: none;
     border-color: var(--verde-amazonico);
 }
 
 body.dark-mode #register-form input,
 body.dark-mode #register-form select,
-body.dark-mode #register-form textarea,
-body.dark-mode #login-form input {
+body.dark-mode #register-form textarea {
     background: #333;
     color: var(--dark-text);
     border-color: #555;
@@ -374,8 +555,7 @@ body.dark-mode #login-form input {
 
 body.dark-mode #register-form input:focus,
 body.dark-mode #register-form select:focus,
-body.dark-mode #register-form textarea:focus,
-body.dark-mode #login-form input:focus {
+body.dark-mode #register-form textarea:focus {
     border-color: #81c784;
 }
 
@@ -388,7 +568,7 @@ body.dark-mode #login-form input:focus {
     min-height: 80px;
 }
 
-#register-form button, #login-form button {
+#register-form button {
     padding: 10px;
     background: var(--verde-amazonico);
     color: white;
@@ -400,94 +580,28 @@ body.dark-mode #login-form input:focus {
     transition: background 0.3s, transform 0.2s;
 }
 
-#register-form button:hover, #login-form button:hover {
+#register-form button:hover {
     background: #1B5E20;
     transform: translateY(-2px);
 }
 
-#form-message, #login-message {
+body.dark-mode #register-form button {
+    background: #81c784;
+}
+
+body.dark-mode #register-form button:hover {
+    background: #6db370;
+}
+
+#form-message {
     margin-top: 10px;
     color: var(--verde-amazonico);
     font-size: 0.85rem;
+    text-align: center;
 }
 
-body.dark-mode #form-message, body.dark-mode #login-message {
+body.dark-mode #form-message {
     color: #81c784;
-}
-
-footer {
-    text-align: center;
-    padding: 1.5rem;
-    background-color: #f0f0f0;
-    margin-top: 2rem;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-}
-
-body.dark-mode footer {
-    background: var(--dark-card);
-}
-
-footer p {
-    margin: 0.5rem 0;
-    font-size: 0.9rem;
-}
-
-footer a {
-    color: var(--verde-amazonico);
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-footer a:hover {
-    color: #1B5E20;
-}
-
-footer a[href*="wa.me"] {
-    color: #1B5E20;
-}
-
-.login-section, .stats-section {
-    max-width: 400px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background: white;
-    border-radius: 16px;
-    box-shadow: var(--sombra);
-    text-align: center;
-}
-
-body.dark-mode .login-section, body.dark-mode .stats-section {
-    background: var(--dark-card);
-}
-
-.login-section h2, .stats-section h2 {
-    color: var(--verde-amazonico);
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.stats-section p {
-    font-size: 1.2rem;
-    color: #333;
-}
-
-body.dark-mode .stats-section p {
-    color: var(--dark-text);
-}
-
-.stats-section a {
-    display: inline-block;
-    margin-top: 1rem;
-    color: var(--terracota);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.stats-section a:hover {
-    color: #B75902;
 }
 
 @keyframes fadeIn {
@@ -500,6 +614,7 @@ body.dark-mode .stats-section p {
     to { transform: translateY(0); opacity: 1; }
 }
 
+/* Media Queries para Dispositivos Móviles */
 @media (max-width: 768px) {
     body {
         padding-bottom: 70px;
@@ -511,6 +626,11 @@ body.dark-mode .stats-section p {
 
     .header-content p {
         font-size: 0.9rem;
+    }
+
+    .header-logo {
+        width: 60px;
+        height: 60px;
     }
 
     #theme-toggle {
@@ -539,14 +659,14 @@ body.dark-mode .stats-section p {
         font-size: 1.1rem;
     }
 
+    .producers-count {
+        font-size: 1rem;
+    }
+
     .producers-list {
         grid-template-columns: 1fr;
         padding: 1rem;
         gap: 15px;
-    }
-
-    .producers-list::before {
-        font-size: 1rem;
     }
 
     .producer-card img {
@@ -572,23 +692,18 @@ body.dark-mode .stats-section p {
         font-size: 0.85rem;
     }
 
-    .modal-content, .login-section, .stats-section {
+    .modal-content {
         max-width: 90%;
         padding: 1.25rem;
     }
 
-    .modal-content {
-        padding: 1.25rem;
-    }
-
-    #register-form, #login-form {
+    #register-form {
         gap: 12px;
     }
 
     #register-form input,
     #register-form select,
-    #register-form textarea,
-    #login-form input {
+    #register-form textarea {
         padding: 8px;
         font-size: 0.85rem;
     }
@@ -597,7 +712,7 @@ body.dark-mode .stats-section p {
         min-height: 70px;
     }
 
-    #register-form button, #login-form button {
+    #register-form button {
         padding: 8px;
         font-size: 0.85rem;
     }
@@ -622,6 +737,11 @@ body.dark-mode .stats-section p {
 
     .header-content p {
         font-size: 0.8rem;
+    }
+
+    .header-logo {
+        width: 50px;
+        height: 50px;
     }
 
     #theme-toggle {
@@ -653,13 +773,13 @@ body.dark-mode .stats-section p {
         font-size: 1rem;
     }
 
+    .producers-count {
+        font-size: 0.9rem;
+    }
+
     .producers-list {
         padding: 0.75rem;
         gap: 10px;
-    }
-
-    .producers-list::before {
-        font-size: 0.9rem;
     }
 
     .producer-card img {
@@ -685,19 +805,18 @@ body.dark-mode .stats-section p {
         font-size: 0.8rem;
     }
 
-    .modal-content, .login-section, .stats-section {
+    .modal-content {
         max-width: 95%;
         padding: 1rem;
     }
 
-    #register-form, #login-form {
+    #register-form {
         gap: 10px;
     }
 
     #register-form input,
     #register-form select,
-    #register-form textarea,
-    #login-form input {
+    #register-form textarea {
         padding: 6px;
         font-size: 0.8rem;
     }
@@ -706,7 +825,7 @@ body.dark-mode .stats-section p {
         min-height: 60px;
     }
 
-    #register-form button, #login-form button {
+    #register-form button {
         padding: 6px;
         font-size: 0.8rem;
     }

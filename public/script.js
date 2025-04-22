@@ -41,6 +41,7 @@ async function trackClick(producerId, whatsappUrl) {
 
 async function loadProducers(searchQuery = "") {
     const producersList = document.getElementById('producers-list');
+    const countElement = document.getElementById('count');
     producersList.innerHTML = '<p>Cargando productores...</p>';
     
     let producers = await fetchData();
@@ -58,7 +59,13 @@ async function loadProducers(searchQuery = "") {
     }
     
     producersList.setAttribute('data-count', filteredProducers.length);
+    countElement.textContent = filteredProducers.length; // Actualiza el contador dinámico
     producersList.innerHTML = '';
+    
+    if (filteredProducers.length === 0) {
+        producersList.innerHTML = '<p>No se encontraron emprendimientos.</p>';
+        return;
+    }
     
     filteredProducers.forEach((producer, index) => {
         const categoryName = 
@@ -66,6 +73,7 @@ async function loadProducers(searchQuery = "") {
             producer.category.toLowerCase() === 'artesania' ? 'Artesanía' : 
             producer.category.toLowerCase() === 'turismo' ? 'Turismo' :
             producer.category.toLowerCase() === 'agroindustria' ? 'Agroindustria' :
+            producer.category.toLowerCase() === 'gastronomia' ? 'Gastronomía' :
             'Varios';
         
         const card = document.createElement('div');
