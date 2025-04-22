@@ -105,15 +105,7 @@ function setupSearch() {
 }
 
 function setupModal() {
-    const modal = document.get
-
-
-
-
-
-
-
-    Id('modal');
+    const modal = document.getElementById('modal');
     const addBtn = document.getElementById('add-btn');
     const closeBtn = document.querySelector('.close');
     
