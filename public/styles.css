@@ -1135,3 +1135,28 @@ body.dark-mode .stats-section a:hover {
         font-size: 0.8rem;
     }
 }
+
+/* Estilos para los íconos en los botones de categorías */
+.category-btn i {
+    margin-right: 6px; /* Espacio entre el ícono y el texto */
+    font-size: 0.9rem; /* Tamaño del ícono */
+    vertical-align: middle; /* Alineación vertical con el texto */
+}
+
+/* Ajustar el color de los íconos en modo oscuro */
+body.dark-mode .category-btn i {
+    color: inherit; /* Hereda el color del texto del botón */
+}
+
+/* Ajustar el tamaño del ícono en pantallas más pequeñas */
+@media (max-width: 768px) {
+    .category-btn i {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-btn i {
+        font-size: 0.75rem;
+    }
+}
