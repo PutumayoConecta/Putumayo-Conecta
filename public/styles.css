@@ -87,12 +87,12 @@ header {
 
 .amazon-title-svg {
     width: 100%;
-    height: 120px;
+    height: 150px; /* Aumentado para dar más espacio al título */
 }
 
 .amazon-text {
     font-family: 'Rubik', sans-serif;
-    font-size: 3rem; /* Aumentado para que el título sea más grande */
+    font-size: 4rem; /* Aumentado aún más para que el título sea más grande */
     font-weight: 600;
     fill: url(#wood-texture);
     stroke: url(#vine-texture);
@@ -253,7 +253,7 @@ body.dark-mode .producers-count #count {
 
 .producers-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Reducido el ancho mínimo de las tarjetas */
     gap: 20px;
     padding: 1.5rem;
     max-width: 1200px;
@@ -261,8 +261,8 @@ body.dark-mode .producers-count #count {
 }
 
 .producer-card {
-    background: #f8f9fa;
-    border-radius: 16px;
+    background: rgba(248, 249, 250, 0.8); /* Fondo semi-transparente */
+    border-radius: 12px; /* Reducido para un aspecto menos cuadrado */
     overflow: hidden;
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -273,6 +273,7 @@ body.dark-mode .producers-count #count {
     border: 10px solid transparent;
     border-image: url('/images/wood-texture.jpg') 30 stretch;
     background-clip: padding-box;
+    aspect-ratio: 3 / 4; /* Hace las tarjetas más rectangulares */
 }
 
 .producer-card::before {
@@ -288,7 +289,7 @@ body.dark-mode .producers-count #count {
 }
 
 body.dark-mode .producer-card {
-    background: var(--dark-card);
+    background: rgba(44, 44, 44, 0.8); /* Fondo semi-transparente en modo oscuro */
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.1);
 }
 
@@ -302,14 +303,13 @@ body.dark-mode .producer-card:hover {
 }
 
 .producer-card img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+    width: 100%;
+    height: 100px; /* Altura fija para la imagen rectangular */
+    border-radius: 8px; /* Bordes redondeados para la imagen */
     border: 3px solid var(--verde-amazonico);
     margin: 0 auto;
     display: block;
-    object-fit: cover;
-    loading: lazy;
+    object-fit: contain; /* Autoajusta la imagen al espacio */
 }
 
 body.dark-mode .producer-card img {
@@ -445,6 +445,7 @@ body.dark-mode footer {
 footer p {
     margin: 0.5rem 0;
     font-size: 0.9rem;
+    color: white; /* Letras blancas para mejor visibilidad */
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -775,11 +776,11 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .amazon-title-svg {
-        height: 90px; /* Reducido proporcionalmente para móviles */
+        height: 120px; /* Reducido proporcionalmente para móviles */
     }
 
     .amazon-text {
-        font-size: 2.25rem; /* Ajustado para móviles */
+        font-size: 3rem; /* Ajustado para móviles */
     }
 
     .header-content p {
@@ -828,8 +829,8 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .producer-card img {
-        width: 80px;
-        height: 80px;
+        width: 100%;
+        height: 80px; /* Ajustado para móviles */
     }
 
     .producer-info {
@@ -945,11 +946,11 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .amazon-title-svg {
-        height: 70px; /* Reducido aún más para pantallas pequeñas */
+        height: 100px; /* Reducido aún más para pantallas pequeñas */
     }
 
     .amazon-text {
-        font-size: 1.75rem; /* Ajustado para pantallas pequeñas */
+        font-size: 2.5rem; /* Ajustado para pantallas pequeñas */
     }
 
     .header-content p {
@@ -1000,8 +1001,8 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .producer-card img {
-        width: 70px;
-        height: 70px;
+        width: 100%;
+        height: 70px; /* Ajustado para pantallas pequeñas */
     }
 
     .producer-info {
