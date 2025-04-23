@@ -9,12 +9,14 @@ const urlsToCache = [
     '/script.js',
     '/dashboard.js',
     '/manifest.json',
+    '/images/selva1.jpg', // Añadido para el header
     '/images/selva2.jpg',
+    '/images/selva3.jpg', // Añadido para el footer
     '/images/icon-192x192.png',
     '/images/icon-512x512.png',
     '/images/logo.png',
-    '/images/wood-texture.jpg', // Nueva imagen añadida
-    '/images/vine-texture.png' // Nueva imagen añadida
+    '/images/wood-texture.jpg',
+    '/images/vine-texture.png'
 ];
 
 self.addEventListener('install', event => {

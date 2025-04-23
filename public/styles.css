@@ -52,7 +52,7 @@ body.dark-mode::before {
 }
 
 header {
-    background: linear-gradient(135deg, rgba(46, 204, 113, 0.8), rgba(27, 94, 32, 0.8), rgba(230, 126, 34, 0.8)), url('/images/selva2.jpg') center/cover no-repeat;
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.8), rgba(27, 94, 32, 0.8), rgba(230, 126, 34, 0.8)), url('/images/selva1.jpg') center/cover no-repeat;
     color: white;
     padding: 1.5rem 1rem;
     text-align: center;
@@ -87,12 +87,12 @@ header {
 
 .amazon-title-svg {
     width: 100%;
-    height: 80px;
+    height: 120px;
 }
 
 .amazon-text {
     font-family: 'Rubik', sans-serif;
-    font-size: 2rem;
+    font-size: 3rem; /* Aumentado para que el título sea más grande */
     font-weight: 600;
     fill: url(#wood-texture);
     stroke: url(#vine-texture);
@@ -269,6 +269,22 @@ body.dark-mode .producers-count #count {
     padding: 1rem;
     animation: fadeIn 0.5s ease forwards;
     opacity: 0;
+    position: relative;
+    border: 10px solid transparent;
+    border-image: url('/images/wood-texture.jpg') 30 stretch;
+    background-clip: padding-box;
+}
+
+.producer-card::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 10px solid transparent;
+    border-image: url('/images/vine-texture.png') 30 stretch;
+    z-index: -1;
 }
 
 body.dark-mode .producer-card {
@@ -414,7 +430,7 @@ body.dark-mode .loading-spinner {
 footer {
     text-align: center;
     padding: 1.5rem;
-    background-color: #f0f0f0;
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.8), rgba(27, 94, 32, 0.8), rgba(230, 126, 34, 0.8)), url('/images/selva3.jpg') center/cover no-repeat;
     margin-top: 2rem;
     margin-bottom: 80px; /* Espacio para la barra de categorías */
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
@@ -423,7 +439,7 @@ footer {
 }
 
 body.dark-mode footer {
-    background: var(--dark-card);
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.8), rgba(27, 94, 32, 0.8), rgba(230, 126, 34, 0.8)), url('/images/selva3.jpg') center/cover no-repeat;
 }
 
 footer p {
@@ -544,7 +560,7 @@ body.dark-mode .category-btn.main-btn.active {
 
 .category-menu {
     position: absolute;
-    bottom: 90px; /* Ajustado para evitar superposición con el botón principal */
+    bottom: 90px; /* Ajustado para evitar superposición con el botón  botón principal */
     left: 50%;
     transform: translateX(-50%); /* Centrar horizontalmente */
     display: flex;
@@ -759,11 +775,11 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .amazon-title-svg {
-        height: 60px;
+        height: 90px; /* Reducido proporcionalmente para móviles */
     }
 
     .amazon-text {
-        font-size: 1.5rem;
+        font-size: 2.25rem; /* Ajustado para móviles */
     }
 
     .header-content p {
@@ -929,11 +945,11 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .amazon-title-svg {
-        height: 50px;
+        height: 70px; /* Reducido aún más para pantallas pequeñas */
     }
 
     .amazon-text {
-        font-size: 1.25rem;
+        font-size: 1.75rem; /* Ajustado para pantallas pequeñas */
     }
 
     .header-content p {
