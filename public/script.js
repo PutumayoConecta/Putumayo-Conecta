@@ -82,8 +82,8 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
             producer.category.toLowerCase() === 'agricultura' ? 'Agricultura' : 
             producer.category.toLowerCase() === 'artesania' ? 'Artesanía' : 
             producer.category.toLowerCase() === 'turismo' ? 'Turismo' :
-            producer.category.toLowerCase() === 'agroindustria' ? 'Agroindustria' :
             producer.category.toLowerCase() === 'gastronomia' ? 'Gastronomía' :
+            producer.category.toLowerCase() === 'agroindustria' ? 'Agroindustria' :
             'Varios';
         
         const card = document.createElement('div');
@@ -138,21 +138,14 @@ function setupCategoryButtons() {
     const subButtons = document.querySelectorAll('.category-btn.sub-btn');
 
     // Establecer el ícono del botón principal
-    mainButton.innerHTML = categoryIcons['all'];
-
-    // Establecer los íconos de los botones secundarios
-    subButtons.forEach(button => {
-        const category = button.dataset.category;
-        button.innerHTML = categoryIcons[category] || '';
-        // Añadir un atributo title para mostrar el nombre de la categoría al pasar el mouse
-        button.setAttribute('title', category.charAt(0).toUpperCase() + category.slice(1));
-    });
+    mainButton.querySelector('i').outerHTML = categoryIcons['all'];
 
     // Establecer el botón "Todos" como activo por defecto
     mainButton.classList.add('active');
 
     // Manejar el clic en el botón principal para desplegar/ocultar el menú
-    mainButton.addEventListener('click', () => {
+    mainButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Evitar que el evento se propague
         const isOpen = categoryMenu.classList.contains('open');
         if (isOpen) {
             categoryMenu.classList.remove('open');
@@ -163,30 +156,35 @@ function setupCategoryButtons() {
 
     // Manejar el clic en los botones de categorías
     subButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remover la clase 'active' de todos los botones
+        const category = button.dataset.category;
+        button.querySelector('i').outerHTML = categoryIcons[category] || '';
+        button.addEventListener('click', (e) => {
+            e.stopPropagation(); // Evitar que el evento se propague
+            console.log(`Clic en categoría: ${category}`); // Depuración
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-            // Añadir la clase 'active' al botón seleccionado
             button.classList.add('active');
-            // Actualizar la categoría seleccionada
-            currentCategory = button.dataset.category;
-            // Recargar los productores con la nueva categoría
+            currentCategory = category;
             loadProducers(document.getElementById('search-input').value, currentCategory);
-            // Ocultar el menú después de seleccionar una categoría
             categoryMenu.classList.remove('open');
-            // Actualizar el ícono del botón principal para reflejar la categoría seleccionada
-            mainButton.innerHTML = categoryIcons[currentCategory];
+            mainButton.querySelector('i').outerHTML = categoryIcons[currentCategory];
         });
     });
 
     // Manejar el clic en el botón "Todos" cuando ya está seleccionado
-    mainButton.addEventListener('click', () => {
+    mainButton.addEventListener('click', (e) => {
         if (currentCategory !== 'all') {
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             mainButton.classList.add('active');
             currentCategory = 'all';
             loadProducers(document.getElementById('search-input').value, currentCategory);
-            mainButton.innerHTML = categoryIcons['all'];
+            mainButton.querySelector('i').outerHTML = categoryIcons['all'];
+        }
+    });
+
+    // Cerrar el menú si se hace clic fuera de él
+    document.addEventListener('click', (e) => {
+        if (!categoryMenu.contains(e.target) && !mainButton.contains(e.target)) {
+            categoryMenu.classList.remove('open');
         }
     });
 }

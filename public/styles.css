@@ -16,7 +16,7 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    padding-bottom: 100px; /* Aumentado para dejar espacio a la barra de categorías */
+    padding-bottom: 100px; /* Espacio para los botones de categorías */
     background-color: #f8f9fa;
     color: #333;
     transition: background-color 0.3s, color 0.3s;
@@ -430,11 +430,14 @@ footer a[href*="wa.me"]:hover {
 .category-buttons {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    left: 50%;
+    transform: translateX(-50%); /* Centrar horizontalmente */
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 60px; /* Tamaño definido para evitar desbordamiento */
+    height: 60px;
 }
 
 .category-btn.main-btn {
@@ -442,12 +445,14 @@ footer a[href*="wa.me"]:hover {
     height: 60px;
     border-radius: 50%;
     background-color: #888;
-    border: none;
+    border: 2px solid #fff; /* Borde para mayor visibilidad */
     color: white;
     font-size: 1.5rem;
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1001; /* Asegurar que esté por encima de otros elementos */
+    position: relative;
 }
 
 .category-btn.main-btn:hover {
@@ -474,36 +479,43 @@ body.dark-mode .category-btn.main-btn.active {
 
 .category-menu {
     position: absolute;
-    bottom: 70px;
-    right: 0;
+    bottom: 80px; /* Ajustado para evitar superposición con el botón principal */
+    left: 50%;
+    transform: translateX(-50%); /* Centrar horizontalmente */
     display: flex;
     flex-direction: column;
     align-items: center;
     opacity: 0;
     visibility: hidden;
-    transform: scale(0);
-    transform-origin: bottom right;
+    transform-origin: center bottom;
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    z-index: 1000; /* Asegurar que esté por encima de otros elementos */
+    pointer-events: none; /* Evitar interacciones cuando está oculto */
 }
 
 .category-menu.open {
     opacity: 1;
     visibility: visible;
-    transform: scale(1);
+    transform: translateX(-50%) scale(1); /* Mantener centrado */
+    pointer-events: auto; /* Habilitar interacciones cuando está abierto */
 }
 
 .category-btn.sub-btn {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: none;
+    border: 2px solid #fff; /* Borde para mayor visibilidad */
     color: white;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s, opacity 0.3s;
     position: absolute;
     opacity: 0;
     transform: scale(0);
+    z-index: 1002; /* Asegurar que esté por encima del botón principal */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .category-menu.open .category-btn.sub-btn {
@@ -511,34 +523,34 @@ body.dark-mode .category-btn.main-btn.active {
     transform: scale(1);
 }
 
-/* Posiciones de los botones en forma de abanico */
+/* Posiciones de los botones en forma de abanico (simétrico y centrado) */
 .category-menu.open .category-btn.sub-btn:nth-child(1) {
-    transform: translate(-50px, -50px) scale(1);
+    transform: translate(-90px, -40px) scale(1); /* Izquierda */
     transition-delay: 0.05s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(2) {
-    transform: translate(-30px, -80px) scale(1);
+    transform: translate(-60px, -80px) scale(1); /* Diagonal izquierda-arriba */
     transition-delay: 0.1s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(3) {
-    transform: translate(0px, -100px) scale(1);
+    transform: translate(0px, -100px) scale(1); /* Centro-arriba */
     transition-delay: 0.15s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(4) {
-    transform: translate(30px, -80px) scale(1);
+    transform: translate(60px, -80px) scale(1); /* Diagonal derecha-arriba */
     transition-delay: 0.2s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(5) {
-    transform: translate(50px, -50px) scale(1);
+    transform: translate(90px, -40px) scale(1); /* Derecha */
     transition-delay: 0.25s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(6) {
-    transform: translate(60px, -10px) scale(1);
+    transform: translate(120px, 0px) scale(1); /* Más a la derecha */
     transition-delay: 0.3s;
 }
 
@@ -582,6 +594,353 @@ body.dark-mode .category-btn.sub-btn:hover {
 
 body.dark-mode .category-btn.sub-btn.active {
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* Estilos para los tooltips */
+.category-btn .tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    z-index: 1003;
+}
+
+.category-btn:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.dark-mode .category-btn .tooltip {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+}
+
+/* Media Queries para Dispositivos Móviles */
+@media (max-width: 768px) {
+    body {
+        padding-bottom: 80px;
+    }
+
+    .header-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .header-content p {
+        font-size: 0.9rem;
+    }
+
+    .header-logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    #theme-toggle {
+        font-size: 1.2rem;
+        padding: 6px;
+    }
+
+    .dashboard-link {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+
+    .search-bar {
+        max-width: 90%;
+        padding: 0 0.5rem;
+        margin: 1rem auto;
+    }
+
+    .search-bar input {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .search-bar i {
+        padding: 10px;
+        font-size: 1.1rem;
+    }
+
+    .producers-count {
+        font-size: 1rem;
+    }
+
+    .producers-list {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+        gap: 15px;
+    }
+
+    .producer-card img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .producer-info {
+        padding: 1rem;
+    }
+
+    .producer-info h3 {
+        font-size: 1.25rem;
+    }
+
+    .category-badge {
+        font-size: 0.8rem;
+        padding: 5px 12px;
+    }
+
+    .whatsapp-btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+
+    .category-buttons {
+        bottom: 15px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .category-btn.main-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    .category-menu {
+        bottom: 65px;
+    }
+
+    .category-btn.sub-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(1) {
+        transform: translate(-70px, -35px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(2) {
+        transform: translate(-50px, -65px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(3) {
+        transform: translate(0px, -80px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(4) {
+        transform: translate(50px, -65px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(5) {
+        transform: translate(70px, -35px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(6) {
+        transform: translate(90px, 0px) scale(1);
+    }
+
+    .modal-content {
+        max-width: 90%;
+        padding: 1.25rem;
+    }
+
+    #register-form {
+        gap: 12px;
+    }
+
+    #register-form input,
+    #register-form select,
+    #register-form textarea {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    #register-form textarea {
+        min-height: 70px;
+    }
+
+    #register-form button {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    footer {
+        padding: 1rem;
+        margin-bottom: 70px;
+    }
+
+    footer p {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-bottom: 70px;
+    }
+
+    .header-content h1 {
+        font-size: 1.25rem;
+    }
+
+    .header-content p {
+        font-size: 0.8rem;
+    }
+
+    .header-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    #theme-toggle {
+        font-size: 1rem;
+        top: 0.5rem;
+        right: 0.5rem;
+        padding: 5px;
+    }
+
+    .dashboard-link {
+        font-size: 0.8rem;
+        top: 0.5rem;
+        left: 0.5rem;
+        padding: 5px 10px;
+    }
+
+    .search-bar {
+        max-width: 95%;
+        margin: 0.75rem auto;
+    }
+
+    .search-bar input {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+
+    .search-bar i {
+        padding: 8px;
+        font-size: 1rem;
+    }
+
+    .producers-count {
+        font-size: 0.9rem;
+    }
+
+    .producers-list {
+        padding: 0.75rem;
+        gap: 10px;
+    }
+
+    .producer-card img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .producer-info {
+        padding: 0.75rem;
+    }
+
+    .producer-info h3 {
+        font-size: 1.1rem;
+    }
+
+    .category-badge {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+    }
+
+    .whatsapp-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .category-buttons {
+        bottom: 10px;
+        width: 45px;
+        height: 45px;
+    }
+
+    .category-btn.main-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+
+    .category-menu {
+        bottom: 55px;
+    }
+
+    .category-btn.sub-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(1) {
+        transform: translate(-55px, -30px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(2) {
+        transform: translate(-40px, -55px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(3) {
+        transform: translate(0px, -65px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(4) {
+        transform: translate(40px, -55px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(5) {
+        transform: translate(55px, -30px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(6) {
+        transform: translate(70px, 0px) scale(1);
+    }
+
+    .modal-content {
+        max-width: 95%;
+        padding: 1rem;
+    }
+
+    #register-form {
+        gap: 10px;
+    }
+
+    #register-form input,
+    #register-form select,
+    #register-form textarea {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    #register-form textarea {
+        min-height: 60px;
+    }
+
+    #register-form button {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    footer {
+        padding: 0.75rem;
+        margin-bottom: 60px;
+    }
+
+    footer p {
+        font-size: 0.8rem;
+    }
 }
 
 .modal {
@@ -762,7 +1121,6 @@ body.dark-mode #form-message {
     color: #81c784;
 }
 
-/* Centrar el contenido de dashboard.html */
 .login-section,
 .stats-section {
     max-width: 600px;
@@ -893,354 +1251,4 @@ body.dark-mode .stats-section a:hover {
 @keyframes slideIn {
     from { transform: translateY(-50px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
-}
-
-/* Media Queries para Dispositivos Móviles */
-@media (max-width: 768px) {
-    body {
-        padding-bottom: 80px;
-    }
-
-    .header-content h1 {
-        font-size: 1.5rem;
-    }
-
-    .header-content p {
-        font-size: 0.9rem;
-    }
-
-    .header-logo {
-        width: 60px;
-        height: 60px;
-    }
-
-    #theme-toggle {
-        font-size: 1.2rem;
-        padding: 6px;
-    }
-
-    .dashboard-link {
-        font-size: 0.9rem;
-        padding: 6px 12px;
-    }
-
-    .search-bar {
-        max-width: 90%;
-        padding: 0 0.5rem;
-        margin: 1rem auto;
-    }
-
-    .search-bar input {
-        padding: 10px;
-        font-size: 0.9rem;
-    }
-
-    .search-bar i {
-        padding: 10px;
-        font-size: 1.1rem;
-    }
-
-    .producers-count {
-        font-size: 1rem;
-    }
-
-    .producers-list {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-        gap: 15px;
-    }
-
-    .producer-card img {
-        width: 80px;
-        height: 80px;
-    }
-
-    .producer-info {
-        padding: 1rem;
-    }
-
-    .producer-info h3 {
-        font-size: 1.25rem;
-    }
-
-    .category-badge {
-        font-size: 0.8rem;
-        padding: 5px 12px;
-    }
-
-    .whatsapp-btn {
-        padding: 8px 14px;
-        font-size: 0.85rem;
-    }
-
-    .category-btn.main-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
-    }
-
-    .category-btn.sub-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-40px, -40px) scale(1);
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-25px, -65px) scale(1);
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(0px, -80px) scale(1);
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(25px, -65px) scale(1);
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(40px, -40px) scale(1);
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(50px, -5px) scale(1);
-    }
-
-    .modal-content {
-        max-width: 90%;
-        padding: 1.25rem;
-    }
-
-    #register-form {
-        gap: 12px;
-    }
-
-    #register-form input,
-    #register-form select,
-    #register-form textarea {
-        padding: 8px;
-        font-size: 0.85rem;
-    }
-
-    #register-form textarea {
-        min-height: 70px;
-    }
-
-    #register-form button {
-        padding: 8px;
-        font-size: 0.85rem;
-    }
-
-    .login-section,
-    .stats-section {
-        margin: 1.5rem auto;
-        padding: 0.75rem;
-    }
-
-    .login-section h2,
-    .stats-section h2 {
-        font-size: 1.25rem;
-    }
-
-    #login-form {
-        max-width: 90%;
-        gap: 12px;
-    }
-
-    #login-form input {
-        padding: 8px;
-        font-size: 0.85rem;
-    }
-
-    #login-form button {
-        padding: 8px;
-        font-size: 0.85rem;
-    }
-
-    footer {
-        padding: 1rem;
-        margin-bottom: 70px;
-    }
-
-    footer p {
-        font-size: 0.85rem;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding-bottom: 70px;
-    }
-
-    .header-content h1 {
-        font-size: 1.25rem;
-    }
-
-    .header-content p {
-        font-size: 0.8rem;
-    }
-
-    .header-logo {
-        width: 50px;
-        height: 50px;
-    }
-
-    #theme-toggle {
-        font-size: 1rem;
-        top: 0.5rem;
-        right: 0.5rem;
-        padding: 5px;
-    }
-
-    .dashboard-link {
-        font-size: 0.8rem;
-        top: 0.5rem;
-        left: 0.5rem;
-        padding: 5px 10px;
-    }
-
-    .search-bar {
-        max-width: 95%;
-        margin: 0.75rem auto;
-    }
-
-    .search-bar input {
-        padding: 8px;
-        font-size: 0.8rem;
-    }
-
-    .search-bar i {
-        padding: 8px;
-        font-size: 1rem;
-    }
-
-    .producers-count {
-        font-size: 0.9rem;
-    }
-
-    .producers-list {
-        padding: 0.75rem;
-        gap: 10px;
-    }
-
-    .producer-card img {
-        width: 70px;
-        height: 70px;
-    }
-
-    .producer-info {
-        padding: 0.75rem;
-    }
-
-    .producer-info h3 {
-        font-size: 1.1rem;
-    }
-
-    .category-badge {
-        font-size: 0.75rem;
-        padding: 4px 10px;
-    }
-
-    .whatsapp-btn {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-
-    .category-btn.main-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1.1rem;
-    }
-
-    .category-btn.sub-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 0.9rem;
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-35px, -35px) scale(1);
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-20px, -55px) scale(1);
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(0px, -70px) scale(1);
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(20px, -55px) scale(1);
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(35px, -35px) scale(1);
-    }
-
-    .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(40px, -5px) scale(1);
-    }
-
-    .modal-content {
-        max-width: 95%;
-        padding: 1rem;
-    }
-
-    #register-form {
-        gap: 10px;
-    }
-
-    #register-form input,
-    #register-form select,
-    #register-form textarea {
-        padding: 6px;
-        font-size: 0.8rem;
-    }
-
-    #register-form textarea {
-        min-height: 60px;
-    }
-
-    #register-form button {
-        padding: 6px;
-        font-size: 0.8rem;
-    }
-
-    .login-section,
-    .stats-section {
-        margin: 1rem auto;
-        padding: 0.5rem;
-    }
-
-    .login-section h2,
-    .stats-section h2 {
-        font-size: 1.1rem;
-    }
-
-    #login-form {
- = max-width: 95%;
-    gap: 10px;
-}
-
-#login-form input {
-    padding: 6px;
-    font-size: 0.8rem;
-}
-
-#login-form button {
-    padding: 6px;
-    font-size: 0.8rem;
-}
-
-footer {
-    padding: 0.75rem;
-    margin-bottom: 60px;
-}
-
-footer p {
-    font-size: 0.8rem;
 }
