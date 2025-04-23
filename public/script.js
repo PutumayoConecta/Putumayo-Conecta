@@ -20,20 +20,22 @@ async function fetchData() {
     }
 }
 
-async function trackClick(producerId, whatsappUrl) {
+async function trackClick(producerId, whatsappNumber) {
     try {
-        if (!producerId || !whatsappUrl) {
-            throw new Error('Faltan datos: producerId o whatsappUrl no están definidos');
+        if (!producerId || !whatsappNumber) {
+            throw new Error('Faltan datos: producerId o whatsappNumber no están definidos');
         }
         await fetch('/api/track-click', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ producerId: producerId.toString() })
         });
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}`;
         window.open(whatsappUrl, '_blank');
     } catch (error) {
         console.error('Error tracking click:', error);
-        if (whatsappUrl) {
+        if (whatsappNumber) {
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}`;
             window.open(whatsappUrl, '_blank');
         }
     }
@@ -98,7 +100,7 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
                 <p><strong>Producto:</strong> ${producer.product}</p>
                 <p><strong>Ubicación:</strong> ${producer.location}</p>
                 <p>${producer.description}</p>
-                <a href="#" class="producer-whatsapp-btn whatsapp-btn" data-producer-id="${producer.id}" data-whatsapp="https://wa.me/${producer.whatsapp}">
+                <a href="#" class="producer-whatsapp-btn whatsapp-btn" data-producer-id="${producer.id}" data-whatsapp="${producer.whatsapp}">
                     <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
                 </a>
             </div>
@@ -109,9 +111,13 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     document.querySelectorAll('.producer-whatsapp-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
+            // Añadir vibración al hacer clic
+            if (navigator.vibrate) {
+                navigator.vibrate(50); // Vibración de 50ms
+            }
             const producerId = button.dataset.producerId;
-            const whatsappUrl = button.dataset.whatsapp;
-            trackClick(producerId, whatsappUrl);
+            const whatsappNumber = button.dataset.whatsapp;
+            trackClick(producerId, whatsappNumber);
         });
     });
 }
@@ -164,19 +170,87 @@ function setupCategoryButtons() {
         'varios': '<i class="fas fa-box"></i>'
     };
 
+    const categoryLabels = {
+        'all': 'Todos',
+        'agricultura': 'Agricultura',
+        'artesania': 'Artesanía',
+        'turismo': 'Turismo',
+        'gastronomia': 'Gastronomía',
+        'agroindustria': 'Agroindustria',
+        'varios': 'Varios'
+    };
+
     const mainButton = document.querySelector('.category-btn.main-btn');
     const categoryMenu = document.querySelector('.category-menu');
     const subButtons = document.querySelectorAll('.category-btn.sub-btn');
 
-    // Establecer el ícono del botón principal
+    // Establecer el ícono y el texto curvo del botón principal
     mainButton.querySelector('i').outerHTML = categoryIcons['all'];
+    const mainLabel = mainButton.querySelector('.category-label');
+    mainLabel.innerHTML = `
+        <svg viewBox="0 0 70 70">
+            <path id="curve-all" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
+            <text>
+                <textPath href="#curve-all" startOffset="50%" text-anchor="middle">
+                    ${categoryLabels['all']}
+                </textPath>
+            </text>
+        </svg>
+    `;
 
     // Establecer el botón "Todos" como activo por defecto
     mainButton.classList.add('active');
 
+    // Configurar los botones de categorías con texto curvo
+    subButtons.forEach(button => {
+        const category = button.dataset.category;
+        button.querySelector('i').outerHTML = categoryIcons[category] || '';
+        const subLabel = button.querySelector('.category-label');
+        subLabel.innerHTML = `
+            <svg viewBox="0 0 70 70">
+                <path id="curve-${category}" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
+                <text>
+                    <textPath href="#curve-${category}" startOffset="50%" text-anchor="middle">
+                        ${categoryLabels[category]}
+                    </textPath>
+                </text>
+            </svg>
+        `;
+        button.addEventListener('click', (e) => {
+            e.stopPropagation(); // Evitar que el evento se propague
+            // Añadir vibración al hacer clic
+            if (navigator.vibrate) {
+                navigator.vibrate(50); // Vibración de 50ms
+            }
+            console.log(`Clic en categoría: ${category}`); // Depuración
+            stopGlowAnimation();
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            currentCategory = category;
+            loadProducers(document.getElementById('search-input').value, currentCategory);
+            categoryMenu.classList.remove('open');
+            mainButton.querySelector('i').outerHTML = categoryIcons[currentCategory];
+            const updatedMainLabel = mainButton.querySelector('.category-label');
+            updatedMainLabel.innerHTML = `
+                <svg viewBox="0 0 70 70">
+                    <path id="curve-${currentCategory}" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
+                    <text>
+                        <textPath href="#curve-${currentCategory}" startOffset="50%" text-anchor="middle">
+                            ${categoryLabels[currentCategory]}
+                        </textPath>
+                    </text>
+                </svg>
+            `;
+        });
+    });
+
     // Manejar el clic en el botón principal para desplegar/ocultar el menú
     mainButton.addEventListener('click', (e) => {
         e.stopPropagation(); // Evitar que el evento se propague
+        // Añadir vibración al hacer clic
+        if (navigator.vibrate) {
+            navigator.vibrate(50); // Vibración de 50ms
+        }
         const isOpen = categoryMenu.classList.contains('open');
         if (isOpen) {
             categoryMenu.classList.remove('open');
@@ -187,32 +261,30 @@ function setupCategoryButtons() {
         }
     });
 
-    // Manejar el clic en los botones de categorías
-    subButtons.forEach(button => {
-        const category = button.dataset.category;
-        button.querySelector('i').outerHTML = categoryIcons[category] || '';
-        button.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evitar que el evento se propague
-            console.log(`Clic en categoría: ${category}`); // Depuración
-            stopGlowAnimation();
-            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            currentCategory = category;
-            loadProducers(document.getElementById('search-input').value, currentCategory);
-            categoryMenu.classList.remove('open');
-            mainButton.querySelector('i').outerHTML = categoryIcons[currentCategory];
-        });
-    });
-
     // Manejar el clic en el botón "Todos" cuando ya está seleccionado
     mainButton.addEventListener('click', (e) => {
         if (currentCategory !== 'all') {
+            // Añadir vibración al hacer clic
+            if (navigator.vibrate) {
+                navigator.vibrate(50); // Vibración de 50ms
+            }
             stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             mainButton.classList.add('active');
             currentCategory = 'all';
             loadProducers(document.getElementById('search-input').value, currentCategory);
             mainButton.querySelector('i').outerHTML = categoryIcons['all'];
+            const updatedMainLabel = mainButton.querySelector('.category-label');
+            updatedMainLabel.innerHTML = `
+                <svg viewBox="0 0 70 70">
+                    <path id="curve-all" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
+                    <text>
+                        <textPath href="#curve-all" startOffset="50%" text-anchor="middle">
+                            ${categoryLabels['all']}
+                        </textPath>
+                    </text>
+                </svg>
+            `;
         }
     });
 

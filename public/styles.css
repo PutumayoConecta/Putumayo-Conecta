@@ -416,14 +416,14 @@ body.dark-mode footer a:hover {
     color: #6db370;
 }
 
-footer a[href*="wa.me"] {
+footer a[href*="whatsapp"] {
     color: white;
     background-color: #25D366;
     padding: 8px 16px;
     border-radius: 8px;
 }
 
-footer a[href*="wa.me"]:hover {
+footer a[href*="whatsapp"]:hover {
     background-color: #1EBE54;
 }
 
@@ -436,18 +436,18 @@ footer a[href*="wa.me"]:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px; /* Tamaño definido para evitar desbordamiento */
-    height: 60px;
+    width: 70px; /* Tamaño definido para evitar desbordamiento */
+    height: 70px;
 }
 
 .category-btn.main-btn {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     background-color: #888;
     border: 2px solid #fff; /* Borde para mayor visibilidad */
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -457,18 +457,28 @@ footer a[href*="wa.me"]:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 10px;
+    padding-top: 0;
 }
 
 .category-btn.main-btn .category-label {
-    font-size: 0.65rem;
-    font-weight: 500;
-    color: white;
-    margin-top: 2px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
-body.dark-mode .category-btn.main-btn .category-label {
-    color: var(--dark-text);
+.category-btn.main-btn .category-label svg {
+    width: 100%;
+    height: 100%;
+}
+
+.category-btn.main-btn .category-label text {
+    font-size: 8px;
+    font-weight: 500;
+    fill: white;
+}
+
+body.dark-mode .category-btn.main-btn .category-label text {
+    fill: var(--dark-text);
 }
 
 .category-btn.main-btn:hover {
@@ -495,7 +505,7 @@ body.dark-mode .category-btn.main-btn.active {
 
 .category-menu {
     position: absolute;
-    bottom: 80px; /* Ajustado para evitar superposición con el botón principal */
+    bottom: 90px; /* Ajustado para evitar superposición con el botón principal */
     left: 50%;
     transform: translateX(-50%); /* Centrar horizontalmente */
     display: flex;
@@ -517,12 +527,12 @@ body.dark-mode .category-btn.main-btn.active {
 }
 
 .category-btn.sub-btn {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     border: 2px solid #fff; /* Borde para mayor visibilidad */
     color: white;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s, opacity 0.3s;
     position: absolute;
@@ -533,28 +543,36 @@ body.dark-mode .category-btn.main-btn.active {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 10px;
+    padding-top: 0;
 }
 
 .category-btn.sub-btn .category-label {
-    font-size: 0.65rem;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.category-btn.sub-btn .category-label svg {
+    width: 100%;
+    height: 100%;
+}
+
+.category-btn.sub-btn .category-label text {
+    font-size: 8px;
     font-weight: 500;
-    color: white;
-    margin-top: 2px;
-    text-align: center;
-    line-height: 1;
+    fill: white;
 }
 
-.category-btn.sub-btn[data-category="artesania"] .category-label {
-    color: #333;
+.category-btn.sub-btn[data-category="artesania"] .category-label text {
+    fill: #333;
 }
 
-body.dark-mode .category-btn.sub-btn .category-label {
-    color: var(--dark-text);
+body.dark-mode .category-btn.sub-btn .category-label text {
+    fill: var(--dark-text);
 }
 
-body.dark-mode .category-btn.sub-btn[data-category="artesania"] .category-label {
-    color: #333;
+body.dark-mode .category-btn.sub-btn[data-category="artesania"] .category-label text {
+    fill: #333;
 }
 
 .category-menu.open .category-btn.sub-btn {
@@ -564,32 +582,32 @@ body.dark-mode .category-btn.sub-btn[data-category="artesania"] .category-label 
 
 /* Posiciones de los botones: 3 a la izquierda y 3 a la derecha */
 .category-menu.open .category-btn.sub-btn:nth-child(1) {
-    transform: translate(-150px, 0px) scale(1); /* Izquierda 1 */
+    transform: translate(-160px, 0px) scale(1); /* Izquierda 1 */
     transition-delay: 0.05s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(2) {
-    transform: translate(-110px, -60px) scale(1); /* Izquierda 2 (diagonal arriba) */
+    transform: translate(-120px, -70px) scale(1); /* Izquierda 2 (diagonal arriba) */
     transition-delay: 0.1s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(3) {
-    transform: translate(-70px, -120px) scale(1); /* Izquierda 3 (más arriba) */
+    transform: translate(-80px, -140px) scale(1); /* Izquierda 3 (más arriba) */
     transition-delay: 0.15s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(4) {
-    transform: translate(70px, -120px) scale(1); /* Derecha 1 (más arriba) */
+    transform: translate(80px, -140px) scale(1); /* Derecha 1 (más arriba) */
     transition-delay: 0.2s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(5) {
-    transform: translate(110px, -60px) scale(1); /* Derecha 2 (diagonal arriba) */
+    transform: translate(120px, -70px) scale(1); /* Derecha 2 (diagonal arriba) */
     transition-delay: 0.25s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(6) {
-    transform: translate(150px, 0px) scale(1); /* Derecha 3 */
+    transform: translate(160px, 0px) scale(1); /* Derecha 3 */
     transition-delay: 0.3s;
 }
 
@@ -635,13 +653,53 @@ body.dark-mode .category-btn.sub-btn.active {
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
-/* Efecto de iluminación (glow) */
-.category-btn.sub-btn.glow {
-    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8);
+/* Efecto de iluminación (glow) según la categoría */
+.category-btn.sub-btn.glow[data-category="agricultura"] {
+    box-shadow: 0 0 15px 5px var(--verde-amazonico);
 }
 
-body.dark-mode .category-btn.sub-btn.glow {
-    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 1);
+.category-btn.sub-btn.glow[data-category="artesania"] {
+    box-shadow: 0 0 15px 5px var(--amarillo-Artesania);
+}
+
+.category-btn.sub-btn.glow[data-category="turismo"] {
+    box-shadow: 0 0 15px 5px var(--azul-Turismo);
+}
+
+.category-btn.sub-btn.glow[data-category="gastronomia"] {
+    box-shadow: 0 0 15px 5px var(--terracota);
+}
+
+.category-btn.sub-btn.glow[data-category="agroindustria"] {
+    box-shadow: 0 0 15px 5px var(--morado-Agroindustria);
+}
+
+.category-btn.sub-btn.glow[data-category="varios"] {
+    box-shadow: 0 0 15px 5px var(--gris-Varios);
+}
+
+body.dark-mode .category-btn.sub-btn.glow[data-category="agricultura"] {
+    box-shadow: 0 0 15px 5px var(--verde-amazonico);
+}
+
+body.dark-mode .category-btn.sub-btn.glow[data-category="artesania"] {
+    box-shadow: 0 0 15px 5px var(--amarillo-Artesania);
+}
+
+body.dark-mode .category-btn.sub-btn.glow[data-category="turismo"] {
+    box-shadow: 0 0 15px 5px var(--azul-Turismo);
+}
+
+body.dark-mode .category-btn.sub-btn.glow[data-category="gastronomia"] {
+    box-shadow: 0 0 15px 5px var(--terracota);
+}
+
+body.dark-mode .category-btn.sub-btn.glow[data-category="agroindustria"] {
+    box-shadow: 0 0 15px 5px var(--morado-Agroindustria);
+}
+
+body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
+    box-shadow: 0 0 15px 5px var(--gris-Varios);
 }
 
 /* Media Queries para Dispositivos Móviles */
@@ -724,56 +782,56 @@ body.dark-mode .category-btn.sub-btn.glow {
 
     .category-buttons {
         bottom: 15px;
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
     }
 
     .category-btn.main-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
     }
 
-    .category-btn.main-btn .category-label {
-        font-size: 0.6rem;
+    .category-btn.main-btn .category-label text {
+        font-size: 7px;
     }
 
     .category-menu {
-        bottom: 65px;
+        bottom: 75px;
     }
 
     .category-btn.sub-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
     }
 
-    .category-btn.sub-btn .category-label {
-        font-size: 0.6rem;
+    .category-btn.sub-btn .category-label text {
+        font-size: 7px;
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-120px, 0px) scale(1);
+        transform: translate(-130px, 0px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-90px, -50px) scale(1);
+        transform: translate(-100px, -60px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(-60px, -100px) scale(1);
+        transform: translate(-70px, -120px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(60px, -100px) scale(1);
+        transform: translate(70px, -120px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(90px, -50px) scale(1);
+        transform: translate(100px, -60px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(120px, 0px) scale(1);
+        transform: translate(130px, 0px) scale(1);
     }
 
     .modal-content {
@@ -892,56 +950,56 @@ body.dark-mode .category-btn.sub-btn.glow {
 
     .category-buttons {
         bottom: 10px;
-        width: 45px;
-        height: 45px;
+        width: 50px;
+        height: 50px;
     }
 
     .category-btn.main-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1.1rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
     }
 
-    .category-btn.main-btn .category-label {
-        font-size: 0.55rem;
+    .category-btn.main-btn .category-label text {
+        font-size: 6px;
     }
 
     .category-menu {
-        bottom: 55px;
+        bottom: 60px;
     }
 
     .category-btn.sub-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
     }
 
-    .category-btn.sub-btn .category-label {
-        font-size: 0.55rem;
+    .category-btn.sub-btn .category-label text {
+        font-size: 6px;
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-90px, 0px) scale(1);
+        transform: translate(-100px, 0px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-70px, -40px) scale(1);
+        transform: translate(-80px, -50px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(-50px, -80px) scale(1);
+        transform: translate(-60px, -100px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(50px, -80px) scale(1);
+        transform: translate(60px, -100px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(70px, -40px) scale(1);
+        transform: translate(80px, -50px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(90px, 0px) scale(1);
+        transform: translate(100px, 0px) scale(1);
     }
 
     .modal-content {
