@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
     <meta name="description" content="Conecta con productores, artesanos y emprendedores turísticos del Putumayo">
     <meta property="og:image" content="https://ejemplo.com/logo-putumayo.jpg">
     <meta name="theme-color" content="#2e7d32">
@@ -53,21 +53,21 @@
                 <i class="fas fa-leaf"></i>
                 <span class="category-label">Agricultura</span>
             </button>
+            <button class="category-btn sub-btn" data-category="agroindustria">
+                <i class="fas fa-industry"></i>
+                <span class="category-label">Agroindustria</span>
+            </button>
             <button class="category-btn sub-btn" data-category="artesania">
                 <i class="fas fa-cut"></i>
                 <span class="category-label">Artesanía</span>
-            </button>
-            <button class="category-btn sub-btn" data-category="turismo">
-                <i class="fas fa-map-marked-alt"></i>
-                <span class="category-label">Turismo</span>
             </button>
             <button class="category-btn sub-btn" data-category="gastronomia">
                 <i class="fas fa-utensils"></i>
                 <span class="category-label">Gastronomía</span>
             </button>
-            <button class="category-btn sub-btn" data-category="agroindustria">
-                <i class="fas fa-industry"></i>
-                <span class="category-label">Agroindustria</span>
+            <button class="category-btn sub-btn" data-category="turismo">
+                <i class="fas fa-map-marked-alt"></i>
+                <span class="category-label">Turismo</span>
             </button>
             <button class="category-btn sub-btn" data-category="varios">
                 <i class="fas fa-box"></i>
@@ -80,7 +80,7 @@
         <p>¿Eres Emprendedor? <a href="#" id="add-btn">¡Regístrate aquí!</a></p>
         <p>Para desarrollo de software, contactar a:</p> 
         <p>Jose Alexis Tejada Angulo - Ingeniero Industrial</p>
-        <a href="https://api.whatsapp.com/send?phone=+573227994023" class="whatsapp-btn" target="_blank">
+        <a href="https://wa.me/573227994023?text=Hola,%20quiero%20información%20sobre%20Putumayo%20Conecta" class="whatsapp-btn" target="_blank">
             <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
         </a>
     </footer>
@@ -103,10 +103,10 @@
                 <select id="category" name="category" required>
                     <option value="" disabled selected>Selecciona una categoría</option>
                     <option value="agricultura">Agricultura</option>
-                    <option value="artesania">Artesanía</option>
-                    <option value="turismo">Turismo</option>
-                    <option value="gastronomia">Gastronomía</option>
                     <option value="agroindustria">Agroindustria</option>
+                    <option value="artesania">Artesanía</option>
+                    <option value="gastronomia">Gastronomía</option>
+                    <option value="turismo">Turismo</option>
                     <option value="varios">Varios</option>
                 </select>
                 
