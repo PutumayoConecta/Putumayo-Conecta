@@ -81,11 +81,36 @@ header {
     margin-bottom: 0.5rem;
 }
 
-.header-content h1 {
-    font-weight: 600;
-    font-size: 2rem;
+.amazon-title {
     margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.amazon-title-svg {
+    width: 100%;
+    height: 80px;
+}
+
+.amazon-text {
+    font-family: 'Rubik', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    fill: url(#wood-texture);
+    stroke: url(#vine-texture);
+    stroke-width: 1;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5), -3px -3px 6px rgba(255, 255, 255, 0.3);
+    animation: jungleGlow 3s infinite alternate;
+}
+
+@keyframes jungleGlow {
+    0% {
+        fill-opacity: 0.8;
+        stroke-opacity: 0.5;
+    }
+    100% {
+        fill-opacity: 1;
+        stroke-opacity: 1;
+        text-shadow: 5px 5px 10px rgba(46, 204, 113, 0.8), -5px -5px 10px rgba(230, 126, 34, 0.8);
+    }
 }
 
 .header-content p {
@@ -676,7 +701,7 @@ body.dark-mode .category-btn.sub-btn.active {
 
 /* Efecto de iluminación (glow) según la categoría */
 .category-btn.sub-btn.glow[data-category="agricultura"] {
-    box-shadow: 0 0 15px 5px var(--verde-amazonico);
+    box-shadow: 0 0 15px 5px var--verde-amazonico);
 }
 
 .category-btn.sub-btn.glow[data-category="agroindustria"] {
@@ -730,6 +755,14 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .header-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .amazon-title-svg {
+        height: 60px;
+    }
+
+    .amazon-text {
         font-size: 1.5rem;
     }
 
@@ -895,7 +928,11 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
         padding-bottom: 70px;
     }
 
-    .header-content h1 {
+    .amazon-title-svg {
+        height: 50px;
+    }
+
+    .amazon-text {
         font-size: 1.25rem;
     }
 
