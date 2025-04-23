@@ -40,6 +40,7 @@ async function trackClick(producerId, whatsappUrl) {
 }
 
 let currentCategory = 'all'; // Variable para rastrear la categoría seleccionada
+let glowAnimationRunning = false; // Variable para controlar la animación de iluminación
 
 async function loadProducers(searchQuery = "", category = currentCategory) {
     const producersList = document.getElementById('producers-list');
@@ -122,6 +123,36 @@ function setupSearch() {
     });
 }
 
+function startGlowAnimation() {
+    const subButtons = document.querySelectorAll('.category-btn.sub-btn');
+    let currentIndex = 0;
+    glowAnimationRunning = true;
+
+    function glowNextButton() {
+        if (!glowAnimationRunning) return;
+
+        // Remover la clase 'glow' de todos los botones
+        subButtons.forEach(btn => btn.classList.remove('glow'));
+
+        // Añadir la clase 'glow' al botón actual
+        subButtons[currentIndex].classList.add('glow');
+
+        // Avanzar al siguiente botón
+        currentIndex = (currentIndex + 1) % subButtons.length;
+
+        // Repetir cada 1 segundo
+        setTimeout(glowNextButton, 1000);
+    }
+
+    glowNextButton();
+}
+
+function stopGlowAnimation() {
+    glowAnimationRunning = false;
+    const subButtons = document.querySelectorAll('.category-btn.sub-btn');
+    subButtons.forEach(btn => btn.classList.remove('glow'));
+}
+
 function setupCategoryButtons() {
     const categoryIcons = {
         'all': '<i class="fas fa-star"></i>',
@@ -149,8 +180,10 @@ function setupCategoryButtons() {
         const isOpen = categoryMenu.classList.contains('open');
         if (isOpen) {
             categoryMenu.classList.remove('open');
+            stopGlowAnimation();
         } else {
             categoryMenu.classList.add('open');
+            startGlowAnimation();
         }
     });
 
@@ -161,6 +194,7 @@ function setupCategoryButtons() {
         button.addEventListener('click', (e) => {
             e.stopPropagation(); // Evitar que el evento se propague
             console.log(`Clic en categoría: ${category}`); // Depuración
+            stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             currentCategory = category;
@@ -173,6 +207,7 @@ function setupCategoryButtons() {
     // Manejar el clic en el botón "Todos" cuando ya está seleccionado
     mainButton.addEventListener('click', (e) => {
         if (currentCategory !== 'all') {
+            stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             mainButton.classList.add('active');
             currentCategory = 'all';
@@ -181,10 +216,11 @@ function setupCategoryButtons() {
         }
     });
 
-    // Cerrar el menú si se hace clic fuera de él
+    // Cerrar el menú y detener la animación si se hace clic fuera de él
     document.addEventListener('click', (e) => {
         if (!categoryMenu.contains(e.target) && !mainButton.contains(e.target)) {
             categoryMenu.classList.remove('open');
+            stopGlowAnimation();
         }
     });
 }
