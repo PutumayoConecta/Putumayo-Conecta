@@ -429,98 +429,158 @@ footer a[href*="wa.me"]:hover {
 
 .category-buttons {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: flex-start; /* Cambiado para permitir desplazamiento */
-    align-items: center;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-    padding: 8px 5px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    bottom: 20px;
+    right: 20px;
     z-index: 1000;
-    overflow-x: auto; /* Permite desplazamiento horizontal */
-    white-space: nowrap; /* Evita que los botones se envuelvan */
-    -webkit-overflow-scrolling: touch; /* Mejora el desplazamiento en iOS */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-body.dark-mode .category-buttons {
-    background: rgba(44, 44, 44, 0.95);
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.category-buttons::-webkit-scrollbar {
-    display: none; /* Oculta la barra de desplazamiento para un diseño más limpio */
-}
-
-.category-btn {
-    padding: 6px 10px;
-    margin: 0 5px; /* Espaciado entre botones */
+.category-btn.main-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #888;
     border: none;
-    border-radius: 25px;
-    font-size: 0.75rem;
-    font-weight: 500;
     color: white;
+    font-size: 1.5rem;
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.3s, box-shadow 0.3s;
-    min-width: 80px; /* Tamaño mínimo ajustado */
-    text-align: center;
-    flex-shrink: 0; /* Evita que los botones se compriman */
+    transition: transform 0.3s ease, background-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.category-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+.category-btn.main-btn:hover {
+    transform: scale(1.1);
+    background-color: #999;
 }
 
-body.dark-mode .category-btn:hover {
-    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+body.dark-mode .category-btn.main-btn {
+    background-color: #aaa;
 }
 
-.category-btn[data-category="all"] {
+body.dark-mode .category-btn.main-btn:hover {
+    background-color: #bbb;
+}
+
+.category-btn.main-btn.active {
+    background-color: #666;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .category-btn.main-btn.active {
     background-color: #888;
 }
 
-.category-btn[data-category="agricultura"] {
+.category-menu {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0);
+    transform-origin: bottom right;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.category-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.category-btn.sub-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s;
+    position: absolute;
+    opacity: 0;
+    transform: scale(0);
+}
+
+.category-menu.open .category-btn.sub-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Posiciones de los botones en forma de abanico */
+.category-menu.open .category-btn.sub-btn:nth-child(1) {
+    transform: translate(-50px, -50px) scale(1);
+    transition-delay: 0.05s;
+}
+
+.category-menu.open .category-btn.sub-btn:nth-child(2) {
+    transform: translate(-30px, -80px) scale(1);
+    transition-delay: 0.1s;
+}
+
+.category-menu.open .category-btn.sub-btn:nth-child(3) {
+    transform: translate(0px, -100px) scale(1);
+    transition-delay: 0.15s;
+}
+
+.category-menu.open .category-btn.sub-btn:nth-child(4) {
+    transform: translate(30px, -80px) scale(1);
+    transition-delay: 0.2s;
+}
+
+.category-menu.open .category-btn.sub-btn:nth-child(5) {
+    transform: translate(50px, -50px) scale(1);
+    transition-delay: 0.25s;
+}
+
+.category-menu.open .category-btn.sub-btn:nth-child(6) {
+    transform: translate(60px, -10px) scale(1);
+    transition-delay: 0.3s;
+}
+
+.category-btn.sub-btn:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .category-btn.sub-btn:hover {
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+}
+
+.category-btn.sub-btn[data-category="agricultura"] {
     background-color: var(--verde-amazonico);
 }
 
-.category-btn[data-category="artesania"] {
+.category-btn.sub-btn[data-category="artesania"] {
     background-color: var(--amarillo-Artesania);
     color: #333;
 }
 
-.category-btn[data-category="turismo"] {
+.category-btn.sub-btn[data-category="turismo"] {
     background-color: var(--azul-Turismo);
 }
 
-.category-btn[data-category="gastronomia"] {
+.category-btn.sub-btn[data-category="gastronomia"] {
     background-color: var(--terracota);
 }
 
-.category-btn[data-category="agroindustria"] {
+.category-btn.sub-btn[data-category="agroindustria"] {
     background-color: var(--morado-Agroindustria);
 }
 
-.category-btn[data-category="varios"] {
+.category-btn.sub-btn[data-category="varios"] {
     background-color: var(--gris-Varios);
 }
 
-.category-btn.active {
+.category-btn.sub-btn.active {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
 }
 
-body.dark-mode .category-btn[data-category="all"] {
-    background-color: #aaa;
-}
-
-body.dark-mode .category-btn[data-category="artesania"] {
-    color: #333;
-}
-
-body.dark-mode .category-btn.active {
+body.dark-mode .category-btn.sub-btn.active {
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
@@ -913,15 +973,40 @@ body.dark-mode .stats-section a:hover {
         font-size: 0.85rem;
     }
 
-    .category-buttons {
-        padding: 6px 3px;
+    .category-btn.main-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
     }
 
-    .category-btn {
-        padding: 5px 8px;
-        margin: 0 3px;
-        font-size: 0.7rem;
-        min-width: 70px;
+    .category-btn.sub-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(1) {
+        transform: translate(-40px, -40px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(2) {
+        transform: translate(-25px, -65px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(3) {
+        transform: translate(0px, -80px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(4) {
+        transform: translate(25px, -65px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(5) {
+        transform: translate(40px, -40px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(6) {
+        transform: translate(50px, -5px) scale(1);
     }
 
     .modal-content {
@@ -1064,15 +1149,40 @@ body.dark-mode .stats-section a:hover {
         font-size: 0.8rem;
     }
 
-    .category-buttons {
-        padding: 5px 2px;
+    .category-btn.main-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
     }
 
-    .category-btn {
-        padding: 4px 6px;
-        margin: 0 2px;
-        font-size: 0.65rem;
-        min-width: 60px;
+    .category-btn.sub-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(1) {
+        transform: translate(-35px, -35px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(2) {
+        transform: translate(-20px, -55px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(3) {
+        transform: translate(0px, -70px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(4) {
+        transform: translate(20px, -55px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(5) {
+        transform: translate(35px, -35px) scale(1);
+    }
+
+    .category-menu.open .category-btn.sub-btn:nth-child(6) {
+        transform: translate(40px, -5px) scale(1);
     }
 
     .modal-content {
@@ -1112,51 +1222,25 @@ body.dark-mode .stats-section a:hover {
     }
 
     #login-form {
-        max-width: 95%;
-        gap: 10px;
-    }
-
-    #login-form input {
-        padding: 6px;
-        font-size: 0.8rem;
-    }
-
-    #login-form button {
-        padding: 6px;
-        font-size: 0.8rem;
-    }
-
-    footer {
-        padding: 0.75rem;
-        margin-bottom: 60px;
-    }
-
-    footer p {
-        font-size: 0.8rem;
-    }
+ = max-width: 95%;
+    gap: 10px;
 }
 
-/* Estilos para los íconos en los botones de categorías */
-.category-btn i {
-    margin-right: 6px; /* Espacio entre el ícono y el texto */
-    font-size: 0.9rem; /* Tamaño del ícono */
-    vertical-align: middle; /* Alineación vertical con el texto */
+#login-form input {
+    padding: 6px;
+    font-size: 0.8rem;
 }
 
-/* Ajustar el color de los íconos en modo oscuro */
-body.dark-mode .category-btn i {
-    color: inherit; /* Hereda el color del texto del botón */
+#login-form button {
+    padding: 6px;
+    font-size: 0.8rem;
 }
 
-/* Ajustar el tamaño del ícono en pantallas más pequeñas */
-@media (max-width: 768px) {
-    .category-btn i {
-        font-size: 0.8rem;
-    }
+footer {
+    padding: 0.75rem;
+    margin-bottom: 60px;
 }
 
-@media (max-width: 480px) {
-    .category-btn i {
-        font-size: 0.75rem;
-    }
+footer p {
+    font-size: 0.8rem;
 }

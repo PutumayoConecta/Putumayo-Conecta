@@ -133,26 +133,62 @@ function setupCategoryButtons() {
         'varios': '<i class="fas fa-box"></i>'
     };
 
-    const buttons = document.querySelectorAll('.category-btn');
-    buttons.forEach(button => {
+    const mainButton = document.querySelector('.category-btn.main-btn');
+    const categoryMenu = document.querySelector('.category-menu');
+    const subButtons = document.querySelectorAll('.category-btn.sub-btn');
+
+    // Establecer el ícono del botón principal
+    mainButton.innerHTML = categoryIcons['all'];
+
+    // Establecer los íconos de los botones secundarios
+    subButtons.forEach(button => {
         const category = button.dataset.category;
-        const icon = categoryIcons[category] || '';
-        // Añadir el ícono y el texto al botón
-        button.innerHTML = `${icon} ${button.textContent}`;
-        
+        button.innerHTML = categoryIcons[category] || '';
+        // Añadir un atributo title para mostrar el nombre de la categoría al pasar el mouse
+        button.setAttribute('title', category.charAt(0).toUpperCase() + category.slice(1));
+    });
+
+    // Establecer el botón "Todos" como activo por defecto
+    mainButton.classList.add('active');
+
+    // Manejar el clic en el botón principal para desplegar/ocultar el menú
+    mainButton.addEventListener('click', () => {
+        const isOpen = categoryMenu.classList.contains('open');
+        if (isOpen) {
+            categoryMenu.classList.remove('open');
+        } else {
+            categoryMenu.classList.add('open');
+        }
+    });
+
+    // Manejar el clic en los botones de categorías
+    subButtons.forEach(button => {
         button.addEventListener('click', () => {
             // Remover la clase 'active' de todos los botones
-            buttons.forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             // Añadir la clase 'active' al botón seleccionado
             button.classList.add('active');
             // Actualizar la categoría seleccionada
             currentCategory = button.dataset.category;
             // Recargar los productores con la nueva categoría
             loadProducers(document.getElementById('search-input').value, currentCategory);
+            // Ocultar el menú después de seleccionar una categoría
+            categoryMenu.classList.remove('open');
+            // Actualizar el ícono del botón principal para reflejar la categoría seleccionada
+            mainButton.innerHTML = categoryIcons[currentCategory];
         });
     });
-    // Establecer el botón "Todos" como activo por defecto
-    document.querySelector('.category-btn[data-category="all"]').classList.add('active');
+
+    // Manejar el clic en el botón "Todos" cuando ya está seleccionado
+    mainButton.addEventListener('click', () => {
+        if (currentCategory !== 'all') {
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            mainButton.classList.add('active');
+            currentCategory = 'all';
+            loadProducers(document.getElementById('search-input').value, currentCategory);
+            mainButton.innerHTML = categoryIcons['all'];
+        }
+    });
 }
 
 function setupModal() {
