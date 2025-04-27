@@ -5,7 +5,7 @@ function showLoading(show) {
 async function fetchData() {
     try {
         showLoading(true);
-        const res = await fetch('/api/producers', { cache: 'no-store' });
+        const res = await fetch('https://putumayo-conecta-app.onrender.com/api/producers', { cache: 'no-store' });
         if (!res.ok) {
             throw new Error(`Error fetching producers: ${res.status} - ${await res.text()}`);
         }
@@ -14,6 +14,7 @@ async function fetchData() {
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
+        document.getElementById('producers-list').innerHTML = '<p>Error al cargar los emprendimientos. Por favor, verifica tu conexión e intenta de nuevo.</p>';
         return [];
     } finally {
         showLoading(false);
@@ -25,12 +26,11 @@ async function trackClick(producerId, whatsappNumber) {
         if (!producerId || !whatsappNumber) {
             throw new Error('Faltan datos: producerId o whatsappNumber no están definidos');
         }
-        await fetch('/api/track-click', {
+        await fetch('https://putumayo-conecta-app.onrender.com/api/track-click', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ producerId: producerId.toString() })
         });
-        // Asegurar que el número no tenga espacios ni caracteres adicionales
         const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
         const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
         window.open(whatsappUrl, '_blank');
@@ -44,8 +44,8 @@ async function trackClick(producerId, whatsappNumber) {
     }
 }
 
-let currentCategory = 'all'; // Variable para rastrear la categoría seleccionada
-let glowAnimationRunning = false; // Variable para controlar la animación de iluminación
+let currentCategory = 'all';
+let glowAnimationRunning = false;
 
 async function loadProducers(searchQuery = "", category = currentCategory) {
     const producersList = document.getElementById('producers-list');
@@ -54,11 +54,14 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     
     let producers = await fetchData();
     
-    console.log('Productores cargados:', producers);
+    if (producers.length === 0 && !document.getElementById('producers-list').innerHTML.includes('Error')) {
+        producersList.innerHTML = '<p>No se encontraron emprendimientos.</p>';
+        countElement.textContent = '0';
+        return;
+    }
     
     let filteredProducers = producers;
     
-    // Filtrar por búsqueda
     if (searchQuery) {
         searchQuery = searchQuery.toLowerCase();
         filteredProducers = filteredProducers.filter(producer =>
@@ -67,7 +70,6 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
         );
     }
     
-    // Filtrar por categoría
     if (category !== 'all') {
         filteredProducers = filteredProducers.filter(producer =>
             producer.category.toLowerCase() === category
@@ -75,7 +77,7 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     }
     
     producersList.setAttribute('data-count', filteredProducers.length);
-    countElement.textContent = filteredProducers.length; // Actualiza el contador dinámico
+    countElement.textContent = filteredProducers.length;
     producersList.innerHTML = '';
     
     if (filteredProducers.length === 0) {
@@ -114,9 +116,8 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     document.querySelectorAll('.producer-whatsapp-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
-            // Añadir vibración al hacer clic
             if (navigator.vibrate) {
-                navigator.vibrate(50); // Vibración de 50ms
+                navigator.vibrate(50);
             }
             const producerId = button.dataset.producerId;
             const whatsappNumber = button.dataset.whatsapp;
@@ -140,23 +141,18 @@ function startGlowAnimation() {
     function glowNextButton() {
         if (!glowAnimationRunning) return;
 
-        // Remover la clase 'glow' de todos los botones y ocultar los títulos
         subButtons.forEach(btn => {
             btn.classList.remove('glow');
             const label = btn.querySelector('.category-label');
             if (label) label.classList.remove('visible');
         });
 
-        // Añadir la clase 'glow' y mostrar el título del botón actual
         const currentButton = subButtons[currentIndex];
         currentButton.classList.add('glow');
         const label = currentButton.querySelector('.category-label');
         if (label) label.classList.add('visible');
 
-        // Avanzar al siguiente botón
         currentIndex = (currentIndex + 1) % subButtons.length;
-
-        // Repetir cada 1 segundo
         setTimeout(glowNextButton, 1000);
     }
 
@@ -198,7 +194,6 @@ function setupCategoryButtons() {
     const categoryMenu = document.querySelector('.category-menu');
     const subButtons = document.querySelectorAll('.category-btn.sub-btn');
 
-    // Establecer el ícono y el texto curvo del botón principal
     mainButton.querySelector('i').outerHTML = categoryIcons['all'];
     const mainLabel = mainButton.querySelector('.category-label');
     mainLabel.innerHTML = `
@@ -212,10 +207,8 @@ function setupCategoryButtons() {
         </svg>
     `;
 
-    // Establecer el botón "Todos" como activo por defecto
     mainButton.classList.add('active');
 
-    // Configurar los botones de categorías con texto curvo
     subButtons.forEach(button => {
         const category = button.dataset.category;
         button.querySelector('i').outerHTML = categoryIcons[category] || '';
@@ -231,12 +224,11 @@ function setupCategoryButtons() {
             </svg>
         `;
         button.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evitar que el evento se propague
-            // Añadir vibración al hacer clic
+            e.stopPropagation();
             if (navigator.vibrate) {
-                navigator.vibrate(50); // Vibración de 50ms
+                navigator.vibrate(50);
             }
-            console.log(`Clic en categoría: ${category}`); // Depuración
+            console.log(`Clic en categoría: ${category}`);
             stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
@@ -258,12 +250,10 @@ function setupCategoryButtons() {
         });
     });
 
-    // Manejar el clic en el botón principal para desplegar/ocultar el menú
     mainButton.addEventListener('click', (e) => {
-        e.stopPropagation(); // Evitar que el evento se propague
-        // Añadir vibración al hacer clic
+        e.stopPropagation();
         if (navigator.vibrate) {
-            navigator.vibrate(50); // Vibración de 50ms
+            navigator.vibrate(50);
         }
         const isOpen = categoryMenu.classList.contains('open');
         if (isOpen) {
@@ -275,12 +265,10 @@ function setupCategoryButtons() {
         }
     });
 
-    // Manejar el clic en el botón "Todos" cuando ya está seleccionado
     mainButton.addEventListener('click', (e) => {
         if (currentCategory !== 'all') {
-            // Añadir vibración al hacer clic
             if (navigator.vibrate) {
-                navigator.vibrate(50); // Vibración de 50ms
+                navigator.vibrate(50);
             }
             stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
@@ -296,13 +284,12 @@ function setupCategoryButtons() {
                         <textPath href="#curve-all" startOffset="50%" text-anchor="middle">
                             ${categoryLabels['all']}
                         </textPath>
-                    </text>
+                    </redeplaytext>
                 </svg>
             `;
         }
     });
 
-    // Cerrar el menú y detener la animación si se hace clic fuera de él
     document.addEventListener('click', (e) => {
         if (!categoryMenu.contains(e.target) && !mainButton.contains(e.target)) {
             categoryMenu.classList.remove('open');
@@ -352,7 +339,7 @@ function setupForm() {
         formData.append('producerId', producerId);
 
         try {
-            const response = await fetch('/api/register-user', {
+            const response = await fetch('https://putumayo-conecta-app.onrender.com/api/register-user', {
                 method: 'POST',
                 body: formData
             });

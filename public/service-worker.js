@@ -1,17 +1,15 @@
-const CACHE_NAME = 'putumayo-conecta-v5'; // Cambiado a v5 para forzar actualización
-const DYNAMIC_CACHE_NAME = 'putumayo-conecta-dynamic-v5'; // Cambiado a v5
+const CACHE_NAME = 'putumayo-conecta-v5';
+const DYNAMIC_CACHE_NAME = 'putumayo-conecta-dynamic-v5';
 
 const urlsToCache = [
     '/',
     '/index.html',
-    '/dashboard.html',
     '/styles.css',
     '/script.js',
-    '/dashboard.js',
     '/manifest.json',
-    '/images/selva1.jpg', // Añadido para el header
+    '/images/selva1.jpg',
     '/images/selva2.jpg',
-    '/images/selva3.jpg', // Añadido para el footer
+    '/images/selva3.jpg',
     '/images/icon-192x192.png',
     '/images/icon-512x512.png',
     '/images/logo.png',
@@ -46,7 +44,6 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
     const requestUrl = event.request.url;
 
-    // No usar caché para solicitudes a la API
     if (requestUrl.includes('/api/')) {
         event.respondWith(
             fetch(event.request)
@@ -59,7 +56,6 @@ self.addEventListener('fetch', event => {
                 })
         );
     }
-    // Manejar imágenes dinámicamente (cache-first strategy)
     else if (requestUrl.includes('/images/') && requestUrl.match(/\.(jpg|jpeg|png|gif)$/)) {
         event.respondWith(
             caches.match(event.request)
@@ -85,13 +81,13 @@ self.addEventListener('fetch', event => {
                 })
         );
     }
-    // Para otros recursos, usar cache-first strategy
     else {
         event.respondWith(
             caches.match(event.request)
                 .then(response => response || fetch(event.request))
                 .catch(error => {
                     console.error('Error al manejar la solicitud fetch:', error);
+                    return caches.match('/index.html');
                 })
         );
     }

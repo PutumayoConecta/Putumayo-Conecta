@@ -5,17 +5,17 @@ const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const dotenv = require('dotenv');
 const path = require('path');
+const cors = require('cors');
 
 // Cargar variables de entorno
 dotenv.config();
 
 // Configurar Express
 const app = express();
+app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
-
-// Middleware para parsear multipart/form-data y poblar req.body
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Configurar Cloudinary
 cloudinary.config({
@@ -28,12 +28,12 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: async (req, file) => {
-        const producerId = req.body.producerId || 'unknown'; // Fallback por si acaso
+        const producerId = req.body.producerId || 'unknown';
         const timestamp = Date.now();
         return {
             folder: 'putumayo-conecta',
             allowed_formats: ['jpg', 'png', 'jpeg'],
-            public_id: `producer-${producerId}-${timestamp}` // Nombre temporal
+            public_id: `producer-${producerId}-${timestamp}`
         };
     }
 });
@@ -136,7 +136,7 @@ app.post('/api/register-user', upload.single('image'), async (req, res) => {
     }
 });
 
-// Resto de las rutas (login, track-click, stats, producers) permanecen sin cambios
+// Resto de las rutas
 app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -193,6 +193,11 @@ app.get('/api/producers', async (req, res) => {
         console.error('Error al obtener productores:', error.message);
         res.status(500).json({ success: false, error: 'Error al obtener productores.' });
     }
+});
+
+// Sirve index.html para cualquier ruta no API
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Iniciar servidor
