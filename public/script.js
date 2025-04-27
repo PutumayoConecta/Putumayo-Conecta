@@ -5,7 +5,7 @@ function showLoading(show) {
 async function fetchData() {
     try {
         showLoading(true);
-        const res = await fetch('https://putumayo-conecta-app.onrender.com/api/producers', { cache: 'no-store' });
+        const res = await fetch('/api/producers', { cache: 'no-store' });
         if (!res.ok) {
             throw new Error(`Error fetching producers: ${res.status} - ${await res.text()}`);
         }
@@ -14,7 +14,6 @@ async function fetchData() {
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
-        document.getElementById('producers-list').innerHTML = '<p>Error al cargar los emprendimientos. Por favor, verifica tu conexión e intenta de nuevo.</p>';
         return [];
     } finally {
         showLoading(false);
@@ -26,20 +25,30 @@ async function trackClick(producerId, whatsappNumber) {
         if (!producerId || !whatsappNumber) {
             throw new Error('Faltan datos: producerId o whatsappNumber no están definidos');
         }
-        await fetch('https://putumayo-conecta-app.onrender.com/api/track-click', {
+        console.log('Tracking click for producerId:', producerId, 'WhatsApp:', whatsappNumber);
+        await fetch('/api/track-click', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ producerId: producerId.toString() })
         });
         const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
+        if (!cleanNumber) {
+            throw new Error('Número de WhatsApp inválido después de limpiar');
+        }
         const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
+        console.log('Opening WhatsApp URL:', whatsappUrl);
         window.open(whatsappUrl, '_blank');
     } catch (error) {
         console.error('Error tracking click:', error);
         if (whatsappNumber) {
             const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
-            const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
-            window.open(whatsappUrl, '_blank');
+            if (cleanNumber) {
+                const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
+                console.log('Opening WhatsApp URL (fallback):', whatsappUrl);
+                window.open(whatsappUrl, '_blank');
+            } else {
+                console.error('No se puede abrir WhatsApp: número inválido');
+            }
         }
     }
 }
@@ -54,11 +63,7 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     
     let producers = await fetchData();
     
-    if (producers.length === 0 && !document.getElementById('producers-list').innerHTML.includes('Error')) {
-        producersList.innerHTML = '<p>No se encontraron emprendimientos.</p>';
-        countElement.textContent = '0';
-        return;
-    }
+    console.log('Productores cargados:', producers);
     
     let filteredProducers = producers;
     
@@ -94,17 +99,27 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
             producer.category.toLowerCase() === 'agroindustria' ? 'Agroindustria' :
             'Varios';
         
+        const optimizedImage = producer.image ? `${producer.image}?w=300&h=200&f=auto&q=80` : '/images/logo.png';
         const card = document.createElement('div');
         card.className = 'producer-card';
         card.style.animationDelay = `${index * 0.1}s`;
         card.innerHTML = `
-            <img src="${producer.image || '/images/logo.png'}" alt="${producer.product}" loading="lazy">
+            <div class="card-image">
+                <img src="${optimizedImage}" alt="${producer.product}" loading="lazy" onerror="this.src='/images/logo.png';">
+                <div class="image-overlay"></div>
+                <span class="category-badge ${producer.category.toLowerCase()}">${categoryName}</span>
+            </div>
             <div class="producer-info">
                 <h3>${producer.name}</h3>
-                <span class="category-badge ${producer.category.toLowerCase()}">${categoryName}</span>
-                <p><strong>Producto:</strong> ${producer.product}</p>
-                <p><strong>Ubicación:</strong> ${producer.location}</p>
-                <p>${producer.description}</p>
+                <div class="info-row">
+                    <span class="label">Producto:</span>
+                    <span class="value">${producer.product}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Ubicación:</span>
+                    <span class="value">${producer.location}</span>
+                </div>
+                <p class="description">${producer.description}</p>
                 <a href="#" class="producer-whatsapp-btn whatsapp-btn" data-producer-id="${producer.id}" data-whatsapp="${producer.whatsapp}">
                     <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
                 </a>
@@ -198,7 +213,7 @@ function setupCategoryButtons() {
     const mainLabel = mainButton.querySelector('.category-label');
     mainLabel.innerHTML = `
         <svg viewBox="0 0 70 70">
-            <path id="curve-all" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Ziday  fill="none" />
+            <path id="curve-all" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
             <text>
                 <textPath href="#curve-all" startOffset="50%" text-anchor="middle">
                     ${categoryLabels['all']}
@@ -284,7 +299,7 @@ function setupCategoryButtons() {
                         <textPath href="#curve-all" startOffset="50%" text-anchor="middle">
                             ${categoryLabels['all']}
                         </textPath>
-                    </redeplaytext>
+                    </text>
                 </svg>
             `;
         }
@@ -332,14 +347,25 @@ function setupForm() {
             return;
         }
 
+        const whatsappNumber = form.querySelector('#whatsapp').value.replace(/[^0-9]/g, '');
+        if (!whatsappNumber) {
+            formMessage.textContent = 'Por favor, ingresa un número de WhatsApp válido.';
+            return;
+        }
+
         formMessage.textContent = 'Enviando...';
         
         const formData = new FormData(form);
         const producerId = Date.now().toString();
         formData.append('producerId', producerId);
 
+        // Combine country code and phone number
+        const countryCode = form.querySelector('#country-code').value;
+        const fullWhatsappNumber = `${countryCode}${whatsappNumber}`;
+        formData.set('whatsapp', fullWhatsappNumber);
+
         try {
-            const response = await fetch('https://putumayo-conecta-app.onrender.com/api/register-user', {
+            const response = await fetch('/api/register-user', {
                 method: 'POST',
                 body: formData
             });
@@ -396,6 +422,13 @@ function init() {
     setupForm();
     setupDarkMode();
     loadProducers();
+
+    // Defer loading of background images
+    setTimeout(() => {
+        document.documentElement.style.setProperty('--body-bg', "url('/images/selva2.jpg')");
+        document.documentElement.style.setProperty('--header-bg', "url('/images/selva1.jpg')");
+        document.documentElement.style.setProperty('--footer-bg', "url('/images/selva3.jpg')");
+    }, 0);
 }
 
 init();
