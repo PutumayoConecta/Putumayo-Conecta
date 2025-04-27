@@ -1,10 +1,10 @@
 :root {
-    --verde-amazonico: #2ECC71; /* Verde más brillante */
-    --terracota: #E67E22; /* Terracota más vibrante */
-    --amarillo-Artesania: #FFD700; /* Amarillo más intenso */
-    --azul-Turismo: #3498DB; /* Azul más brillante */
-    --morado-Agroindustria: #9B59B6; /* Morado más vibrante */
-    --gris-Varios: #7F8C8D; /* Gris más claro y moderno */
+    --verde-amazonico: #2e7d32;
+    --terracota: #D76A03;
+    --amarillo-Artesania: #FFD700;
+    --azul-Turismo: #1E88E5;
+    --morado-Agroindustria: #7B1FA2;
+    --gris-Varios: #616161;
     --sombra: 0 4px 12px rgba(0, 0, 0, 0.1);
     --dark-bg: #1a1a1a;
     --dark-text: #e0e0e0;
@@ -12,7 +12,7 @@
 }
 
 body {
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Poppins', sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -52,7 +52,7 @@ body.dark-mode::before {
 }
 
 header {
-    background: linear-gradient(135deg, rgba(46, 204, 113, 0.8), rgba(27, 94, 32, 0.8), rgba(230, 126, 34, 0.8)), url('/images/selva1.jpg') center/cover no-repeat;
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.8), rgba(27, 94, 32, 0.8), rgba(215, 106, 3, 0.8)), url('/images/selva2.jpg') center/cover no-repeat;
     color: white;
     padding: 1.5rem 1rem;
     text-align: center;
@@ -81,36 +81,10 @@ header {
     margin-bottom: 0.5rem;
 }
 
-.amazon-title {
-    margin-bottom: 0.5rem;
-}
-
-.amazon-title-svg {
-    width: 100%;
-    height: 150px; /* Aumentado para dar más espacio al título */
-}
-
-.amazon-text {
-    font-family: 'Rubik', sans-serif;
-    font-size: 4rem; /* Aumentado aún más para que el título sea más grande */
+.header-content h1 {
     font-weight: 600;
-    fill: url(#wood-texture);
-    stroke: url(#vine-texture);
-    stroke-width: 1;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5), -3px -3px 6px rgba(255, 255, 255, 0.3);
-    animation: jungleGlow 3s infinite alternate;
-}
-
-@keyframes jungleGlow {
-    0% {
-        fill-opacity: 0.8;
-        stroke-opacity: 0.5;
-    }
-    100% {
-        fill-opacity: 1;
-        stroke-opacity: 1;
-        text-shadow: 5px 5px 10px rgba(46, 204, 113, 0.8), -5px -5px 10px rgba(230, 126, 34, 0.8);
-    }
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
 }
 
 .header-content p {
@@ -119,7 +93,6 @@ header {
     opacity: 0.9;
     max-width: 80%;
     margin: 0 auto;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 #theme-toggle {
@@ -156,11 +129,10 @@ body.dark-mode #theme-toggle {
     text-decoration: none;
     font-weight: 500;
     transition: background 0.3s;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .dashboard-link:hover {
-    background: #27AE60;
+    background: #1B5E20;
 }
 
 .search-bar {
@@ -190,7 +162,7 @@ body.dark-mode .search-bar {
     border: none;
     border-radius: 30px 0 0 30px;
     font-size: 1rem;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: transparent;
     color: #333;
 }
@@ -217,7 +189,7 @@ body.dark-mode .search-bar input::placeholder {
 }
 
 .search-bar i:hover {
-    background: #27AE60;
+    background: #1B5E20;
 }
 
 body.dark-mode .search-bar i {
@@ -234,7 +206,6 @@ body.dark-mode .search-bar i:hover {
     font-size: 1.2rem;
     font-style: italic;
     color: var(--verde-amazonico);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode .producers-count {
@@ -244,7 +215,6 @@ body.dark-mode .producers-count {
 .producers-count #count {
     font-weight: 600;
     color: var(--terracota);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode .producers-count #count {
@@ -253,7 +223,7 @@ body.dark-mode .producers-count #count {
 
 .producers-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Reducido el ancho mínimo de las tarjetas */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 1.5rem;
     max-width: 1200px;
@@ -261,35 +231,18 @@ body.dark-mode .producers-count #count {
 }
 
 .producer-card {
-    background: rgba(248, 249, 250, 0.8); /* Fondo semi-transparente */
-    border-radius: 12px; /* Reducido para un aspecto menos cuadrado */
+    background: #f8f9fa;
+    border-radius: 16px;
     overflow: hidden;
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     padding: 1rem;
     animation: fadeIn 0.5s ease forwards;
     opacity: 0;
-    position: relative;
-    border: 10px solid transparent;
-    border-image: url('/images/wood-texture.jpg') 30 stretch;
-    background-clip: padding-box;
-    aspect-ratio: 3 / 4; /* Hace las tarjetas más rectangulares */
-}
-
-.producer-card::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    border: 10px solid transparent;
-    border-image: url('/images/vine-texture.png') 30 stretch;
-    z-index: -1;
 }
 
 body.dark-mode .producer-card {
-    background: rgba(44, 44, 44, 0.8); /* Fondo semi-transparente en modo oscuro */
+    background: var(--dark-card);
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.1);
 }
 
@@ -303,13 +256,14 @@ body.dark-mode .producer-card:hover {
 }
 
 .producer-card img {
-    width: 100%;
-    height: 100px; /* Altura fija para la imagen rectangular */
-    border-radius: 8px; /* Bordes redondeados para la imagen */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
     border: 3px solid var(--verde-amazonico);
     margin: 0 auto;
     display: block;
-    object-fit: contain; /* Autoajusta la imagen al espacio */
+    object-fit: cover;
+    loading: lazy;
 }
 
 body.dark-mode .producer-card img {
@@ -326,7 +280,6 @@ body.dark-mode .producer-card img {
     color: var(--verde-amazonico);
     font-size: 1.5rem;
     font-weight: 600;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.2);
 }
 
 body.dark-mode .producer-info h3 {
@@ -342,7 +295,6 @@ body.dark-mode .producer-info h3 {
     margin-bottom: 14px;
     color: white;
     transition: transform 0.2s ease;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .category-badge.agricultura {
@@ -381,7 +333,6 @@ body.dark-mode .category-badge.artesania {
 .producer-info p {
     font-size: 0.95rem;
     margin-bottom: 0.5rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .producer-info p strong {
@@ -405,7 +356,6 @@ body.dark-mode .producer-info p strong {
     font-weight: 500;
     font-size: 0.9rem;
     transition: background-color 0.3s, transform 0.2s;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .whatsapp-btn:hover {
@@ -430,7 +380,7 @@ body.dark-mode .loading-spinner {
 footer {
     text-align: center;
     padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(46, 204, 113, 0.8), rgba(27, 94, 32, 0.8), rgba(230, 126, 34, 0.8)), url('/images/selva3.jpg') center/cover no-repeat;
+    background-color: #f0f0f0;
     margin-top: 2rem;
     margin-bottom: 80px; /* Espacio para la barra de categorías */
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
@@ -439,14 +389,12 @@ footer {
 }
 
 body.dark-mode footer {
-    background: linear-gradient(135deg, rgba(46, 204, 113, 0.8), rgba(27, 94, 32, 0.8), rgba(230, 126, 34, 0.8)), url('/images/selva3.jpg') center/cover no-repeat;
+    background: var(--dark-card);
 }
 
 footer p {
     margin: 0.5rem 0;
     font-size: 0.9rem;
-    color: white; /* Letras blancas para mejor visibilidad */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 footer a {
@@ -454,11 +402,10 @@ footer a {
     font-weight: 500;
     text-decoration: none;
     transition: color 0.3s;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 footer a:hover {
-    color: #27AE60;
+    color: #1B5E20;
 }
 
 body.dark-mode footer a {
@@ -517,8 +464,6 @@ footer a[href*="whatsapp"]:hover {
     position: absolute;
     width: 100%;
     height: 100%;
-    opacity: 1;
-    transition: opacity 0.3s ease;
 }
 
 .category-btn.main-btn .category-label svg {
@@ -530,7 +475,6 @@ footer a[href*="whatsapp"]:hover {
     font-size: 8px;
     font-weight: 500;
     fill: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode .category-btn.main-btn .category-label text {
@@ -561,7 +505,7 @@ body.dark-mode .category-btn.main-btn.active {
 
 .category-menu {
     position: absolute;
-    bottom: 90px; /* Ajustado para evitar superposición con el botón  botón principal */
+    bottom: 90px; /* Ajustado para evitar superposición con el botón principal */
     left: 50%;
     transform: translateX(-50%); /* Centrar horizontalmente */
     display: flex;
@@ -606,12 +550,6 @@ body.dark-mode .category-btn.main-btn.active {
     position: absolute;
     width: 100%;
     height: 100%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.category-btn.sub-btn .category-label.visible {
-    opacity: 1;
 }
 
 .category-btn.sub-btn .category-label svg {
@@ -623,7 +561,6 @@ body.dark-mode .category-btn.main-btn.active {
     font-size: 8px;
     font-weight: 500;
     fill: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .category-btn.sub-btn[data-category="artesania"] .category-label text {
@@ -645,32 +582,32 @@ body.dark-mode .category-btn.sub-btn[data-category="artesania"] .category-label 
 
 /* Posiciones de los botones: 3 a la izquierda y 3 a la derecha */
 .category-menu.open .category-btn.sub-btn:nth-child(1) {
-    transform: translate(-160px, 0px) scale(1); /* Agricultura */
+    transform: translate(-160px, 0px) scale(1); /* Izquierda 1 */
     transition-delay: 0.05s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(2) {
-    transform: translate(-120px, -70px) scale(1); /* Agroindustria */
+    transform: translate(-120px, -70px) scale(1); /* Izquierda 2 (diagonal arriba) */
     transition-delay: 0.1s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(3) {
-    transform: translate(-80px, -140px) scale(1); /* Artesanía */
+    transform: translate(-80px, -140px) scale(1); /* Izquierda 3 (más arriba) */
     transition-delay: 0.15s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(4) {
-    transform: translate(80px, -140px) scale(1); /* Gastronomía */
+    transform: translate(80px, -140px) scale(1); /* Derecha 1 (más arriba) */
     transition-delay: 0.2s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(5) {
-    transform: translate(120px, -70px) scale(1); /* Turismo */
+    transform: translate(120px, -70px) scale(1); /* Derecha 2 (diagonal arriba) */
     transition-delay: 0.25s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(6) {
-    transform: translate(160px, 0px) scale(1); /* Varios */
+    transform: translate(160px, 0px) scale(1); /* Derecha 3 */
     transition-delay: 0.3s;
 }
 
@@ -687,21 +624,21 @@ body.dark-mode .category-btn.sub-btn:hover {
     background-color: var(--verde-amazonico);
 }
 
-.category-btn.sub-btn[data-category="agroindustria"] {
-    background-color: var(--morado-Agroindustria);
-}
-
 .category-btn.sub-btn[data-category="artesania"] {
     background-color: var(--amarillo-Artesania);
     color: #333;
+}
+
+.category-btn.sub-btn[data-category="turismo"] {
+    background-color: var(--azul-Turismo);
 }
 
 .category-btn.sub-btn[data-category="gastronomia"] {
     background-color: var(--terracota);
 }
 
-.category-btn.sub-btn[data-category="turismo"] {
-    background-color: var(--azul-Turismo);
+.category-btn.sub-btn[data-category="agroindustria"] {
+    background-color: var(--morado-Agroindustria);
 }
 
 .category-btn.sub-btn[data-category="varios"] {
@@ -718,23 +655,23 @@ body.dark-mode .category-btn.sub-btn.active {
 
 /* Efecto de iluminación (glow) según la categoría */
 .category-btn.sub-btn.glow[data-category="agricultura"] {
-    box-shadow: 0 0 15px 5px var--verde-amazonico);
-}
-
-.category-btn.sub-btn.glow[data-category="agroindustria"] {
-    box-shadow: 0 0 15px 5px var(--morado-Agroindustria);
+    box-shadow: 0 0 15px 5px var(--verde-amazonico);
 }
 
 .category-btn.sub-btn.glow[data-category="artesania"] {
     box-shadow: 0 0 15px 5px var(--amarillo-Artesania);
 }
 
+.category-btn.sub-btn.glow[data-category="turismo"] {
+    box-shadow: 0 0 15px 5px var(--azul-Turismo);
+}
+
 .category-btn.sub-btn.glow[data-category="gastronomia"] {
     box-shadow: 0 0 15px 5px var(--terracota);
 }
 
-.category-btn.sub-btn.glow[data-category="turismo"] {
-    box-shadow: 0 0 15px 5px var(--azul-Turismo);
+.category-btn.sub-btn.glow[data-category="agroindustria"] {
+    box-shadow: 0 0 15px 5px var(--morado-Agroindustria);
 }
 
 .category-btn.sub-btn.glow[data-category="varios"] {
@@ -745,20 +682,20 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="agricultura"] {
     box-shadow: 0 0 15px 5px var(--verde-amazonico);
 }
 
-body.dark-mode .category-btn.sub-btn.glow[data-category="agroindustria"] {
-    box-shadow: 0 0 15px 5px var(--morado-Agroindustria);
-}
-
 body.dark-mode .category-btn.sub-btn.glow[data-category="artesania"] {
     box-shadow: 0 0 15px 5px var(--amarillo-Artesania);
+}
+
+body.dark-mode .category-btn.sub-btn.glow[data-category="turismo"] {
+    box-shadow: 0 0 15px 5px var(--azul-Turismo);
 }
 
 body.dark-mode .category-btn.sub-btn.glow[data-category="gastronomia"] {
     box-shadow: 0 0 15px 5px var(--terracota);
 }
 
-body.dark-mode .category-btn.sub-btn.glow[data-category="turismo"] {
-    box-shadow: 0 0 15px 5px var(--azul-Turismo);
+body.dark-mode .category-btn.sub-btn.glow[data-category="agroindustria"] {
+    box-shadow: 0 0 15px 5px var(--morado-Agroindustria);
 }
 
 body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
@@ -773,14 +710,6 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
 
     .header-content h1 {
         font-size: 1.5rem;
-    }
-
-    .amazon-title-svg {
-        height: 120px; /* Reducido proporcionalmente para móviles */
-    }
-
-    .amazon-text {
-        font-size: 3rem; /* Ajustado para móviles */
     }
 
     .header-content p {
@@ -829,8 +758,8 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .producer-card img {
-        width: 100%;
-        height: 80px; /* Ajustado para móviles */
+        width: 80px;
+        height: 80px;
     }
 
     .producer-info {
@@ -945,12 +874,8 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
         padding-bottom: 70px;
     }
 
-    .amazon-title-svg {
-        height: 100px; /* Reducido aún más para pantallas pequeñas */
-    }
-
-    .amazon-text {
-        font-size: 2.5rem; /* Ajustado para pantallas pequeñas */
+    .header-content h1 {
+        font-size: 1.25rem;
     }
 
     .header-content p {
@@ -1001,8 +926,8 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .producer-card img {
-        width: 100%;
-        height: 70px; /* Ajustado para pantallas pequeñas */
+        width: 70px;
+        height: 70px;
     }
 
     .producer-info {
@@ -1152,7 +1077,7 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
 }
 
 .modal-content::-webkit-scrollbar-thumb:hover {
-    background: #27AE60;
+    background: #1B5E20;
 }
 
 body.dark-mode .modal-content {
@@ -1191,7 +1116,6 @@ body.dark-mode .close:hover {
     color: var(--verde-amazonico);
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.2);
 }
 
 body.dark-mode .modal-content h2 {
@@ -1208,7 +1132,6 @@ body.dark-mode .modal-content h2 {
     font-weight: 500;
     margin-bottom: 0.25rem;
     color: #555;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode #register-form label {
@@ -1222,7 +1145,7 @@ body.dark-mode #register-form label {
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 0.9rem;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Poppins', sans-serif;
     transition: border-color 0.3s;
 }
 
@@ -1266,11 +1189,10 @@ body.dark-mode #register-form textarea:focus {
     font-weight: 500;
     font-size: 0.9rem;
     transition: background 0.3s, transform 0.2s;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 #register-form button:hover {
-    background: #27AE60;
+    background: #1B5E20;
     transform: translateY(-2px);
 }
 
@@ -1287,7 +1209,6 @@ body.dark-mode #register-form button:hover {
     color: var(--verde-amazonico);
     font-size: 0.85rem;
     text-align: center;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode #form-message {
@@ -1307,7 +1228,6 @@ body.dark-mode #form-message {
     color: var(--verde-amazonico);
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.2);
 }
 
 body.dark-mode .login-section h2,
@@ -1327,7 +1247,6 @@ body.dark-mode .stats-section h2 {
     font-weight: 500;
     margin-bottom: 0.25rem;
     color: #555;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode #login-form label {
@@ -1339,7 +1258,7 @@ body.dark-mode #login-form label {
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 0.9rem;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Poppins', sans-serif;
     transition: border-color 0.3s;
 }
 
@@ -1368,11 +1287,10 @@ body.dark-mode #login-form input:focus {
     font-weight: 500;
     font-size: 0.9rem;
     transition: background 0.3s, transform 0.2s;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 #login-form button:hover {
-    background: #27AE60;
+    background: #1B5E20;
     transform: translateY(-2px);
 }
 
@@ -1388,7 +1306,6 @@ body.dark-mode #login-form button:hover {
     margin-top: 10px;
     color: var(--verde-amazonico);
     font-size: 0.85rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode #login-message {
@@ -1405,11 +1322,10 @@ body.dark-mode #login-message {
     border-radius: 8px;
     font-weight: 500;
     transition: background 0.3s, transform 0.2s;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .stats-section a:hover {
-    background: #27AE60;
+    background: #1B5E20;
     transform: translateY(-2px);
 }
 

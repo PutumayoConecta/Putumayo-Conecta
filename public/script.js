@@ -30,15 +30,12 @@ async function trackClick(producerId, whatsappNumber) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ producerId: producerId.toString() })
         });
-        // Asegurar que el número no tenga espacios ni caracteres adicionales
-        const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
-        const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}`;
         window.open(whatsappUrl, '_blank');
     } catch (error) {
         console.error('Error tracking click:', error);
         if (whatsappNumber) {
-            const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
-            const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}`;
             window.open(whatsappUrl, '_blank');
         }
     }
@@ -140,18 +137,11 @@ function startGlowAnimation() {
     function glowNextButton() {
         if (!glowAnimationRunning) return;
 
-        // Remover la clase 'glow' de todos los botones y ocultar los títulos
-        subButtons.forEach(btn => {
-            btn.classList.remove('glow');
-            const label = btn.querySelector('.category-label');
-            if (label) label.classList.remove('visible');
-        });
+        // Remover la clase 'glow' de todos los botones
+        subButtons.forEach(btn => btn.classList.remove('glow'));
 
-        // Añadir la clase 'glow' y mostrar el título del botón actual
-        const currentButton = subButtons[currentIndex];
-        currentButton.classList.add('glow');
-        const label = currentButton.querySelector('.category-label');
-        if (label) label.classList.add('visible');
+        // Añadir la clase 'glow' al botón actual
+        subButtons[currentIndex].classList.add('glow');
 
         // Avanzar al siguiente botón
         currentIndex = (currentIndex + 1) % subButtons.length;
@@ -166,31 +156,27 @@ function startGlowAnimation() {
 function stopGlowAnimation() {
     glowAnimationRunning = false;
     const subButtons = document.querySelectorAll('.category-btn.sub-btn');
-    subButtons.forEach(btn => {
-        btn.classList.remove('glow');
-        const label = btn.querySelector('.category-label');
-        if (label) label.classList.remove('visible');
-    });
+    subButtons.forEach(btn => btn.classList.remove('glow'));
 }
 
 function setupCategoryButtons() {
     const categoryIcons = {
         'all': '<i class="fas fa-star"></i>',
         'agricultura': '<i class="fas fa-leaf"></i>',
-        'agroindustria': '<i class="fas fa-industry"></i>',
         'artesania': '<i class="fas fa-cut"></i>',
-        'gastronomia': '<i class="fas fa-utensils"></i>',
         'turismo': '<i class="fas fa-map-marked-alt"></i>',
+        'gastronomia': '<i class="fas fa-utensils"></i>',
+        'agroindustria': '<i class="fas fa-industry"></i>',
         'varios': '<i class="fas fa-box"></i>'
     };
 
     const categoryLabels = {
         'all': 'Todos',
         'agricultura': 'Agricultura',
-        'agroindustria': 'Agroindustria',
         'artesania': 'Artesanía',
-        'gastronomia': 'Gastronomía',
         'turismo': 'Turismo',
+        'gastronomia': 'Gastronomía',
+        'agroindustria': 'Agroindustria',
         'varios': 'Varios'
     };
 
@@ -203,7 +189,7 @@ function setupCategoryButtons() {
     const mainLabel = mainButton.querySelector('.category-label');
     mainLabel.innerHTML = `
         <svg viewBox="0 0 70 70">
-            <path id="curve-all" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Ziday  fill="none" />
+            <path id="curve-all" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
             <text>
                 <textPath href="#curve-all" startOffset="50%" text-anchor="middle">
                     ${categoryLabels['all']}
