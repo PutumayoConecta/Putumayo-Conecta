@@ -1,16 +1,59 @@
+let activeRequests = 0;
+let loadingTimeout = null;
+const MINIMUM_LOADING_TIME = 500; // Tiempo mínimo de visualización del spinner en milisegundos
+
 function showLoading(show) {
-    document.getElementById('loading').style.display = show ? 'block' : 'none';
+    const loadingElement = document.getElementById('loading');
+    if (show) {
+        activeRequests++;
+        if (activeRequests === 1) { // Solo mostrar el spinner si es la primera solicitud activa
+            loadingElement.style.display = 'block';
+            // Asegurarse de que el temporizador anterior esté limpio
+            if (loadingTimeout) {
+                clearTimeout(loadingTimeout);
+                loadingTimeout = null;
+            }
+        }
+    } else {
+        activeRequests--;
+        if (activeRequests <= 0) {
+            activeRequests = 0; // Evitar valores negativos
+            const hideLoading = () => {
+                loadingElement.style.display = 'none';
+                loadingTimeout = null;
+            };
+            // Asegurar que el spinner se muestre al menos por MINIMUM_LOADING_TIME
+            const timeSinceStart = loadingTimeout ? Date.now() - loadingTimeout.startTime : 0;
+            const remainingTime = MINIMUM_LOADING_TIME - timeSinceStart;
+            if (remainingTime > 0) {
+                loadingTimeout = setTimeout(hideLoading, remainingTime);
+            } else {
+                hideLoading();
+            }
+        }
+    }
 }
 
 async function fetchData() {
     try {
         showLoading(true);
+        const startTime = Date.now();
+        loadingTimeout = { startTime }; // Guardar el tiempo de inicio para el temporizador
+
         const res = await fetch('/api/producers', { cache: 'no-store' });
         if (!res.ok) {
             throw new Error(`Error fetching producers: ${res.status} - ${await res.text()}`);
         }
         const data = await res.json();
         console.log('Datos recibidos de /api/producers:', data);
+
+        // Asegurar que el tiempo mínimo se cumpla incluso si la solicitud es rápida
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = MINIMUM_LOADING_TIME - elapsedTime;
+        if (remainingTime > 0) {
+            await new Promise(resolve => setTimeout(resolve, remainingTime));
+        }
+
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);

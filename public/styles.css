@@ -52,7 +52,7 @@ body.dark-mode::before {
 }
 
 header {
-    background: linear-gradient(135deg, rgba(46, 204, 113, 0.8), rgba(27, 94, 32, 0.8), rgba(230, 126, 34, 0.8)), url('/images/selva2.jpg') center/cover no-repeat;
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.8), rgba(27, 94, 32, 0.8), rgba(230, 126, 34, 0.8)), url('/images/selva1.jpg') center/cover no-repeat;
     color: white;
     padding: 1.5rem 1rem;
     text-align: center;
@@ -398,7 +398,7 @@ footer {
 }
 
 body.dark-mode footer {
-    background: var(--dark-card);
+    background-color: var(--dark-card);
 }
 
 footer p {
@@ -440,7 +440,7 @@ footer a[href*="whatsapp"]:hover {
 
 .category-buttons {
     position: fixed;
-    bottom: 20px;
+    bottom: 5px; /* Reducido para acercar al borde inferior */
     left: 50%;
     transform: translateX(-50%); /* Centrar horizontalmente */
     z-index: 1000;
@@ -519,29 +519,29 @@ body.dark-mode .category-btn.main-btn.active {
 
 .category-menu {
     position: absolute;
-    bottom: 90px; /* Ajustado para evitar superposición con el botón principal */
+    bottom: 60px; /* Ajustado para estar más cerca del botón "Todos" */
     left: 50%;
     transform: translateX(-50%); /* Centrar horizontalmente */
-    width: 400px; /* Tamaño suficiente para contener los sub-botones */
-    height: 300px; /* Altura para permitir la distribución de los botones */
+    width: 300px; /* Ancho suficiente para el semicírculo */
+    height: 150px; /* Altura ajustada para el semicírculo (mitad superior) */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 1000; /* Asegurar que esté por encima de otros elementos */
-    pointer-events: none; /* Evitar interacciones cuando está oculto */
+    z-index: 1000;
+    pointer-events: none;
 }
 
 .category-menu.open {
     opacity: 1;
     visibility: visible;
-    pointer-events: auto; /* Habilitar interacciones cuando está abierto */
+    pointer-events: auto;
 }
 
 .category-btn.sub-btn {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    border: 2px solid #fff; /* Borde para mayor visibilidad */
+    border: 2px solid #fff;
     color: white;
     font-size: 1.8rem;
     cursor: pointer;
@@ -549,9 +549,9 @@ body.dark-mode .category-btn.main-btn.active {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0); /* Posición inicial centrada y oculta */
+    transform: translate(-50%, -50%) scale(0);
     opacity: 0;
-    z-index: 1002; /* Asegurar que esté por encima del botón principal */
+    z-index: 1002;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -565,7 +565,7 @@ body.dark-mode .category-btn.main-btn.active {
     height: 100%;
     opacity: 0;
     transition: opacity 0.3s ease;
-    z-index: 1003; /* Asegurar que la etiqueta esté por encima del botón */
+    z-index: 1003;
 }
 
 .category-btn.sub-btn .category-label.visible {
@@ -598,42 +598,42 @@ body.dark-mode .category-btn.sub-btn[data-category="artesania"] .category-label 
 
 .category-menu.open .category-btn.sub-btn {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1); /* Base para permitir posiciones personalizadas */
+    transform-origin: center;
 }
 
-/* Posiciones de los botones: 3 a la izquierda y 3 a la derecha */
+/* Posiciones de los botones en un semicírculo superior (0° a 180°) */
 .category-menu.open .category-btn.sub-btn:nth-child(1) {
-    transform: translate(-150px, 0px) scale(1); /* Agricultura - Reducido de -210px a -150px */
+    transform: translate(-50%, -50%) translate(0, -120px) scale(1); /* 90° (centro arriba) */
     transition-delay: 0.05s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(2) {
-    transform: translate(-110px, -65px) scale(1); /* Agroindustria - Reducido de -150px a -110px y de -90px a -65px */
+    transform: translate(-50%, -50%) translate(-85px, -85px) scale(1); /* 45° */
     transition-delay: 0.1s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(3) {
-    transform: translate(-65px, -130px) scale(1); /* Artesanía - Reducido de -90px a -65px y de -180px a -130px */
+    transform: translate(-50%, -50%) translate(-120px, -40px) scale(1); /* 18° */
     transition-delay: 0.15s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(4) {
-    transform: translate(65px, -130px) scale(1); /* Gastronomía - Reducido de 90px a 65px y de -180px a -130px */
+    transform: translate(-50%, -50%) translate(120px, -40px) scale(1); /* 162° */
     transition-delay: 0.2s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(5) {
-    transform: translate(110px, -65px) scale(1); /* Turismo - Reducido de 150px a 110px y de -90px a -65px */
+    transform: translate(-50%, -50%) translate(85px, -85px) scale(1); /* 135° */
     transition-delay: 0.25s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(6) {
-    transform: translate(150px, 0px) scale(1); /* Varios - Reducido de 210px a 150px */
+    transform: translate(-50%, -50%) translate(0, -120px) scale(1); /* 90° (centro arriba, opcional si quieres menos botones) */
     transition-delay: 0.3s;
 }
 
 .category-btn.sub-btn:hover {
-    transform: translate(-50%, -50%) scale(1.1); /* Ajustar hover para mantener la posición */
+    transform: translate(-50%, -50%) translate(0, -120px) scale(1.1); /* Ajustar según la posición */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -802,7 +802,7 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-buttons {
-        bottom: 15px;
+        bottom: 5px; /* Reducido para acercar al borde inferior */
         width: 60px;
         height: 60px;
     }
@@ -818,9 +818,9 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu {
-        bottom: 75px;
-        width: 300px; /* Reducido de 350px a 300px para un diseño más compacto */
-        height: 200px; /* Reducido de 250px a 200px */
+        bottom: 50px; /* Ajustado para pantallas más pequeñas */
+        width: 250px; /* Reducido para semicírculo */
+        height: 125px; /* Mitad superior */
     }
 
     .category-btn.sub-btn {
@@ -834,27 +834,27 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-130px, 0px) scale(1); /* Reducido de -180px a -130px */
+        transform: translate(-50%, -50%) translate(0, -100px) scale(1); /* 90° */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-95px, -55px) scale(1); /* Reducido de -130px a -95px y de -75px a -55px */
+        transform: translate(-50%, -50%) translate(-70px, -70px) scale(1); /* 45° */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(-55px, -110px) scale(1); /* Reducido de -80px a -55px y de -150px a -110px */
+        transform: translate(-50%, -50%) translate(-100px, -35px) scale(1); /* 18° */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(55px, -110px) scale(1); /* Reducido de 80px a 55px y de -150px a -110px */
+        transform: translate(-50%, -50%) translate(100px, -35px) scale(1); /* 162° */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(95px, -55px) scale(1); /* Reducido de 130px a 95px y de -75px a -55px */
+        transform: translate(-50%, -50%) translate(70px, -70px) scale(1); /* 135° */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(130px, 0px) scale(1); /* Reducido de 180px a 130px */
+        transform: translate(-50%, -50%) translate(0, -100px) scale(1); /* 90° */
     }
 
     .modal-content {
@@ -972,7 +972,7 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-buttons {
-        bottom: 10px;
+        bottom: 5px; /* Reducido para acercar al borde inferior */
         width: 50px;
         height: 50px;
     }
@@ -988,9 +988,9 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu {
-        bottom: 60px;
-        width: 250px; /* Reducido de 300px a 250px */
-        height: 160px; /* Reducido de 200px a 160px */
+        bottom: 40px; /* Ajustado para pantallas más pequeñas */
+        width: 200px; /* Reducido para semicírculo */
+        height: 100px; /* Mitad superior */
     }
 
     .category-btn.sub-btn {
@@ -1004,27 +1004,27 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-110px, 0px) scale(1); /* Reducido de -150px a -110px */
+        transform: translate(-50%, -50%) translate(0, -80px) scale(1); /* 90° */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-80px, -45px) scale(1); /* Reducido de -110px a -80px y de -60px a -45px */
+        transform: translate(-50%, -50%) translate(-55px, -55px) scale(1); /* 45° */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(-45px, -90px) scale(1); /* Reducido de -70px a -45px y de -120px a -90px */
+        transform: translate(-50%, -50%) translate(-80px, -25px) scale(1); /* 18° */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(45px, -90px) scale(1); /* Reducido de 70px a 45px y de -120px a -90px */
+        transform: translate(-50%, -50%) translate(80px, -25px) scale(1); /* 162° */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(80px, -45px) scale(1); /* Reducido de 110px a 80px y de -60px a -45px */
+        transform: translate(-50%, -50%) translate(55px, -55px) scale(1); /* 135° */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(110px, 0px) scale(1); /* Reducido de 150px a 110px */
+        transform: translate(-50%, -50%) translate(0, -80px) scale(1); /* 90° */
     }
 
     .modal-content {
