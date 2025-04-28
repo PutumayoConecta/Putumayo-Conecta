@@ -4,120 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Putumayo Conecta</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta name="description" content="Conecta con productores, artesanos y emprendedores turísticos del Putumayo">
+    <meta property="og:image" content="https://ejemplo.com/logo-putumayo.jpg">
+    <meta name="theme-color" content="#2e7d32">
+    <link rel="apple-touch-icon" href="/images/icon-192x192.png">
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="header-content">
-            <img src="/images/logo.png" alt="Logo Putumayo Conecta" class="header-logo">
-            <h1>Putumayo Conecta</h1>
-            <p>Conectando productores y emprendedores del Putumayo con el mundo</p>
-            <a href="/dashboard" class="dashboard-link">Dashboard</a>
-            <button id="theme-toggle"><i class="fas fa-moon"></i></button>
+            <img src="/images/selva2.jpg" alt="Putumayo Conecta Logo" class="header-logo">
+            <h1>🌿 Putumayo Conecta</h1>
+            <p>Visibilizando Emprendimientos Amazónicos</p>
+            <button id="theme-toggle" aria-label="Alternar modo oscuro">
+                <i class="fas fa-moon"></i>
+            </button>
+            <a href="/dashboard.html" class="dashboard-link">Mi Dashboard</a>
         </div>
     </header>
 
-    <!-- Barra de búsqueda -->
     <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Buscar productores...">
+        <input type="text" id="search-input" placeholder="Busca emprendimientos por nombre o producto..." aria-label="Buscar emprendimientos">
         <i class="fas fa-search"></i>
     </div>
 
-    <!-- Contador de productores -->
-    <div class="producers-count">
-        Productores registrados: <span id="count">0</span>
+    <div class="producers-count" id="producers-count">
+        <p><span id="count">0</span> Emprendimientos</p>
     </div>
 
-    <!-- Lista de productores -->
-    <div class="producers-list" id="producers-list"></div>
+    <div class="producers-list" id="producers-list">
+        <!-- Los datos se cargarán dinámicamente con JavaScript -->
+    </div>
 
-    <!-- Botones de categorías -->
+    <div id="loading" class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+    </div>
+
     <div class="category-buttons">
-        <button class="category-btn main-btn" id="main-category-btn">
-            <i class="fas fa-th"></i>
-            <span class="category-label">
-                <svg viewBox="0 0 100 100">
-                    <text x="50%" y="90%" text-anchor="middle">Todos</text>
-                </svg>
-            </span>
+        <button class="category-btn main-btn" data-category="all">
+            <i class="fas fa-star"></i>
+            <span class="category-label">Todos</span>
         </button>
-        <div class="category-menu" id="category-menu">
+        <div class="category-menu">
             <button class="category-btn sub-btn" data-category="agricultura">
                 <i class="fas fa-leaf"></i>
-                <span class="category-label">
-                    <svg viewBox="0 0 100 100">
-                        <text x="50%" y="90%" text-anchor="middle">Agricultura</text>
-                    </svg>
-                </span>
+                <span class="category-label">Agricultura</span>
             </button>
             <button class="category-btn sub-btn" data-category="agroindustria">
                 <i class="fas fa-industry"></i>
-                <span class="category-label">
-                    <svg viewBox="0 0 100 100">
-                        <text x="50%" y="90%" text-anchor="middle">Agroindustria</text>
-                    </svg>
-                </span>
+                <span class="category-label">Agroindustria</span>
             </button>
             <button class="category-btn sub-btn" data-category="artesania">
-                <i class="fas fa-paint-brush"></i>
-                <span class="category-label">
-                    <svg viewBox="0 0 100 100">
-                        <text x="50%" y="90%" text-anchor="middle">Artesanía</text>
-                    </svg>
-                </span>
+                <i class="fas fa-cut"></i>
+                <span class="category-label">Artesanía</span>
             </button>
             <button class="category-btn sub-btn" data-category="gastronomia">
                 <i class="fas fa-utensils"></i>
-                <span class="category-label">
-                    <svg viewBox="0 0 100 100">
-                        <text x="50%" y="90%" text-anchor="middle">Gastronomía</text>
-                    </svg>
-                </span>
+                <span class="category-label">Gastronomía</span>
             </button>
             <button class="category-btn sub-btn" data-category="turismo">
-                <i class="fas fa-camera"></i>
-                <span class="category-label">
-                    <svg viewBox="0 0 100 100">
-                        <text x="50%" y="90%" text-anchor="middle">Turismo</text>
-                    </svg>
-                </span>
+                <i class="fas fa-map-marked-alt"></i>
+                <span class="category-label">Turismo</span>
             </button>
             <button class="category-btn sub-btn" data-category="varios">
-                <i class="fas fa-ellipsis-h"></i>
-                <span class="category-label">
-                    <svg viewBox="0 0 100 100">
-                        <text x="50%" y="90%" text-anchor="middle">Varios</text>
-                    </svg>
-                </span>
+                <i class="fas fa-box"></i>
+                <span class="category-label">Varios</span>
             </button>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
-        <p>© 2025 Putumayo Conecta. Todos los derechos reservados.</p>
-        <p>Desarrollado por <a href="https://github.com/tu-usuario" target="_blank">Tu Nombre</a></p>
-        <p>
-            <a href="https://wa.me/573123456789?text=¡Hola! Quiero saber más sobre Putumayo Conecta." target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-whatsapp"></i> Contáctanos
-            </a>
-        </p>
+        <p>¿Eres Emprendedor? <a href="#" id="add-btn">¡Regístrate aquí!</a></p>
+        <p>Para desarrollo de software, contactar a:</p> 
+        <p>Jose Alexis Tejada Angulo - Ingeniero Industrial</p>
+        <a href="https://wa.me/573227994023?text=Hola,%20quiero%20información%20sobre%20Putumayo%20Conecta" class="whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+        </a>
     </footer>
 
-    <!-- Modal de Registro -->
-    <div class="modal" id="register-modal">
+    <div id="modal" class="modal">
         <div class="modal-content">
-            <span class="close" id="close-modal">×</span>
-            <h2>Registrar Productor</h2>
-            <div id="register-form">
-                <label for="name">Nombre:</label>
-                <input type="text" id="name" required>
-
-                <label for="category">Categoría:</label>
-                <select id="category" required>
+            <span class="close">×</span>
+            <h2>¡Registra tu Emprendimiento!</h2>
+            <form id="register-form" enctype="multipart/form-data">
+                <label for="email">Correo Electrónico *</label>
+                <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required autocomplete="email">
+                
+                <label for="password">Contraseña *</label>
+                <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
+                
+                <label for="name">Nombre del Emprendimiento *</label>
+                <input type="text" id="name" name="name" placeholder="Ej. Miel del Putumayo" required autocomplete="organization">
+                
+                <label for="category">Categoría *</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Selecciona una categoría</option>
                     <option value="agricultura">Agricultura</option>
                     <option value="agroindustria">Agroindustria</option>
                     <option value="artesania">Artesanía</option>
@@ -125,23 +109,41 @@
                     <option value="turismo">Turismo</option>
                     <option value="varios">Varios</option>
                 </select>
-
-                <label for="phone">Teléfono:</label>
-                <input type="tel" id="phone" required>
-
-                <label for="description">Descripción:</label>
-                <textarea id="description" required></textarea>
-
-                <label for="image">Foto:</label>
-                <input type="file" id="image" accept="image/*">
-
-                <button type="button" id="submit-form">Registrar</button>
-                <div id="form-message"></div>
-            </div>
+                
+                <label for="product">Producto o Servicio *</label>
+                <input type="text" id="product" name="product" placeholder="Ej. Miel orgánica" required autocomplete="off">
+                
+                <label for="description">Descripción *</label>
+                <textarea id="description" name="description" placeholder="Describe tu emprendimiento" required></textarea>
+                
+                <label for="location">Ubicación *</label>
+                <input type="text" id="location" name="location" placeholder="Ej. Mocoa, Putumayo" required autocomplete="address-level1">
+                
+                <label for="whatsapp">WhatsApp (con código del país) *</label>
+                <input type="text" id="whatsapp" name="whatsapp" placeholder="Ej. +573123456789" required autocomplete="tel">
+                
+                <label for="image">Imagen del Emprendimiento *</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+                
+                <button type="submit">Registrar</button>
+                <p id="form-message"></p>
+            </form>
         </div>
     </div>
 
-    <!-- Referencia al archivo JavaScript externo -->
     <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado con éxito:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Error al registrar el Service Worker:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>

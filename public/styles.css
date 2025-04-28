@@ -395,12 +395,10 @@ footer {
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
-    color: #333; /* Color del texto para modo claro */
 }
 
 body.dark-mode footer {
-    background-color: var(--dark-card);
-    color: var(--dark-text); /* Color del texto para modo oscuro */
+    background: var(--dark-card);
 }
 
 footer p {
@@ -442,7 +440,7 @@ footer a[href*="whatsapp"]:hover {
 
 .category-buttons {
     position: fixed;
-    bottom: 5px; /* Reducido para acercar al borde inferior */
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%); /* Centrar horizontalmente */
     z-index: 1000;
@@ -462,7 +460,7 @@ footer a[href*="whatsapp"]:hover {
     color: white;
     font-size: 1.8rem;
     cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s ease, background-color 0.3s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1001; /* Asegurar que esté por encima de otros elementos */
     position: relative;
@@ -521,39 +519,40 @@ body.dark-mode .category-btn.main-btn.active {
 
 .category-menu {
     position: absolute;
-    bottom: 60px; /* Ajustado para estar más cerca del botón "Todos" */
+    bottom: 90px; /* Ajustado para evitar superposición con el botón principal */
     left: 50%;
     transform: translateX(-50%); /* Centrar horizontalmente */
-    width: 300px; /* Ancho suficiente para el semicírculo */
-    height: 150px; /* Altura ajustada para el semicírculo (mitad superior) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 1000;
-    pointer-events: none;
+    transform-origin: center bottom;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    z-index: 1000; /* Asegurar que esté por encima de otros elementos */
+    pointer-events: none; /* Evitar interacciones cuando está oculto */
 }
 
 .category-menu.open {
     opacity: 1;
     visibility: visible;
-    pointer-events: auto;
+    transform: translateX(-50%) scale(1); /* Mantener centrado */
+    pointer-events: auto; /* Habilitar interacciones cuando está abierto */
 }
 
 .category-btn.sub-btn {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    border: 2px solid #fff;
+    border: 2px solid #fff; /* Borde para mayor visibilidad */
     color: white;
     font-size: 1.8rem;
     cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s, opacity 0.3s;
+    transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s, opacity 0.3s;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
     opacity: 0;
-    z-index: 1002;
+    transform: scale(0);
+    z-index: 1002; /* Asegurar que esté por encima del botón principal */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -567,7 +566,6 @@ body.dark-mode .category-btn.main-btn.active {
     height: 100%;
     opacity: 0;
     transition: opacity 0.3s ease;
-    z-index: 1003;
 }
 
 .category-btn.sub-btn .category-label.visible {
@@ -600,42 +598,42 @@ body.dark-mode .category-btn.sub-btn[data-category="artesania"] .category-label 
 
 .category-menu.open .category-btn.sub-btn {
     opacity: 1;
-    transform-origin: center;
+    transform: scale(1);
 }
 
-/* Posiciones de los botones en un semicírculo superior (0° a 180°) */
+/* Posiciones de los botones: 3 a la izquierda y 3 a la derecha */
 .category-menu.open .category-btn.sub-btn:nth-child(1) {
-    transform: translate(-50%, -50%) translate(0, -120px) scale(1); /* 90° (centro arriba) */
+    transform: translate(-160px, 0px) scale(1); /* Agricultura */
     transition-delay: 0.05s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(2) {
-    transform: translate(-50%, -50%) translate(-85px, -85px) scale(1); /* 45° */
+    transform: translate(-120px, -70px) scale(1); /* Agroindustria */
     transition-delay: 0.1s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(3) {
-    transform: translate(-50%, -50%) translate(-120px, -40px) scale(1); /* 18° */
+    transform: translate(-80px, -140px) scale(1); /* Artesanía */
     transition-delay: 0.15s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(4) {
-    transform: translate(-50%, -50%) translate(120px, -40px) scale(1); /* 162° */
+    transform: translate(80px, -140px) scale(1); /* Gastronomía */
     transition-delay: 0.2s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(5) {
-    transform: translate(-50%, -50%) translate(85px, -85px) scale(1); /* 135° */
+    transform: translate(120px, -70px) scale(1); /* Turismo */
     transition-delay: 0.25s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(6) {
-    transform: translate(-50%, -50%) translate(0, -120px) scale(1); /* 90° (centro arriba, opcional si quieres menos botones) */
+    transform: translate(160px, 0px) scale(1); /* Varios */
     transition-delay: 0.3s;
 }
 
 .category-btn.sub-btn:hover {
-    transform: translate(-50%, -50%) translate(0, -120px) scale(1.1); /* Ajustar según la posición */
+    transform: scale(1.1) !important;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -804,7 +802,7 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-buttons {
-        bottom: 5px; /* Reducido para acercar al borde inferior */
+        bottom: 15px;
         width: 60px;
         height: 60px;
     }
@@ -820,9 +818,7 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu {
-        bottom: 50px; /* Ajustado para pantallas más pequeñas */
-        width: 250px; /* Reducido para semicírculo */
-        height: 125px; /* Mitad superior */
+        bottom: 75px;
     }
 
     .category-btn.sub-btn {
@@ -836,27 +832,27 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-50%, -50%) translate(0, -100px) scale(1); /* 90° */
+        transform: translate(-130px, 0px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-50%, -50%) translate(-70px, -70px) scale(1); /* 45° */
+        transform: translate(-100px, -60px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(-50%, -50%) translate(-100px, -35px) scale(1); /* 18° */
+        transform: translate(-70px, -120px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(-50%, -50%) translate(100px, -35px) scale(1); /* 162° */
+        transform: translate(70px, -120px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(-50%, -50%) translate(70px, -70px) scale(1); /* 135° */
+        transform: translate(100px, -60px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(-50%, -50%) translate(0, -100px) scale(1); /* 90° */
+        transform: translate(130px, 0px) scale(1);
     }
 
     .modal-content {
@@ -974,7 +970,7 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-buttons {
-        bottom: 5px; /* Reducido para acercar al borde inferior */
+        bottom: 10px;
         width: 50px;
         height: 50px;
     }
@@ -990,9 +986,7 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu {
-        bottom: 40px; /* Ajustado para pantallas más pequeñas */
-        width: 200px; /* Reducido para semicírculo */
-        height: 100px; /* Mitad superior */
+        bottom: 60px;
     }
 
     .category-btn.sub-btn {
@@ -1006,27 +1000,27 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-50%, -50%) translate(0, -80px) scale(1); /* 90° */
+        transform: translate(-100px, 0px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-50%, -50%) translate(-55px, -55px) scale(1); /* 45° */
+        transform: translate(-80px, -50px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(-50%, -50%) translate(-80px, -25px) scale(1); /* 18° */
+        transform: translate(-60px, -100px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(-50%, -50%) translate(80px, -25px) scale(1); /* 162° */
+        transform: translate(60px, -100px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(-50%, -50%) translate(55px, -55px) scale(1); /* 135° */
+        transform: translate(80px, -50px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(-50%, -50%) translate(0, -80px) scale(1); /* 90° */
+        transform: translate(100px, 0px) scale(1);
     }
 
     .modal-content {

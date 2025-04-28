@@ -1,59 +1,16 @@
-let activeRequests = 0;
-let loadingTimeout = null;
-const MINIMUM_LOADING_TIME = 500; // Tiempo mínimo de visualización del spinner en milisegundos
-
 function showLoading(show) {
-    const loadingElement = document.getElementById('loading');
-    if (show) {
-        activeRequests++;
-        if (activeRequests === 1) { // Solo mostrar el spinner si es la primera solicitud activa
-            loadingElement.style.display = 'block';
-            // Asegurarse de que el temporizador anterior esté limpio
-            if (loadingTimeout) {
-                clearTimeout(loadingTimeout);
-                loadingTimeout = null;
-            }
-        }
-    } else {
-        activeRequests--;
-        if (activeRequests <= 0) {
-            activeRequests = 0; // Evitar valores negativos
-            const hideLoading = () => {
-                loadingElement.style.display = 'none';
-                loadingTimeout = null;
-            };
-            // Asegurar que el spinner se muestre al menos por MINIMUM_LOADING_TIME
-            const timeSinceStart = loadingTimeout ? Date.now() - loadingTimeout.startTime : 0;
-            const remainingTime = MINIMUM_LOADING_TIME - timeSinceStart;
-            if (remainingTime > 0) {
-                loadingTimeout = setTimeout(hideLoading, remainingTime);
-            } else {
-                hideLoading();
-            }
-        }
-    }
+    document.getElementById('loading').style.display = show ? 'block' : 'none';
 }
 
 async function fetchData() {
     try {
         showLoading(true);
-        const startTime = Date.now();
-        loadingTimeout = { startTime }; // Guardar el tiempo de inicio para el temporizador
-
         const res = await fetch('/api/producers', { cache: 'no-store' });
         if (!res.ok) {
             throw new Error(`Error fetching producers: ${res.status} - ${await res.text()}`);
         }
         const data = await res.json();
         console.log('Datos recibidos de /api/producers:', data);
-
-        // Asegurar que el tiempo mínimo se cumpla incluso si la solicitud es rápida
-        const elapsedTime = Date.now() - startTime;
-        const remainingTime = MINIMUM_LOADING_TIME - elapsedTime;
-        if (remainingTime > 0) {
-            await new Promise(resolve => setTimeout(resolve, remainingTime));
-        }
-
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -68,36 +25,27 @@ async function trackClick(producerId, whatsappNumber) {
         if (!producerId || !whatsappNumber) {
             throw new Error('Faltan datos: producerId o whatsappNumber no están definidos');
         }
-        console.log('Tracking click for producerId:', producerId, 'WhatsApp:', whatsappNumber);
         await fetch('/api/track-click', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ producerId: producerId.toString() })
         });
+        // Asegurar que el número no tenga espacios ni caracteres adicionales
         const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
-        if (!cleanNumber) {
-            throw new Error('Número de WhatsApp inválido después de limpiar');
-        }
         const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
-        console.log('Opening WhatsApp URL:', whatsappUrl);
         window.open(whatsappUrl, '_blank');
     } catch (error) {
         console.error('Error tracking click:', error);
         if (whatsappNumber) {
             const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
-            if (cleanNumber) {
-                const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
-                console.log('Opening WhatsApp URL (fallback):', whatsappUrl);
-                window.open(whatsappUrl, '_blank');
-            } else {
-                console.error('No se puede abrir WhatsApp: número inválido');
-            }
+            const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
+            window.open(whatsappUrl, '_blank');
         }
     }
 }
 
-let currentCategory = 'all';
-let glowAnimationRunning = false;
+let currentCategory = 'all'; // Variable para rastrear la categoría seleccionada
+let glowAnimationRunning = false; // Variable para controlar la animación de iluminación
 
 async function loadProducers(searchQuery = "", category = currentCategory) {
     const producersList = document.getElementById('producers-list');
@@ -110,6 +58,7 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     
     let filteredProducers = producers;
     
+    // Filtrar por búsqueda
     if (searchQuery) {
         searchQuery = searchQuery.toLowerCase();
         filteredProducers = filteredProducers.filter(producer =>
@@ -118,6 +67,7 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
         );
     }
     
+    // Filtrar por categoría
     if (category !== 'all') {
         filteredProducers = filteredProducers.filter(producer =>
             producer.category.toLowerCase() === category
@@ -125,7 +75,7 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     }
     
     producersList.setAttribute('data-count', filteredProducers.length);
-    countElement.textContent = filteredProducers.length;
+    countElement.textContent = filteredProducers.length; // Actualiza el contador dinámico
     producersList.innerHTML = '';
     
     if (filteredProducers.length === 0) {
@@ -142,27 +92,17 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
             producer.category.toLowerCase() === 'agroindustria' ? 'Agroindustria' :
             'Varios';
         
-        const optimizedImage = producer.image ? `${producer.image}?w=300&h=200&f=auto&q=80` : '/images/logo.png';
         const card = document.createElement('div');
         card.className = 'producer-card';
         card.style.animationDelay = `${index * 0.1}s`;
         card.innerHTML = `
-            <div class="card-image">
-                <img src="${optimizedImage}" alt="${producer.product}" loading="lazy" onerror="this.src='/images/logo.png';">
-                <div class="image-overlay"></div>
-                <span class="category-badge ${producer.category.toLowerCase()}">${categoryName}</span>
-            </div>
+            <img src="${producer.image || '/images/logo.png'}" alt="${producer.product}" loading="lazy">
             <div class="producer-info">
                 <h3>${producer.name}</h3>
-                <div class="info-row">
-                    <span class="label">Producto:</span>
-                    <span class="value">${producer.product}</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">Ubicación:</span>
-                    <span class="value">${producer.location}</span>
-                </div>
-                <p class="description">${producer.description}</p>
+                <span class="category-badge ${producer.category.toLowerCase()}">${categoryName}</span>
+                <p><strong>Producto:</strong> ${producer.product}</p>
+                <p><strong>Ubicación:</strong> ${producer.location}</p>
+                <p>${producer.description}</p>
                 <a href="#" class="producer-whatsapp-btn whatsapp-btn" data-producer-id="${producer.id}" data-whatsapp="${producer.whatsapp}">
                     <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
                 </a>
@@ -174,8 +114,9 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     document.querySelectorAll('.producer-whatsapp-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
+            // Añadir vibración al hacer clic
             if (navigator.vibrate) {
-                navigator.vibrate(50);
+                navigator.vibrate(50); // Vibración de 50ms
             }
             const producerId = button.dataset.producerId;
             const whatsappNumber = button.dataset.whatsapp;
@@ -199,18 +140,23 @@ function startGlowAnimation() {
     function glowNextButton() {
         if (!glowAnimationRunning) return;
 
+        // Remover la clase 'glow' de todos los botones y ocultar los títulos
         subButtons.forEach(btn => {
             btn.classList.remove('glow');
             const label = btn.querySelector('.category-label');
             if (label) label.classList.remove('visible');
         });
 
+        // Añadir la clase 'glow' y mostrar el título del botón actual
         const currentButton = subButtons[currentIndex];
         currentButton.classList.add('glow');
         const label = currentButton.querySelector('.category-label');
         if (label) label.classList.add('visible');
 
+        // Avanzar al siguiente botón
         currentIndex = (currentIndex + 1) % subButtons.length;
+
+        // Repetir cada 1 segundo
         setTimeout(glowNextButton, 1000);
     }
 
@@ -252,11 +198,12 @@ function setupCategoryButtons() {
     const categoryMenu = document.querySelector('.category-menu');
     const subButtons = document.querySelectorAll('.category-btn.sub-btn');
 
+    // Establecer el ícono y el texto curvo del botón principal
     mainButton.querySelector('i').outerHTML = categoryIcons['all'];
     const mainLabel = mainButton.querySelector('.category-label');
     mainLabel.innerHTML = `
         <svg viewBox="0 0 70 70">
-            <path id="curve-all" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
+            <path id="curve-all" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Ziday  fill="none" />
             <text>
                 <textPath href="#curve-all" startOffset="50%" text-anchor="middle">
                     ${categoryLabels['all']}
@@ -265,8 +212,10 @@ function setupCategoryButtons() {
         </svg>
     `;
 
+    // Establecer el botón "Todos" como activo por defecto
     mainButton.classList.add('active');
 
+    // Configurar los botones de categorías con texto curvo
     subButtons.forEach(button => {
         const category = button.dataset.category;
         button.querySelector('i').outerHTML = categoryIcons[category] || '';
@@ -282,11 +231,12 @@ function setupCategoryButtons() {
             </svg>
         `;
         button.addEventListener('click', (e) => {
-            e.stopPropagation();
+            e.stopPropagation(); // Evitar que el evento se propague
+            // Añadir vibración al hacer clic
             if (navigator.vibrate) {
-                navigator.vibrate(50);
+                navigator.vibrate(50); // Vibración de 50ms
             }
-            console.log(`Clic en categoría: ${category}`);
+            console.log(`Clic en categoría: ${category}`); // Depuración
             stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
@@ -308,10 +258,12 @@ function setupCategoryButtons() {
         });
     });
 
+    // Manejar el clic en el botón principal para desplegar/ocultar el menú
     mainButton.addEventListener('click', (e) => {
-        e.stopPropagation();
+        e.stopPropagation(); // Evitar que el evento se propague
+        // Añadir vibración al hacer clic
         if (navigator.vibrate) {
-            navigator.vibrate(50);
+            navigator.vibrate(50); // Vibración de 50ms
         }
         const isOpen = categoryMenu.classList.contains('open');
         if (isOpen) {
@@ -323,10 +275,12 @@ function setupCategoryButtons() {
         }
     });
 
+    // Manejar el clic en el botón "Todos" cuando ya está seleccionado
     mainButton.addEventListener('click', (e) => {
         if (currentCategory !== 'all') {
+            // Añadir vibración al hacer clic
             if (navigator.vibrate) {
-                navigator.vibrate(50);
+                navigator.vibrate(50); // Vibración de 50ms
             }
             stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
@@ -348,6 +302,7 @@ function setupCategoryButtons() {
         }
     });
 
+    // Cerrar el menú y detener la animación si se hace clic fuera de él
     document.addEventListener('click', (e) => {
         if (!categoryMenu.contains(e.target) && !mainButton.contains(e.target)) {
             categoryMenu.classList.remove('open');
@@ -390,22 +345,11 @@ function setupForm() {
             return;
         }
 
-        const whatsappNumber = form.querySelector('#whatsapp').value.replace(/[^0-9]/g, '');
-        if (!whatsappNumber) {
-            formMessage.textContent = 'Por favor, ingresa un número de WhatsApp válido.';
-            return;
-        }
-
         formMessage.textContent = 'Enviando...';
         
         const formData = new FormData(form);
         const producerId = Date.now().toString();
         formData.append('producerId', producerId);
-
-        // Combine country code and phone number
-        const countryCode = form.querySelector('#country-code').value;
-        const fullWhatsappNumber = `${countryCode}${whatsappNumber}`;
-        formData.set('whatsapp', fullWhatsappNumber);
 
         try {
             const response = await fetch('/api/register-user', {
@@ -465,13 +409,6 @@ function init() {
     setupForm();
     setupDarkMode();
     loadProducers();
-
-    // Defer loading of background images
-    setTimeout(() => {
-        document.documentElement.style.setProperty('--body-bg', "url('/images/selva2.jpg')");
-        document.documentElement.style.setProperty('--header-bg', "url('/images/selva1.jpg')");
-        document.documentElement.style.setProperty('--footer-bg', "url('/images/selva3.jpg')");
-    }, 0);
 }
 
 init();
