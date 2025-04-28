@@ -25,21 +25,36 @@ async function trackClick(producerId, whatsappNumber) {
         if (!producerId || !whatsappNumber) {
             throw new Error('Faltan datos: producerId o whatsappNumber no están definidos');
         }
+        
+        // Registrar el click en tu backend
         await fetch('/api/track-click', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ producerId: producerId.toString() })
         });
-        const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
-        const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
-        window.open(whatsappUrl, '_blank');
+        
+        // Limpiar y formatear el número de WhatsApp
+        const cleanNumber = whatsappNumber.replace(/[^0-9+]/g, '');
+        
+        // Asegurar que tenga el código de país si es un número colombiano
+        const formattedNumber = cleanNumber.startsWith('+') ? cleanNumber : 
+                              (cleanNumber.length === 10 ? '+57' + cleanNumber : cleanNumber);
+        
+        // Crear enlace universal que funciona en móviles y desktop
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const message = encodeURIComponent('Hola, estoy interesado en tu emprendimiento en Putumayo Conecta');
+        const whatsappUrl = isMobile 
+            ? `whatsapp://send?phone=${formattedNumber}&text=${message}`
+            : `https://web.whatsapp.com/send?phone=${formattedNumber}&text=${message}`;
+        
+        // Abrir WhatsApp directamente
+        window.location.href = whatsappUrl;
+        
     } catch (error) {
         console.error('Error tracking click:', error);
-        if (whatsappNumber) {
-            const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
-            const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
-            window.open(whatsappUrl, '_blank');
-        }
+        // Fallback a wa.me si hay error
+        const cleanNumber = whatsappNumber.replace(/[^0-9+]/g, '');
+        window.open(`https://wa.me/${cleanNumber}`, '_blank');
     }
 }
 
@@ -76,9 +91,8 @@ function startGlowAnimation() {
         currentIndex = (currentIndex + 1) % subButtons.length;
     }
 
-    // Usar setInterval en lugar de setTimeout recursivo
     glowInterval = setInterval(glowNextButton, 1500);
-    glowNextButton(); // Ejecutar inmediatamente
+    glowNextButton();
 }
 
 function stopGlowAnimation() {
@@ -391,6 +405,24 @@ function init() {
     setupForm();
     setupDarkMode();
     loadProducers();
+    
+    // Manejar clics en enlaces WhatsApp del footer
+    const footerWhatsappBtn = document.querySelector('footer .whatsapp-btn');
+    if (footerWhatsappBtn) {
+        footerWhatsappBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const originalHref = this.getAttribute('href');
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // Reemplazar https://wa.me por whatsapp:// para abrir directamente la app
+                const directHref = originalHref.replace('https://wa.me', 'whatsapp://send');
+                window.location.href = directHref;
+            } else {
+                window.open(originalHref, '_blank');
+            }
+        });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', init);
