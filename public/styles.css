@@ -603,32 +603,32 @@ body.dark-mode .category-btn.sub-btn[data-category="artesania"] .category-label 
 
 /* Posiciones de los botones: 3 a la izquierda y 3 a la derecha */
 .category-menu.open .category-btn.sub-btn:nth-child(1) {
-    transform: translate(-210px, 0px) scale(1); /* Agricultura */
+    transform: translate(-150px, 0px) scale(1); /* Agricultura - Reducido de -210px a -150px */
     transition-delay: 0.05s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(2) {
-    transform: translate(-150px, -90px) scale(1); /* Agroindustria */
+    transform: translate(-110px, -65px) scale(1); /* Agroindustria - Reducido de -150px a -110px y de -90px a -65px */
     transition-delay: 0.1s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(3) {
-    transform: translate(-90px, -180px) scale(1); /* Artesanía */
+    transform: translate(-65px, -130px) scale(1); /* Artesanía - Reducido de -90px a -65px y de -180px a -130px */
     transition-delay: 0.15s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(4) {
-    transform: translate(90px, -180px) scale(1); /* Gastronomía */
+    transform: translate(65px, -130px) scale(1); /* Gastronomía - Reducido de 90px a 65px y de -180px a -130px */
     transition-delay: 0.2s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(5) {
-    transform: translate(150px, -90px) scale(1); /* Turismo */
+    transform: translate(110px, -65px) scale(1); /* Turismo - Reducido de 150px a 110px y de -90px a -65px */
     transition-delay: 0.25s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(6) {
-    transform: translate(210px, 0px) scale(1); /* Varios */
+    transform: translate(150px, 0px) scale(1); /* Varios - Reducido de 210px a 150px */
     transition-delay: 0.3s;
 }
 
@@ -819,8 +819,8 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
 
     .category-menu {
         bottom: 75px;
-        width: 350px; /* Ajustado para pantallas más pequeñas */
-        height: 250px;
+        width: 300px; /* Reducido de 350px a 300px para un diseño más compacto */
+        height: 200px; /* Reducido de 250px a 200px */
     }
 
     .category-btn.sub-btn {
@@ -834,27 +834,27 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-180px, 0px) scale(1);
+        transform: translate(-130px, 0px) scale(1); /* Reducido de -180px a -130px */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-130px, -75px) scale(1);
+        transform: translate(-95px, -55px) scale(1); /* Reducido de -130px a -95px y de -75px a -55px */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(-80px, -150px) scale(1);
+        transform: translate(-55px, -110px) scale(1); /* Reducido de -80px a -55px y de -150px a -110px */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(80px, -150px) scale(1);
+        transform: translate(55px, -110px) scale(1); /* Reducido de 80px a 55px y de -150px a -110px */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(130px, -75px) scale(1);
+        transform: translate(95px, -55px) scale(1); /* Reducido de 130px a 95px y de -75px a -55px */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(180px, 0px) scale(1);
+        transform: translate(130px, 0px) scale(1); /* Reducido de 180px a 130px */
     }
 
     .modal-content {
@@ -989,8 +989,8 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
 
     .category-menu {
         bottom: 60px;
-        width: 300px; /* Ajustado para pantallas más pequeñas */
-        height: 200px;
+        width: 250px; /* Reducido de 300px a 250px */
+        height: 160px; /* Reducido de 200px a 160px */
     }
 
     .category-btn.sub-btn {
@@ -1004,27 +1004,27 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-150px, 0px) scale(1);
+        transform: translate(-110px, 0px) scale(1); /* Reducido de -150px a -110px */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-110px, -60px) scale(1);
+        transform: translate(-80px, -45px) scale(1); /* Reducido de -110px a -80px y de -60px a -45px */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(-70px, -120px) scale(1);
+        transform: translate(-45px, -90px) scale(1); /* Reducido de -70px a -45px y de -120px a -90px */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(70px, -120px) scale(1);
+        transform: translate(45px, -90px) scale(1); /* Reducido de 70px a 45px y de -120px a -90px */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(110px, -60px) scale(1);
+        transform: translate(80px, -45px) scale(1); /* Reducido de 110px a 80px y de -60px a -45px */
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(150px, 0px) scale(1);
+        transform: translate(110px, 0px) scale(1); /* Reducido de 150px a 110px */
     }
 
     .modal-content {
