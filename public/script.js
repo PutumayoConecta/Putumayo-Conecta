@@ -173,6 +173,20 @@ function stopGlowAnimation() {
     });
 }
 
+// Nueva función auxiliar para generar SVGs de manera segura
+function createCategorySvg(category, label) {
+    return `
+        <svg viewBox="0 0 70 70">
+            <path id="curve-${category}" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
+            <text>
+                <textPath href="#curve-${category}" startOffset="50%" text-anchor="middle">
+                    ${label}
+                </textPath>
+            </text>
+        </svg>
+    `;
+}
+
 function setupCategoryButtons() {
     const categoryIcons = {
         'all': '<i class="fas fa-star"></i>',
@@ -201,16 +215,7 @@ function setupCategoryButtons() {
     // Establecer el ícono y el texto curvo del botón principal
     mainButton.querySelector('i').outerHTML = categoryIcons['all'];
     const mainLabel = mainButton.querySelector('.category-label');
-    mainLabel.innerHTML = `
-        <svg viewBox="0 0 70 70">
-            <path id="curve-all" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Ziday  fill="none" />
-            <text>
-                <textPath href="#curve-all" startOffset="50%" text-anchor="middle">
-                    ${categoryLabels['all']}
-                </textPath>
-            </text>
-        </svg>
-    `;
+    mainLabel.innerHTML = createCategorySvg('all', categoryLabels['all']);
 
     // Establecer el botón "Todos" como activo por defecto
     mainButton.classList.add('active');
@@ -220,23 +225,13 @@ function setupCategoryButtons() {
         const category = button.dataset.category;
         button.querySelector('i').outerHTML = categoryIcons[category] || '';
         const subLabel = button.querySelector('.category-label');
-        subLabel.innerHTML = `
-            <svg viewBox="0 0 70 70">
-                <path id="curve-${category}" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
-                <text>
-                    <textPath href="#curve-${category}" startOffset="50%" text-anchor="middle">
-                        ${categoryLabels[category]}
-                    </textPath>
-                </text>
-            </svg>
-        `;
+        subLabel.innerHTML = createCategorySvg(category, categoryLabels[category]);
         button.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evitar que el evento se propague
-            // Añadir vibración al hacer clic
+            e.stopPropagation();
             if (navigator.vibrate) {
-                navigator.vibrate(50); // Vibración de 50ms
+                navigator.vibrate(50);
             }
-            console.log(`Clic en categoría: ${category}`); // Depuración
+            console.log(`Clic en categoría: ${category}`);
             stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
@@ -245,25 +240,15 @@ function setupCategoryButtons() {
             categoryMenu.classList.remove('open');
             mainButton.querySelector('i').outerHTML = categoryIcons[currentCategory];
             const updatedMainLabel = mainButton.querySelector('.category-label');
-            updatedMainLabel.innerHTML = `
-                <svg viewBox="0 0 70 70">
-                    <path id="curve-${currentCategory}" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
-                    <text>
-                        <textPath href="#curve-${currentCategory}" startOffset="50%" text-anchor="middle">
-                            ${categoryLabels[currentCategory]}
-                        </textPath>
-                    </text>
-                </svg>
-            `;
+            updatedMainLabel.innerHTML = createCategorySvg(currentCategory, categoryLabels[currentCategory]);
         });
     });
 
     // Manejar el clic en el botón principal para desplegar/ocultar el menú
     mainButton.addEventListener('click', (e) => {
-        e.stopPropagation(); // Evitar que el evento se propague
-        // Añadir vibración al hacer clic
+        e.stopPropagation();
         if (navigator.vibrate) {
-            navigator.vibrate(50); // Vibración de 50ms
+            navigator.vibrate(50);
         }
         const isOpen = categoryMenu.classList.contains('open');
         if (isOpen) {
@@ -278,9 +263,8 @@ function setupCategoryButtons() {
     // Manejar el clic en el botón "Todos" cuando ya está seleccionado
     mainButton.addEventListener('click', (e) => {
         if (currentCategory !== 'all') {
-            // Añadir vibración al hacer clic
             if (navigator.vibrate) {
-                navigator.vibrate(50); // Vibración de 50ms
+                navigator.vibrate(50);
             }
             stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
@@ -289,16 +273,7 @@ function setupCategoryButtons() {
             loadProducers(document.getElementById('search-input').value, currentCategory);
             mainButton.querySelector('i').outerHTML = categoryIcons['all'];
             const updatedMainLabel = mainButton.querySelector('.category-label');
-            updatedMainLabel.innerHTML = `
-                <svg viewBox="0 0 70 70">
-                    <path id="curve-all" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
-                    <text>
-                        <textPath href="#curve-all" startOffset="50%" text-anchor="middle">
-                            ${categoryLabels['all']}
-                        </textPath>
-                    </text>
-                </svg>
-            `;
+            updatedMainLabel.innerHTML = createCategorySvg('all', categoryLabels['all']);
         }
     });
 

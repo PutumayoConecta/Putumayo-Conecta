@@ -7,14 +7,10 @@ const urlsToCache = [
     '/styles.css',
     '/script.js',
     '/manifest.json',
-    '/images/selva1.jpg',
-    '/images/selva2.jpg',
-    '/images/selva3.jpg',
-    '/images/icon-192x192.png',
-    '/images/icon-512x512.png',
-    '/images/logo.png',
-    '/images/wood-texture.jpg',
-    '/images/vine-texture.png'
+    '/images/selva2.jpg', // Confirmado en HTML y CSS
+    '/images/icon-192x192.png', // Confirmado en HTML
+    '/images/logo.png' // Confirmado en JS
+    // Nota: Verifica si necesitas selva1.jpg, selva3.jpg, icon-512x512.png, wood-texture.jpg, vine-texture.png
 ];
 
 self.addEventListener('install', event => {
@@ -41,6 +37,16 @@ self.addEventListener('install', event => {
     );
 });
 
+function limitDynamicCache(cacheName, maxItems) {
+    caches.open(cacheName).then(cache => {
+        cache.keys().then(keys => {
+            if (keys.length > maxItems) {
+                cache.delete(keys[0]).then(() => limitDynamicCache(cacheName, maxItems));
+            }
+        });
+    });
+}
+
 self.addEventListener('fetch', event => {
     const requestUrl = event.request.url;
 
@@ -55,8 +61,7 @@ self.addEventListener('fetch', event => {
                     });
                 })
         );
-    }
-    else if (requestUrl.includes('/images/') && requestUrl.match(/\.(jpg|jpeg|png|gif)$/)) {
+    } else if (requestUrl.includes('/images/') && requestUrl.match(/\.(jpg|jpeg|png|gif)$/)) {
         event.respondWith(
             caches.match(event.request)
                 .then(response => {
@@ -72,16 +77,17 @@ self.addEventListener('fetch', event => {
                             caches.open(DYNAMIC_CACHE_NAME)
                                 .then(cache => {
                                     cache.put(event.request, responseToCache);
+                                    limitDynamicCache(DYNAMIC_CACHE_NAME, 50); // Límite de 50 imágenes
                                 });
                             return networkResponse;
                         })
                         .catch(error => {
                             console.error('Error al obtener la imagen:', requestUrl, error);
+                            return caches.match('/images/logo.png'); // Imagen de fallback
                         });
                 })
         );
-    }
-    else {
+    } else {
         event.respondWith(
             caches.match(event.request)
                 .then(response => response || fetch(event.request))
