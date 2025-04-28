@@ -558,6 +558,7 @@ body.dark-mode .category-btn.main-btn.active {
     align-items: center;
     justify-content: center;
     padding-top: 0;
+    pointer-events: auto; /* Asegurar que los botones sean interactivos */
 }
 
 .category-btn.sub-btn .category-label {
@@ -599,6 +600,7 @@ body.dark-mode .category-btn.sub-btn[data-category="artesania"] .category-label 
 .category-menu.open .category-btn.sub-btn {
     opacity: 1;
     transform: scale(1);
+    pointer-events: auto; /* Reforzar interactividad */
 }
 
 /* Posiciones de los botones: 3 a la izquierda y 3 a la derecha */
@@ -721,6 +723,325 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="turismo"] {
 
 body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     box-shadow: 0 0 15px 5px var(--gris-Varios);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    max-width: 95%;
+    width: 90%;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: slideIn 0.3s ease;
+}
+
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--verde-amazonico);
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: #27AE60;
+}
+
+body.dark-mode .modal-content {
+    background: var(--dark-card);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .modal-content::-webkit-scrollbar-track {
+    background: #444;
+}
+
+body.dark-mode .modal-content::-webkit-scrollbar-thumb {
+    background: #81c784;
+}
+
+body.dark-mode .modal-content::-webkit-scrollbar-thumb:hover {
+    background: #6db370;
+}
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}
+
+body.dark-mode .close {
+    color: var(--dark-text);
+}
+
+body.dark-mode .close:hover {
+    color: #bbb;
+}
+
+.modal-content h2 {
+    color: var(--verde-amazonico);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .modal-content h2 {
+    color: #81c784;
+}
+
+#register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#register-form label {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: #555;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode #register-form label {
+    color: var(--dark-text);
+}
+
+#register-form input,
+#register-form select,
+#register-form textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: 'Rubik', sans-serif;
+    transition: border-color 0.3s;
+}
+
+#register-form input:focus,
+#register-form select:focus,
+#register-form textarea:focus {
+    outline: none;
+    border-color: var(--verde-amazonico);
+}
+
+body.dark-mode #register-form input,
+body.dark-mode #register-form select,
+body.dark-mode #register-form textarea {
+    background: #333;
+    color: var(--dark-text);
+    border-color: #555;
+}
+
+body.dark-mode #register-form input:focus,
+body.dark-mode #register-form select:focus,
+body.dark-mode #register-form textarea:focus {
+    border-color: #81c784;
+}
+
+#register-form input[type="file"] {
+    padding: 6px;
+}
+
+#register-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+#register-form button {
+    padding: 10px;
+    background: var(--verde-amazonico);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.3s, transform 0.2s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+#register-form button:hover {
+    background: #27AE60;
+    transform: translateY(-2px);
+}
+
+body.dark-mode #register-form button {
+    background: #81c784;
+}
+
+body.dark-mode #register-form button:hover {
+    background: #6db370;
+}
+
+#form-message {
+    margin-top: 10px;
+    color: var(--verde-amazonico);
+    font-size: 0.85rem;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode #form-message {
+    color: #81c784;
+}
+
+.login-section,
+.stats-section {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+    text-align: center;
+}
+
+.login-section h2,
+.stats-section h2 {
+    color: var(--verde-amazonico);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .login-section h2,
+body.dark-mode .stats-section h2 {
+    color: #81c784;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#login-form label {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: #555;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode #login-form label {
+    color: var(--dark-text);
+}
+
+#login-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: 'Rubik', sans-serif;
+    transition: border-color 0.3s;
+}
+
+#login-form input:focus {
+    outline: none;
+    border-color: var(--verde-amazonico);
+}
+
+body.dark-mode #login-form input {
+    background: #333;
+    color: var(--dark-text);
+    border-color: #555;
+}
+
+body.dark-mode #login-form input:focus {
+    border-color: #81c784;
+}
+
+#login-form button {
+    padding: 10px;
+    background: var(--verde-amazonico);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.3s, transform 0.2s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+#login-form button:hover {
+    background: #27AE60;
+    transform: translateY(-2px);
+}
+
+body.dark-mode #login-form button {
+    background: #81c784;
+}
+
+body.dark-mode #login-form button:hover {
+    background: #6db370;
+}
+
+#login-message {
+    margin-top: 10px;
+    color: var(--verde-amazonico);
+    font-size: 0.85rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode #login-message {
+    color: #81c784;
+}
+
+.stats-section a {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 8px 16px;
+    background: var(--verde-amazonico);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.stats-section a:hover {
+    background: #27AE60;
+    transform: translateY(-2px);
+}
+
+body.dark-mode .stats-section a {
+    background: #81c784;
+}
+
+body.dark-mode .stats-section a:hover {
+    background: #6db370;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 /* Media Queries para Dispositivos Móviles */
@@ -1056,323 +1377,4 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     footer p {
         font-size: 0.8rem;
     }
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 16px;
-    max-width: 95%;
-    width: 90%;
-    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
-    max-height: 80vh;
-    overflow-y: auto;
-    animation: slideIn 0.3s ease;
-}
-
-.modal-content::-webkit-scrollbar {
-    width: 8px;
-}
-
-.modal-content::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-}
-
-.modal-content::-webkit-scrollbar-thumb {
-    background: var(--verde-amazonico);
-    border-radius: 10px;
-}
-
-.modal-content::-webkit-scrollbar-thumb:hover {
-    background: #27AE60;
-}
-
-body.dark-mode .modal-content {
-    background: var(--dark-card);
-    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode .modal-content::-webkit-scrollbar-track {
-    background: #444;
-}
-
-body.dark-mode .modal-content::-webkit-scrollbar-thumb {
-    background: #81c784;
-}
-
-body.dark-mode .modal-content::-webkit-scrollbar-thumb:hover {
-    background: #6db370;
-}
-
-.close {
-    float: right;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #333;
-}
-
-body.dark-mode .close {
-    color: var(--dark-text);
-}
-
-body.dark-mode .close:hover {
-    color: #bbb;
-}
-
-.modal-content h2 {
-    color: var(--verde-amazonico);
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.2);
-}
-
-body.dark-mode .modal-content h2 {
-    color: #81c784;
-}
-
-#register-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-#register-form label {
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-    color: #555;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-body.dark-mode #register-form label {
-    color: var(--dark-text);
-}
-
-#register-form input,
-#register-form select,
-#register-form textarea {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-family: 'Rubik', sans-serif;
-    transition: border-color 0.3s;
-}
-
-#register-form input:focus,
-#register-form select:focus,
-#register-form textarea:focus {
-    outline: none;
-    border-color: var(--verde-amazonico);
-}
-
-body.dark-mode #register-form input,
-body.dark-mode #register-form select,
-body.dark-mode #register-form textarea {
-    background: #333;
-    color: var(--dark-text);
-    border-color: #555;
-}
-
-body.dark-mode #register-form input:focus,
-body.dark-mode #register-form select:focus,
-body.dark-mode #register-form textarea:focus {
-    border-color: #81c784;
-}
-
-#register-form input[type="file"] {
-    padding: 6px;
-}
-
-#register-form textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-
-#register-form button {
-    padding: 10px;
-    background: var(--verde-amazonico);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: background 0.3s, transform 0.2s;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-#register-form button:hover {
-    background: #27AE60;
-    transform: translateY(-2px);
-}
-
-body.dark-mode #register-form button {
-    background: #81c784;
-}
-
-body.dark-mode #register-form button:hover {
-    background: #6db370;
-}
-
-#form-message {
-    margin-top: 10px;
-    color: var(--verde-amazonico);
-    font-size: 0.85rem;
-    text-align: center;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-body.dark-mode #form-message {
-    color: #81c784;
-}
-
-.login-section,
-.stats-section {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 1rem;
-    text-align: center;
-}
-
-.login-section h2,
-.stats-section h2 {
-    color: var(--verde-amazonico);
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.2);
-}
-
-body.dark-mode .login-section h2,
-body.dark-mode .stats-section h2 {
-    color: #81c784;
-}
-
-#login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-#login-form label {
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-    color: #555;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-body.dark-mode #login-form label {
-    color: var(--dark-text);
-}
-
-#login-form input {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-family: 'Rubik', sans-serif;
-    transition: border-color 0.3s;
-}
-
-#login-form input:focus {
-    outline: none;
-    border-color: var(--verde-amazonico);
-}
-
-body.dark-mode #login-form input {
-    background: #333;
-    color: var(--dark-text);
-    border-color: #555;
-}
-
-body.dark-mode #login-form input:focus {
-    border-color: #81c784;
-}
-
-#login-form button {
-    padding: 10px;
-    background: var(--verde-amazonico);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: background 0.3s, transform 0.2s;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-#login-form button:hover {
-    background: #27AE60;
-    transform: translateY(-2px);
-}
-
-body.dark-mode #login-form button {
-    background: #81c784;
-}
-
-body.dark-mode #login-form button:hover {
-    background: #6db370;
-}
-
-#login-message {
-    margin-top: 10px;
-    color: var(--verde-amazonico);
-    font-size: 0.85rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-body.dark-mode #login-message {
-    color: #81c784;
-}
-
-.stats-section a {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 8px 16px;
-    background: var(--verde-amazonico);
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: background 0.3s, transform 0.2s;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.stats-section a:hover {
-    background: #27AE60;
-    transform: translateY(-2px);
-}
-
-body.dark-mode .stats-section a {
-    background: #81c784;
-}
-
-body.dark-mode .stats-section a:hover {
-    background: #6db370;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideIn {
-    from { transform: translateY(-50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
 }

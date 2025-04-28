@@ -156,8 +156,8 @@ function startGlowAnimation() {
         // Avanzar al siguiente botón
         currentIndex = (currentIndex + 1) % subButtons.length;
 
-        // Repetir cada 1 segundo
-        setTimeout(glowNextButton, 1000);
+        // Repetir cada 1.5 segundos (aumentado para mejor interactividad)
+        setTimeout(glowNextButton, 1500);
     }
 
     glowNextButton();
@@ -173,7 +173,6 @@ function stopGlowAnimation() {
     });
 }
 
-// Nueva función auxiliar para generar SVGs de manera segura
 function createCategorySvg(category, label) {
     return `
         <svg viewBox="0 0 70 70">
@@ -226,13 +225,18 @@ function setupCategoryButtons() {
         button.querySelector('i').outerHTML = categoryIcons[category] || '';
         const subLabel = button.querySelector('.category-label');
         subLabel.innerHTML = createCategorySvg(category, categoryLabels[category]);
+
+        // Asegurar que el botón sea interactivo
+        button.style.pointerEvents = 'auto';
+
         button.addEventListener('click', (e) => {
             e.stopPropagation();
+            e.preventDefault(); // Evitar comportamientos inesperados
             if (navigator.vibrate) {
                 navigator.vibrate(50);
             }
             console.log(`Clic en categoría: ${category}`);
-            stopGlowAnimation();
+            stopGlowAnimation(); // Detener la animación inmediatamente
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             currentCategory = category;
@@ -241,6 +245,24 @@ function setupCategoryButtons() {
             mainButton.querySelector('i').outerHTML = categoryIcons[currentCategory];
             const updatedMainLabel = mainButton.querySelector('.category-label');
             updatedMainLabel.innerHTML = createCategorySvg(currentCategory, categoryLabels[currentCategory]);
+        });
+
+        // Agregar evento para detener la animación al pasar el cursor
+        button.addEventListener('mouseenter', () => {
+            stopGlowAnimation();
+            button.classList.add('glow');
+            const label = button.querySelector('.category-label');
+            if (label) label.classList.add('visible');
+        });
+
+        // Restaurar la animación al salir (opcional)
+        button.addEventListener('mouseleave', () => {
+            button.classList.remove('glow');
+            const label = button.querySelector('.category-label');
+            if (label) label.classList.remove('visible');
+            if (categoryMenu.classList.contains('open')) {
+                startGlowAnimation();
+            }
         });
     });
 
@@ -260,7 +282,7 @@ function setupCategoryButtons() {
         }
     });
 
-    // Manejar el clic en el botón "Todos" cuando ya está seleccionado
+    // Manejar el clic en el botón "Todos"
     mainButton.addEventListener('click', (e) => {
         if (currentCategory !== 'all') {
             if (navigator.vibrate) {
