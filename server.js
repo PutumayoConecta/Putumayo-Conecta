@@ -39,6 +39,9 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage });
 
+// Configurar Mongoose y suprimir advertencia de strictQuery
+mongoose.set('strictQuery', true);
+
 // Conectar a MongoDB
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Conectado a MongoDB'))
