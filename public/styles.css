@@ -460,7 +460,7 @@ footer a[href*="whatsapp"]:hover {
     color: white;
     font-size: 1.8rem;
     cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s;
+    transition: background-color 0.3s, box-shadow 0.3s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1001; /* Asegurar que esté por encima de otros elementos */
     position: relative;
@@ -522,13 +522,11 @@ body.dark-mode .category-btn.main-btn.active {
     bottom: 90px; /* Ajustado para evitar superposición con el botón principal */
     left: 50%;
     transform: translateX(-50%); /* Centrar horizontalmente */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 400px; /* Tamaño suficiente para contener los sub-botones */
+    height: 300px; /* Altura para permitir la distribución de los botones */
     opacity: 0;
     visibility: hidden;
-    transform-origin: center bottom;
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
     z-index: 1000; /* Asegurar que esté por encima de otros elementos */
     pointer-events: none; /* Evitar interacciones cuando está oculto */
 }
@@ -536,7 +534,6 @@ body.dark-mode .category-btn.main-btn.active {
 .category-menu.open {
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) scale(1); /* Mantener centrado */
     pointer-events: auto; /* Habilitar interacciones cuando está abierto */
 }
 
@@ -548,10 +545,12 @@ body.dark-mode .category-btn.main-btn.active {
     color: white;
     font-size: 1.8rem;
     cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s, opacity 0.3s;
+    transition: background-color 0.3s, box-shadow 0.3s, opacity 0.3s;
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0); /* Posición inicial centrada y oculta */
     opacity: 0;
-    transform: scale(0);
     z-index: 1002; /* Asegurar que esté por encima del botón principal */
     display: flex;
     flex-direction: column;
@@ -566,6 +565,7 @@ body.dark-mode .category-btn.main-btn.active {
     height: 100%;
     opacity: 0;
     transition: opacity 0.3s ease;
+    z-index: 1003; /* Asegurar que la etiqueta esté por encima del botón */
 }
 
 .category-btn.sub-btn .category-label.visible {
@@ -598,42 +598,42 @@ body.dark-mode .category-btn.sub-btn[data-category="artesania"] .category-label 
 
 .category-menu.open .category-btn.sub-btn {
     opacity: 1;
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1); /* Base para permitir posiciones personalizadas */
 }
 
 /* Posiciones de los botones: 3 a la izquierda y 3 a la derecha */
 .category-menu.open .category-btn.sub-btn:nth-child(1) {
-    transform: translate(-160px, 0px) scale(1); /* Agricultura */
+    transform: translate(-210px, 0px) scale(1); /* Agricultura */
     transition-delay: 0.05s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(2) {
-    transform: translate(-120px, -70px) scale(1); /* Agroindustria */
+    transform: translate(-150px, -90px) scale(1); /* Agroindustria */
     transition-delay: 0.1s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(3) {
-    transform: translate(-80px, -140px) scale(1); /* Artesanía */
+    transform: translate(-90px, -180px) scale(1); /* Artesanía */
     transition-delay: 0.15s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(4) {
-    transform: translate(80px, -140px) scale(1); /* Gastronomía */
+    transform: translate(90px, -180px) scale(1); /* Gastronomía */
     transition-delay: 0.2s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(5) {
-    transform: translate(120px, -70px) scale(1); /* Turismo */
+    transform: translate(150px, -90px) scale(1); /* Turismo */
     transition-delay: 0.25s;
 }
 
 .category-menu.open .category-btn.sub-btn:nth-child(6) {
-    transform: translate(160px, 0px) scale(1); /* Varios */
+    transform: translate(210px, 0px) scale(1); /* Varios */
     transition-delay: 0.3s;
 }
 
 .category-btn.sub-btn:hover {
-    transform: scale(1.1) !important;
+    transform: translate(-50%, -50%) scale(1.1); /* Ajustar hover para mantener la posición */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -819,6 +819,8 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
 
     .category-menu {
         bottom: 75px;
+        width: 350px; /* Ajustado para pantallas más pequeñas */
+        height: 250px;
     }
 
     .category-btn.sub-btn {
@@ -832,27 +834,27 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-130px, 0px) scale(1);
+        transform: translate(-180px, 0px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-100px, -60px) scale(1);
+        transform: translate(-130px, -75px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(-70px, -120px) scale(1);
+        transform: translate(-80px, -150px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(70px, -120px) scale(1);
+        transform: translate(80px, -150px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(100px, -60px) scale(1);
+        transform: translate(130px, -75px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(130px, 0px) scale(1);
+        transform: translate(180px, 0px) scale(1);
     }
 
     .modal-content {
@@ -987,6 +989,8 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
 
     .category-menu {
         bottom: 60px;
+        width: 300px; /* Ajustado para pantallas más pequeñas */
+        height: 200px;
     }
 
     .category-btn.sub-btn {
@@ -1000,27 +1004,27 @@ body.dark-mode .category-btn.sub-btn.glow[data-category="varios"] {
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-100px, 0px) scale(1);
+        transform: translate(-150px, 0px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-80px, -50px) scale(1);
+        transform: translate(-110px, -60px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(-60px, -100px) scale(1);
+        transform: translate(-70px, -120px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(60px, -100px) scale(1);
+        transform: translate(70px, -120px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(80px, -50px) scale(1);
+        transform: translate(110px, -60px) scale(1);
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(100px, 0px) scale(1);
+        transform: translate(150px, 0px) scale(1);
     }
 
     .modal-content {
