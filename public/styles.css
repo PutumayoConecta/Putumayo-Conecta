@@ -1378,3 +1378,35 @@ body.dark-mode .stats-section a:hover {
         font-size: 0.8rem;
     }
 }
+/* Agrega estas reglas al final de tu archivo CSS */
+
+.category-btn.sub-btn {
+    transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s, opacity 0.3s;
+    will-change: transform, opacity;
+}
+
+/* Mejora en la animación para evitar parpadeos */
+@keyframes smoothGlow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0);
+    }
+    50% {
+        box-shadow: 0 0 15px 5px currentColor;
+    }
+}
+
+.category-btn.sub-btn.glow {
+    animation: smoothGlow 1.5s ease-in-out infinite;
+}
+
+/* Asegura que el menú se cierre correctamente */
+.category-menu:not(.open) {
+    display: none;
+}
+
+/* Mejora en la respuesta táctil */
+@media (hover: none) {
+    .category-btn {
+        transition: none;
+    }
+}

@@ -30,7 +30,6 @@ async function trackClick(producerId, whatsappNumber) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ producerId: producerId.toString() })
         });
-        // Asegurar que el número no tenga espacios ni caracteres adicionales
         const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
         const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hola,%20estoy%20interesado%20en%20tu%20emprendimiento%20en%20Putumayo%20Conecta`;
         window.open(whatsappUrl, '_blank');
@@ -44,8 +43,58 @@ async function trackClick(producerId, whatsappNumber) {
     }
 }
 
-let currentCategory = 'all'; // Variable para rastrear la categoría seleccionada
-let glowAnimationRunning = false; // Variable para controlar la animación de iluminación
+let currentCategory = 'all';
+let glowAnimationRunning = false;
+let glowInterval = null;
+
+function startGlowAnimation() {
+    if (glowAnimationRunning) return;
+    
+    const subButtons = document.querySelectorAll('.category-btn.sub-btn');
+    let currentIndex = 0;
+    glowAnimationRunning = true;
+
+    function glowNextButton() {
+        if (!glowAnimationRunning || !document.querySelector('.category-menu.open')) {
+            stopGlowAnimation();
+            return;
+        }
+
+        subButtons.forEach(btn => {
+            btn.classList.remove('glow');
+            const label = btn.querySelector('.category-label');
+            if (label) label.classList.remove('visible');
+        });
+
+        const currentButton = subButtons[currentIndex];
+        if (currentButton) {
+            currentButton.classList.add('glow');
+            const label = currentButton.querySelector('.category-label');
+            if (label) label.classList.add('visible');
+        }
+
+        currentIndex = (currentIndex + 1) % subButtons.length;
+    }
+
+    // Usar setInterval en lugar de setTimeout recursivo
+    glowInterval = setInterval(glowNextButton, 1500);
+    glowNextButton(); // Ejecutar inmediatamente
+}
+
+function stopGlowAnimation() {
+    glowAnimationRunning = false;
+    if (glowInterval) {
+        clearInterval(glowInterval);
+        glowInterval = null;
+    }
+    
+    const subButtons = document.querySelectorAll('.category-btn.sub-btn');
+    subButtons.forEach(btn => {
+        btn.classList.remove('glow');
+        const label = btn.querySelector('.category-label');
+        if (label) label.classList.remove('visible');
+    });
+}
 
 async function loadProducers(searchQuery = "", category = currentCategory) {
     const producersList = document.getElementById('producers-list');
@@ -53,12 +102,10 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     producersList.innerHTML = '<p>Cargando productores...</p>';
     
     let producers = await fetchData();
-    
     console.log('Productores cargados:', producers);
     
     let filteredProducers = producers;
     
-    // Filtrar por búsqueda
     if (searchQuery) {
         searchQuery = searchQuery.toLowerCase();
         filteredProducers = filteredProducers.filter(producer =>
@@ -67,7 +114,6 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
         );
     }
     
-    // Filtrar por categoría
     if (category !== 'all') {
         filteredProducers = filteredProducers.filter(producer =>
             producer.category.toLowerCase() === category
@@ -75,7 +121,7 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     }
     
     producersList.setAttribute('data-count', filteredProducers.length);
-    countElement.textContent = filteredProducers.length; // Actualiza el contador dinámico
+    countElement.textContent = filteredProducers.length;
     producersList.innerHTML = '';
     
     if (filteredProducers.length === 0) {
@@ -114,9 +160,8 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     document.querySelectorAll('.producer-whatsapp-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
-            // Añadir vibración al hacer clic
             if (navigator.vibrate) {
-                navigator.vibrate(50); // Vibración de 50ms
+                navigator.vibrate(50);
             }
             const producerId = button.dataset.producerId;
             const whatsappNumber = button.dataset.whatsapp;
@@ -127,49 +172,13 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
 
 function setupSearch() {
     const searchInput = document.getElementById('search-input');
+    let searchTimeout;
+    
     searchInput.addEventListener('input', () => {
-        loadProducers(searchInput.value, currentCategory);
-    });
-}
-
-function startGlowAnimation() {
-    const subButtons = document.querySelectorAll('.category-btn.sub-btn');
-    let currentIndex = 0;
-    glowAnimationRunning = true;
-
-    function glowNextButton() {
-        if (!glowAnimationRunning) return;
-
-        // Remover la clase 'glow' de todos los botones y ocultar los títulos
-        subButtons.forEach(btn => {
-            btn.classList.remove('glow');
-            const label = btn.querySelector('.category-label');
-            if (label) label.classList.remove('visible');
-        });
-
-        // Añadir la clase 'glow' y mostrar el título del botón actual
-        const currentButton = subButtons[currentIndex];
-        currentButton.classList.add('glow');
-        const label = currentButton.querySelector('.category-label');
-        if (label) label.classList.add('visible');
-
-        // Avanzar al siguiente botón
-        currentIndex = (currentIndex + 1) % subButtons.length;
-
-        // Repetir cada 1.5 segundos (aumentado para mejor interactividad)
-        setTimeout(glowNextButton, 1500);
-    }
-
-    glowNextButton();
-}
-
-function stopGlowAnimation() {
-    glowAnimationRunning = false;
-    const subButtons = document.querySelectorAll('.category-btn.sub-btn');
-    subButtons.forEach(btn => {
-        btn.classList.remove('glow');
-        const label = btn.querySelector('.category-label');
-        if (label) label.classList.remove('visible');
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            loadProducers(searchInput.value, currentCategory);
+        }, 300);
     });
 }
 
@@ -211,32 +220,27 @@ function setupCategoryButtons() {
     const categoryMenu = document.querySelector('.category-menu');
     const subButtons = document.querySelectorAll('.category-btn.sub-btn');
 
-    // Establecer el ícono y el texto curvo del botón principal
     mainButton.querySelector('i').outerHTML = categoryIcons['all'];
     const mainLabel = mainButton.querySelector('.category-label');
     mainLabel.innerHTML = createCategorySvg('all', categoryLabels['all']);
-
-    // Establecer el botón "Todos" como activo por defecto
     mainButton.classList.add('active');
 
-    // Configurar los botones de categorías con texto curvo
     subButtons.forEach(button => {
         const category = button.dataset.category;
         button.querySelector('i').outerHTML = categoryIcons[category] || '';
         const subLabel = button.querySelector('.category-label');
         subLabel.innerHTML = createCategorySvg(category, categoryLabels[category]);
 
-        // Asegurar que el botón sea interactivo
         button.style.pointerEvents = 'auto';
 
         button.addEventListener('click', (e) => {
             e.stopPropagation();
-            e.preventDefault(); // Evitar comportamientos inesperados
+            e.preventDefault();
             if (navigator.vibrate) {
                 navigator.vibrate(50);
             }
-            console.log(`Clic en categoría: ${category}`);
-            stopGlowAnimation(); // Detener la animación inmediatamente
+            
+            stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             currentCategory = category;
@@ -247,7 +251,6 @@ function setupCategoryButtons() {
             updatedMainLabel.innerHTML = createCategorySvg(currentCategory, categoryLabels[currentCategory]);
         });
 
-        // Agregar evento para detener la animación al pasar el cursor
         button.addEventListener('mouseenter', () => {
             stopGlowAnimation();
             button.classList.add('glow');
@@ -255,51 +258,33 @@ function setupCategoryButtons() {
             if (label) label.classList.add('visible');
         });
 
-        // Restaurar la animación al salir (opcional)
         button.addEventListener('mouseleave', () => {
             button.classList.remove('glow');
             const label = button.querySelector('.category-label');
             if (label) label.classList.remove('visible');
-            if (categoryMenu.classList.contains('open')) {
-                startGlowAnimation();
-            }
         });
     });
 
-    // Manejar el clic en el botón principal para desplegar/ocultar el menú
     mainButton.addEventListener('click', (e) => {
         e.stopPropagation();
         if (navigator.vibrate) {
             navigator.vibrate(50);
         }
+        
         const isOpen = categoryMenu.classList.contains('open');
-        if (isOpen) {
-            categoryMenu.classList.remove('open');
-            stopGlowAnimation();
-        } else {
+        
+        document.querySelectorAll('.category-menu.open').forEach(menu => {
+            menu.classList.remove('open');
+        });
+        
+        if (!isOpen) {
             categoryMenu.classList.add('open');
             startGlowAnimation();
-        }
-    });
-
-    // Manejar el clic en el botón "Todos"
-    mainButton.addEventListener('click', (e) => {
-        if (currentCategory !== 'all') {
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
-            }
+        } else {
             stopGlowAnimation();
-            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-            mainButton.classList.add('active');
-            currentCategory = 'all';
-            loadProducers(document.getElementById('search-input').value, currentCategory);
-            mainButton.querySelector('i').outerHTML = categoryIcons['all'];
-            const updatedMainLabel = mainButton.querySelector('.category-label');
-            updatedMainLabel.innerHTML = createCategorySvg('all', categoryLabels['all']);
         }
     });
 
-    // Cerrar el menú y detener la animación si se hace clic fuera de él
     document.addEventListener('click', (e) => {
         if (!categoryMenu.contains(e.target) && !mainButton.contains(e.target)) {
             categoryMenu.classList.remove('open');
@@ -408,4 +393,4 @@ function init() {
     loadProducers();
 }
 
-init();
+document.addEventListener('DOMContentLoaded', init);
