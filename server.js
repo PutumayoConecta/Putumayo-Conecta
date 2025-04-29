@@ -102,6 +102,9 @@ app.post('/api/register-user', upload.single('image'), async (req, res) => {
             return res.status(400).json({ success: false, error: 'El ID del emprendimiento ya está registrado.' });
         }
 
+        // Añadir el prefijo +57 al número de WhatsApp
+        const formattedWhatsapp = `+57${whatsapp}`;
+
         const user = new User({ email, password, producerId });
         await user.save();
         console.log('Usuario guardado:', email);
@@ -113,7 +116,7 @@ app.post('/api/register-user', upload.single('image'), async (req, res) => {
             product,
             description,
             location,
-            whatsapp,
+            whatsapp: formattedWhatsapp,
             image: image
         });
         await producer.save();

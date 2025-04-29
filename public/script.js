@@ -37,19 +37,20 @@ async function trackClick(producerId, whatsappNumber) {
             throw new Error('Falta dato: whatsappNumber no está definido');
         }
         
-        // Limpiar y formatear el número de WhatsApp
+        // Limpiar el número de WhatsApp (eliminar cualquier carácter que no sea número o el +)
         const cleanNumber = whatsappNumber.replace(/[^0-9+]/g, '');
         
-        // Asegurar que tenga el código de país si es un número colombiano
-        const formattedNumber = cleanNumber.startsWith('+') ? cleanNumber : 
-                              (cleanNumber.length === 10 ? '+57' + cleanNumber : cleanNumber);
+        // Verificar que el número tenga el formato correcto (+57 + 10 dígitos)
+        if (!cleanNumber.match(/^\+57[0-9]{10}$/)) {
+            throw new Error('El número de WhatsApp debe empezar con +57 y tener 10 dígitos después (ej. +573227994023)');
+        }
         
         // Crear enlace universal que funciona en móviles y desktop
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         const message = encodeURIComponent('Hola, estoy interesado en tu emprendimiento en Putumayo Conecta');
         const whatsappUrl = isMobile 
-            ? `whatsapp://send?phone=${formattedNumber}&text=${message}`
-            : `https://web.whatsapp.com/send?phone=${formattedNumber}&text=${message}`;
+            ? `whatsapp://send?phone=${cleanNumber}&text=${message}`
+            : `https://web.whatsapp.com/send?phone=${cleanNumber}&text=${message}`;
         
         // Abrir WhatsApp directamente
         window.location.href = whatsappUrl;
@@ -409,22 +410,6 @@ function setupDarkMode() {
 }
 
 function init() {
-    // Registrar el service worker
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/service-worker.js')
-                .then(registration => {
-                    console.log('Service Worker registrado con éxito:', registration);
-                })
-                .catch(error => {
-                    console.error('Error al registrar el Service Worker:', error);
-                });
-        });
-    } else {
-        console.log('Service Workers no son soportados en este navegador.');
-    }
-
-    // Inicializar el resto de las funcionalidades
     setupSearch();
     setupCategoryButtons();
     setupModal();
@@ -441,7 +426,6 @@ function init() {
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
             if (isMobile) {
-                // Reemplazar https://wa.me por whatsapp:// para abrir directamente la app
                 const directHref = originalHref.replace('https://wa.me', 'whatsapp://send');
                 window.location.href = directHref;
             } else {
