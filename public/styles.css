@@ -120,6 +120,24 @@ body.dark-mode #theme-toggle {
     color: var(--amarillo-Artesania);
 }
 
+.back-btn {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--verde-amazonico);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn:hover {
+    background: #27AE60;
+}
+
 .dashboard-link {
     position: absolute;
     top: 1rem;
@@ -934,6 +952,15 @@ body.dark-mode .stats-section h2 {
     gap: 15px;
     max-width: 400px;
     margin: 0 auto;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
+}
+
+body.dark-mode #login-form {
+    background: var(--dark-card);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.1);
 }
 
 #login-form label {
@@ -1008,6 +1035,92 @@ body.dark-mode #login-message {
     color: #81c784;
 }
 
+.stats-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
+}
+
+body.dark-mode .stats-section {
+    background: var(--dark-card);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.1);
+}
+
+.stats-section p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.stats-section p strong {
+    color: #555;
+}
+
+body.dark-mode .stats-section p strong {
+    color: var(--dark-text);
+}
+
+.donation-section {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+}
+
+body.dark-mode .donation-section {
+    border-top: 1px solid #555;
+}
+
+.donation-section h3 {
+    color: var(--verde-amazonico);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .donation-section h3 {
+    color: #81c784;
+}
+
+.donation-section p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .donation-section p {
+    color: var(--dark-text);
+}
+
+.donation-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: var(--terracota);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background-color 0.3s, transform 0.2s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.donation-btn:hover {
+    background-color: #D35400;
+    transform: translateY(-2px);
+}
+
+body.dark-mode .donation-btn {
+    background-color: var(--terracota);
+}
+
+body.dark-mode .donation-btn:hover {
+    background-color: #D35400;
+}
+
 .stats-section a {
     display: inline-block;
     margin-top: 1rem;
@@ -1068,6 +1181,7 @@ body.dark-mode .stats-section a:hover {
         padding: 6px;
     }
 
+    .back-btn,
     .dashboard-link {
         font-size: 0.9rem;
         padding: 6px 12px;
@@ -1201,6 +1315,47 @@ body.dark-mode .stats-section a:hover {
         font-size: 0.85rem;
     }
 
+    .login-section,
+    .stats-section {
+        padding: 0.75rem;
+    }
+
+    #login-form {
+        padding: 1rem;
+    }
+
+    #login-form input {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    #login-form button {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .stats-section p {
+        font-size: 0.95rem;
+    }
+
+    .donation-section h3 {
+        font-size: 1.1rem;
+    }
+
+    .donation-section p {
+        font-size: 0.85rem;
+    }
+
+    .donation-btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+
+    .stats-section a {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+
     footer {
         padding: 1rem;
         margin-bottom: 70px;
@@ -1236,6 +1391,7 @@ body.dark-mode .stats-section a:hover {
         padding: 5px;
     }
 
+    .back-btn,
     .dashboard-link {
         font-size: 0.8rem;
         top: 0.5rem;
@@ -1369,6 +1525,47 @@ body.dark-mode .stats-section a:hover {
         font-size: 0.8rem;
     }
 
+    .login-section,
+    .stats-section {
+        padding: 0.5rem;
+    }
+
+    #login-form {
+        padding: 0.75rem;
+    }
+
+    #login-form input {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    #login-form button {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    .stats-section p {
+        font-size: 0.9rem;
+    }
+
+    .donation-section h3 {
+        font-size: 1rem;
+    }
+
+    .donation-section p {
+        font-size: 0.8rem;
+    }
+
+    .donation-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .stats-section a {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
     footer {
         padding: 0.75rem;
         margin-bottom: 60px;
@@ -1378,6 +1575,7 @@ body.dark-mode .stats-section a:hover {
         font-size: 0.8rem;
     }
 }
+
 /* Agrega estas reglas al final de tu archivo CSS */
 
 .category-btn.sub-btn {
