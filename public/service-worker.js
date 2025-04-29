@@ -1,9 +1,6 @@
-// service-worker.js
-
 const CACHE_NAME = 'putumayo-conecta-v6';
 const DYNAMIC_CACHE_NAME = 'putumayo-conecta-dynamic-v6';
 
-// Recursos que se almacenarán en caché al instalar el service worker
 const urlsToCache = [
     '/',
     '/index.html',
@@ -17,7 +14,6 @@ const urlsToCache = [
     'https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap'
 ];
 
-// Evento 'install': se ejecuta cuando el service worker se instala
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -42,7 +38,6 @@ self.addEventListener('install', event => {
     );
 });
 
-// Función para limitar el tamaño del caché dinámico
 function limitDynamicCache(cacheName, maxItems) {
     caches.open(cacheName).then(cache => {
         cache.keys().then(keys => {
@@ -53,11 +48,16 @@ function limitDynamicCache(cacheName, maxItems) {
     });
 }
 
-// Evento 'fetch': se ejecuta cada vez que el navegador hace una solicitud
 self.addEventListener('fetch', event => {
     const requestUrl = event.request.url;
 
-    // Manejar solicitudes a la API
+    // Excluir /api/track-click del manejo del service worker
+    if (requestUrl.includes('/api/track-click')) {
+        event.respondWith(fetch(event.request));
+        return;
+    }
+
+    // Manejar solicitudes a la API (excepto /api/track-click)
     if (requestUrl.includes('/api/')) {
         event.respondWith(
             fetch(event.request)
@@ -114,7 +114,6 @@ self.addEventListener('fetch', event => {
     }
 });
 
-// Evento 'activate': se ejecuta cuando el service worker se activa
 self.addEventListener('activate', event => {
     const cacheWhitelist = [CACHE_NAME, DYNAMIC_CACHE_NAME];
     event.waitUntil(

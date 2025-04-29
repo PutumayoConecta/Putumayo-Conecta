@@ -21,17 +21,21 @@ async function fetchData() {
 }
 
 async function trackClick(producerId, whatsappNumber) {
-    try {
-        if (!producerId || !whatsappNumber) {
-            throw new Error('Faltan datos: producerId o whatsappNumber no están definidos');
-        }
-        
-        // Registrar el click en tu backend
-        await fetch('/api/track-click', {
+    // Registrar el clic en el backend (fire-and-forget, no esperamos la respuesta)
+    if (producerId) {
+        fetch('/api/track-click', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ producerId: producerId.toString() })
+        }).catch(error => {
+            console.error('Error al registrar el clic (continuando con WhatsApp):', error);
         });
+    }
+
+    try {
+        if (!whatsappNumber) {
+            throw new Error('Falta dato: whatsappNumber no está definido');
+        }
         
         // Limpiar y formatear el número de WhatsApp
         const cleanNumber = whatsappNumber.replace(/[^0-9+]/g, '');
@@ -51,7 +55,7 @@ async function trackClick(producerId, whatsappNumber) {
         window.location.href = whatsappUrl;
         
     } catch (error) {
-        console.error('Error tracking click:', error);
+        console.error('Error al abrir WhatsApp:', error);
         // Fallback a wa.me si hay error
         const cleanNumber = whatsappNumber.replace(/[^0-9+]/g, '');
         const fallbackUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent('Hola, estoy interesado en tu emprendimiento en Putumayo Conecta')}`;
