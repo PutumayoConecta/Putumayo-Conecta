@@ -80,7 +80,7 @@
         <p>¿Eres Emprendedor? <a href="#" id="add-btn">¡Regístrate aquí!</a></p>
         <p>Para desarrollo de software, contactar a:</p> 
         <p>Jose Alexis Tejada Angulo - Ingeniero Industrial</p>
-        <a href="https://wa.me/573227994023?text=Hola,%20quiero%20información%20sobre%20Putumayo%20Conecta" class="whatsapp-btn" onclick="event.preventDefault(); window.open(this.href, '_blank');">
+        <a href="https://wa.me/+573227994023?text=Hola,%20quiero%20información%20sobre%20Putumayo%20Conecta" class="whatsapp-btn" onclick="event.preventDefault(); window.open(this.href, '_blank');">
             <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
         </a>
     </footer>
@@ -119,8 +119,8 @@
                 <label for="location">Ubicación *</label>
                 <input type="text" id="location" name="location" placeholder="Ej. Mocoa, Putumayo" required autocomplete="address-level1">
                 
-                <label for="whatsapp">WhatsApp (con código del país) *</label>
-                <input type="text" id="whatsapp" name="whatsapp" placeholder="Ej. +573123456789" required autocomplete="tel">
+                <label for="whatsapp">WhatsApp (solo 10 dígitos, ej. 3227994023) *</label>
+                <input type="text" id="whatsapp" name="whatsapp" placeholder="Ej. 3227994023" pattern="[0-9]{10}" title="El número debe tener exactamente 10 dígitos (ej. 3227994023)" required autocomplete="tel">
                 
                 <label for="image">Imagen del Emprendimiento *</label>
                 <input type="file" id="image" name="image" accept="image/*" required>

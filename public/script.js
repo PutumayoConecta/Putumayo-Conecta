@@ -45,27 +45,18 @@ async function trackClick(producerId, whatsappNumber) {
             throw new Error('El número de WhatsApp debe empezar con +57 y tener 10 dígitos después (ej. +573227994023)');
         }
         
-        // Crear enlace universal que funciona en móviles y desktop
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        // Usar enlace universal https://wa.me/ para que funcione en móviles y escritorio
         const message = encodeURIComponent('Hola, estoy interesado en tu emprendimiento en Putumayo Conecta');
-        const whatsappUrl = isMobile 
-            ? `whatsapp://send?phone=${cleanNumber}&text=${message}`
-            : `https://web.whatsapp.com/send?phone=${cleanNumber}&text=${message}`;
+        const whatsappUrl = `https://wa.me/${cleanNumber}?text=${message}`;
         
-        // Abrir WhatsApp directamente
-        window.location.href = whatsappUrl;
+        console.log('Enlace de WhatsApp generado:', whatsappUrl); // Para depuración
+        
+        // Abrir el enlace
+        window.open(whatsappUrl, '_blank');
         
     } catch (error) {
         console.error('Error al abrir WhatsApp:', error);
-        // Fallback a wa.me si hay error
-        const cleanNumber = whatsappNumber.replace(/[^0-9+]/g, '');
-        const fallbackUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent('Hola, estoy interesado en tu emprendimiento en Putumayo Conecta')}`;
-        try {
-            window.open(fallbackUrl, '_blank');
-        } catch (fallbackError) {
-            console.error('Error al abrir el enlace de respaldo de WhatsApp:', fallbackError);
-            alert('No se pudo abrir WhatsApp. Por favor, intenta contactar al emprendimiento manualmente.');
-        }
+        alert('No se pudo abrir WhatsApp. Por favor, verifica que la app esté instalada o intenta contactar al emprendimiento manualmente.');
     }
 }
 
@@ -422,15 +413,9 @@ function init() {
     if (footerWhatsappBtn) {
         footerWhatsappBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            const originalHref = this.getAttribute('href');
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
-            if (isMobile) {
-                const directHref = originalHref.replace('https://wa.me', 'whatsapp://send');
-                window.location.href = directHref;
-            } else {
-                window.open(originalHref, '_blank');
-            }
+            const whatsappUrl = this.getAttribute('href');
+            console.log('Enlace de WhatsApp del footer:', whatsappUrl); // Para depuración
+            window.open(whatsappUrl, '_blank');
         });
     }
 }
