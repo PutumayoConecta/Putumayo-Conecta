@@ -54,7 +54,13 @@ async function trackClick(producerId, whatsappNumber) {
         console.error('Error tracking click:', error);
         // Fallback a wa.me si hay error
         const cleanNumber = whatsappNumber.replace(/[^0-9+]/g, '');
-        window.open(`https://wa.me/${cleanNumber}`, '_blank');
+        const fallbackUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent('Hola, estoy interesado en tu emprendimiento en Putumayo Conecta')}`;
+        try {
+            window.open(fallbackUrl, '_blank');
+        } catch (fallbackError) {
+            console.error('Error al abrir el enlace de respaldo de WhatsApp:', fallbackError);
+            alert('No se pudo abrir WhatsApp. Por favor, intenta contactar al emprendimiento manualmente.');
+        }
     }
 }
 
@@ -399,6 +405,22 @@ function setupDarkMode() {
 }
 
 function init() {
+    // Registrar el service worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(registration => {
+                    console.log('Service Worker registrado con éxito:', registration);
+                })
+                .catch(error => {
+                    console.error('Error al registrar el Service Worker:', error);
+                });
+        });
+    } else {
+        console.log('Service Workers no son soportados en este navegador.');
+    }
+
+    // Inicializar el resto de las funcionalidades
     setupSearch();
     setupCategoryButtons();
     setupModal();
