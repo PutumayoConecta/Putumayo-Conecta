@@ -33,30 +33,45 @@ async function trackClick(producerId, whatsappNumber) {
     }
 
     try {
+        console.log('Número de WhatsApp recibido:', whatsappNumber); // Depuración
+
         if (!whatsappNumber) {
             throw new Error('Falta dato: whatsappNumber no está definido');
         }
-        
-        // Limpiar el número de WhatsApp (eliminar cualquier carácter que no sea número o el +)
-        const cleanNumber = whatsappNumber.replace(/[^0-9+]/g, '');
-        
-        // Verificar que el número tenga el formato correcto (+57 + 10 dígitos)
-        if (!cleanNumber.match(/^\+57[0-9]{10}$/)) {
-            throw new Error('El número de WhatsApp debe empezar con +57 y tener 10 dígitos después (ej. +573227994023)');
+
+        // Limpiar el número de WhatsApp (eliminar cualquier carácter que no sea número)
+        let cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
+
+        console.log('Número limpio:', cleanNumber); // Depuración
+
+        // Asegurar que el número tenga el prefijo +57 si no lo tiene y tiene 10 dígitos
+        if (cleanNumber.length === 10) {
+            cleanNumber = `57${cleanNumber}`; // Formato sin + para intent
+        } else if (cleanNumber.length === 12 && cleanNumber.startsWith('57')) {
+            cleanNumber = cleanNumber; // Mantener como está
+        } else if (cleanNumber.length === 0) {
+            throw new Error('El número de WhatsApp está vacío');
+        } else {
+            throw new Error(`El número de WhatsApp debe tener 10 dígitos (ej. 3227994023) o el formato +571234567890. Valor recibido: ${cleanNumber}`);
         }
-        
-        // Usar enlace universal https://wa.me/ para que funcione en móviles y escritorio
+
+        // Usar esquema whatsapp:// para Android en lugar de https://wa.me/
         const message = encodeURIComponent('Hola, estoy interesado en tu emprendimiento en Putumayo Conecta');
-        const whatsappUrl = `https://wa.me/${cleanNumber}?text=${message}`;
-        
-        console.log('Enlace de WhatsApp generado:', whatsappUrl); // Para depuración
-        
-        // Abrir el enlace
-        window.open(whatsappUrl, '_blank');
-        
+        const whatsappUrl = `whatsapp://send?phone=${cleanNumber}&text=${message}`;
+
+        console.log('Enlace de WhatsApp generado:', whatsappUrl); // Depuración
+
+        // Intentar abrir en móvil con fallback
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            window.location.href = whatsappUrl;
+        } else {
+            // Para escritorio, usar wa.me como fallback
+            window.open(`https://wa.me/+${cleanNumber}?text=${message}`, '_blank');
+        }
+
     } catch (error) {
         console.error('Error al abrir WhatsApp:', error);
-        alert('No se pudo abrir WhatsApp. Por favor, verifica que la app esté instalada o intenta contactar al emprendimiento manualmente.');
+        alert('No se pudo abrir WhatsApp. Por favor, verifica que el número sea correcto (ej. 3227994023) o que la app esté instalada.');
     }
 }
 
@@ -66,7 +81,7 @@ let glowInterval = null;
 
 function startGlowAnimation() {
     if (glowAnimationRunning) return;
-    
+
     const subButtons = document.querySelectorAll('.category-btn.sub-btn');
     let currentIndex = 0;
     glowAnimationRunning = true;
@@ -103,11 +118,11 @@ function stopGlowAnimation() {
         clearInterval(glowInterval);
         glowInterval = null;
     }
-    
+
     const subButtons = document.querySelectorAll('.category-btn.sub-btn');
     subButtons.forEach(btn => {
         btn.classList.remove('glow');
-        const label = btn.querySelector('.category-label');
+        const label = button.querySelector('.category-label');
         if (label) label.classList.remove('visible');
     });
 }
@@ -116,12 +131,12 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
     const producersList = document.getElementById('producers-list');
     const countElement = document.getElementById('count');
     producersList.innerHTML = '<p>Cargando productores...</p>';
-    
+
     let producers = await fetchData();
     console.log('Productores cargados:', producers);
-    
+
     let filteredProducers = producers;
-    
+
     if (searchQuery) {
         searchQuery = searchQuery.toLowerCase();
         filteredProducers = filteredProducers.filter(producer =>
@@ -129,31 +144,31 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
             producer.product.toLowerCase().includes(searchQuery)
         );
     }
-    
+
     if (category !== 'all') {
         filteredProducers = filteredProducers.filter(producer =>
             producer.category.toLowerCase() === category
         );
     }
-    
+
     producersList.setAttribute('data-count', filteredProducers.length);
     countElement.textContent = filteredProducers.length;
     producersList.innerHTML = '';
-    
+
     if (filteredProducers.length === 0) {
         producersList.innerHTML = '<p>No se encontraron emprendimientos.</p>';
         return;
     }
-    
+
     filteredProducers.forEach((producer, index) => {
-        const categoryName = 
-            producer.category.toLowerCase() === 'agricultura' ? 'Agricultura' : 
-            producer.category.toLowerCase() === 'artesania' ? 'Artesanía' : 
+        const categoryName =
+            producer.category.toLowerCase() === 'agricultura' ? 'Agricultura' :
+            producer.category.toLowerCase() === 'artesania' ? 'Artesanía' :
             producer.category.toLowerCase() === 'turismo' ? 'Turismo' :
             producer.category.toLowerCase() === 'gastronomia' ? 'Gastronomía' :
             producer.category.toLowerCase() === 'agroindustria' ? 'Agroindustria' :
             'Varios';
-        
+
         const card = document.createElement('div');
         card.className = 'producer-card';
         card.style.animationDelay = `${index * 0.1}s`;
@@ -165,7 +180,7 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
                 <p><strong>Producto:</strong> ${producer.product}</p>
                 <p><strong>Ubicación:</strong> ${producer.location}</p>
                 <p>${producer.description}</p>
-                <a href="#" class="producer-whatsapp-btn whatsapp-btn" data-producer-id="${producer.id}" data-whatsapp="${producer.whatsapp}">
+                <a href="#" class="producer-whatsapp-btn whatsapp-btn" data-producer-id="${producer.id}" data-whatsapp="${producer.whatsapp || ''}">
                     <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
                 </a>
             </div>
@@ -189,7 +204,7 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
 function setupSearch() {
     const searchInput = document.getElementById('search-input');
     let searchTimeout;
-    
+
     searchInput.addEventListener('input', () => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
@@ -255,7 +270,7 @@ function setupCategoryButtons() {
             if (navigator.vibrate) {
                 navigator.vibrate(50);
             }
-            
+
             stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
@@ -286,13 +301,13 @@ function setupCategoryButtons() {
         if (navigator.vibrate) {
             navigator.vibrate(50);
         }
-        
+
         const isOpen = categoryMenu.classList.contains('open');
-        
+
         document.querySelectorAll('.category-menu.open').forEach(menu => {
             menu.classList.remove('open');
         });
-        
+
         if (!isOpen) {
             categoryMenu.classList.add('open');
             startGlowAnimation();
@@ -313,16 +328,16 @@ function setupModal() {
     const modal = document.getElementById('modal');
     const addBtn = document.getElementById('add-btn');
     const closeBtn = document.querySelector('.close');
-    
+
     addBtn.addEventListener('click', (e) => {
         e.preventDefault();
         modal.style.display = 'flex';
     });
-    
+
     closeBtn.addEventListener('click', () => {
         modal.style.display = 'none';
     });
-    
+
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.style.display = 'none';
@@ -333,18 +348,26 @@ function setupModal() {
 function setupForm() {
     const form = document.getElementById('register-form');
     const formMessage = document.getElementById('form-message');
-    
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const imageInput = form.querySelector('input[name="image"]');
         if (!imageInput.files || imageInput.files.length === 0) {
             formMessage.textContent = 'Por favor, selecciona una imagen para tu emprendimiento.';
             return;
         }
 
+        const whatsappInput = form.querySelector('input[name="whatsapp"]');
+        const whatsappValue = whatsappInput.value.replace(/[^0-9]/g, '');
+        if (whatsappValue.length !== 10) {
+            formMessage.textContent = 'El número de WhatsApp debe tener exactamente 10 dígitos (ej. 3227994023).';
+            return;
+        }
+        whatsappInput.value = whatsappValue; // Guardar el número limpio
+
         formMessage.textContent = 'Enviando...';
-        
+
         const formData = new FormData(form);
         const producerId = Date.now().toString();
         formData.append('producerId', producerId);
@@ -354,7 +377,7 @@ function setupForm() {
                 method: 'POST',
                 body: formData
             });
-            
+
             const result = await response.json();
             if (!response.ok || !result.success) {
                 throw new Error(result.error || 'Error al registrar el emprendimiento');
@@ -386,12 +409,12 @@ function setupForm() {
 function setupDarkMode() {
     const toggle = document.getElementById('theme-toggle');
     const body = document.body;
-    
+
     if (localStorage.getItem('theme') === 'dark') {
         body.classList.add('dark-mode');
         toggle.innerHTML = '<i class="fas fa-sun"></i>';
     }
-    
+
     toggle.addEventListener('click', () => {
         body.classList.toggle('dark-mode');
         const isDark = body.classList.contains('dark-mode');
@@ -407,15 +430,19 @@ function init() {
     setupForm();
     setupDarkMode();
     loadProducers();
-    
+
     // Manejar clics en enlaces WhatsApp del footer
     const footerWhatsappBtn = document.querySelector('footer .whatsapp-btn');
     if (footerWhatsappBtn) {
         footerWhatsappBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            const whatsappUrl = this.getAttribute('href');
+            const whatsappUrl = this.getAttribute('href').replace('+', ''); // Quitar + para intent
             console.log('Enlace de WhatsApp del footer:', whatsappUrl); // Para depuración
-            window.open(whatsappUrl, '_blank');
+            if (/Mobi|Android/i.test(navigator.userAgent)) {
+                window.location.href = `whatsapp://send?phone=${whatsappUrl}&text=${encodeURIComponent('Hola, quiero información sobre Putumayo Conecta')}`;
+            } else {
+                window.open(this.getAttribute('href'), '_blank');
+            }
         });
     }
 }

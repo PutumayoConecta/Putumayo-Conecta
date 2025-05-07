@@ -78,7 +78,7 @@
 
     <footer>
         <p>¿Eres Emprendedor? <a href="#" id="add-btn">¡Regístrate aquí!</a></p>
-        <p>Para desarrollo de software, contactar a:</p> 
+        <p>Para desarrollo de software, contactar a:</p>
         <p>Jose Alexis Tejada Angulo - Ingeniero Industrial</p>
         <a href="https://wa.me/+573227994023?text=Hola,%20quiero%20información%20sobre%20Putumayo%20Conecta" class="whatsapp-btn" onclick="event.preventDefault(); window.open(this.href, '_blank');">
             <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
@@ -92,13 +92,13 @@
             <form id="register-form" enctype="multipart/form-data">
                 <label for="email">Correo Electrónico *</label>
                 <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required autocomplete="email">
-                
+
                 <label for="password">Contraseña *</label>
                 <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
-                
+
                 <label for="name">Nombre del Emprendimiento *</label>
                 <input type="text" id="name" name="name" placeholder="Ej. Miel del Putumayo" required autocomplete="organization">
-                
+
                 <label for="category">Categoría *</label>
                 <select id="category" name="category" required>
                     <option value="" disabled selected>Selecciona una categoría</option>
@@ -109,22 +109,22 @@
                     <option value="turismo">Turismo</option>
                     <option value="varios">Varios</option>
                 </select>
-                
+
                 <label for="product">Producto o Servicio *</label>
                 <input type="text" id="product" name="product" placeholder="Ej. Miel orgánica" required autocomplete="off">
-                
+
                 <label for="description">Descripción *</label>
                 <textarea id="description" name="description" placeholder="Describe tu emprendimiento" required></textarea>
-                
+
                 <label for="location">Ubicación *</label>
                 <input type="text" id="location" name="location" placeholder="Ej. Mocoa, Putumayo" required autocomplete="address-level1">
-                
+
                 <label for="whatsapp">WhatsApp (solo 10 dígitos, ej. 3227994023) *</label>
                 <input type="text" id="whatsapp" name="whatsapp" placeholder="Ej. 3227994023" pattern="[0-9]{10}" title="El número debe tener exactamente 10 dígitos (ej. 3227994023)" required autocomplete="tel">
-                
+
                 <label for="image">Imagen del Emprendimiento *</label>
                 <input type="file" id="image" name="image" accept="image/*" required>
-                
+
                 <button type="submit">Registrar</button>
                 <p id="form-message"></p>
             </form>
@@ -145,5 +145,3 @@
             });
         }
     </script>
-</body>
-</html>
