@@ -2,99 +2,100 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Putumayo Conecta</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous">
     <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet" crossorigin>
     <meta name="description" content="Conecta con productores, artesanos y emprendedores turísticos del Putumayo">
-    <meta property="og:image" content="https://ejemplo.com/logo-putumayo.jpg">
+    <meta property="og:image" content="/images/selva2.jpg">
     <meta name="theme-color" content="#2e7d32">
     <link rel="apple-touch-icon" href="/images/icon-192x192.png">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' https://*; font-src 'self' https://*; img-src 'self' data: https://*; connect-src 'self' https://putumayo-conecta.onrender.com;">
 </head>
 <body>
     <header>
-        <div class="header-content">
-            <img src="/images/selva2.jpg" alt="Putumayo Conecta Logo" class="header-logo">
+        <div class="header-content" role="banner">
+            <img src="/images/selva2.jpg" alt="Logo de Putumayo Conecta" class="header-logo" loading="lazy">
             <h1>🌿 Putumayo Conecta</h1>
             <p>Visibilizando Emprendimientos Amazónicos</p>
-            <button id="theme-toggle" aria-label="Alternar modo oscuro">
+            <button id="theme-toggle" aria-label="Alternar entre modo claro y oscuro">
                 <i class="fas fa-moon"></i>
             </button>
-            <a href="/dashboard.html" class="dashboard-link">Mi Dashboard</a>
+            <a href="/dashboard.html" class="dashboard-link" aria-label="Ir al dashboard">Mi Dashboard</a>
         </div>
     </header>
 
-    <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Busca emprendimientos por nombre o producto..." aria-label="Buscar emprendimientos">
-        <i class="fas fa-search"></i>
+    <div class="search-bar" role="search">
+        <input type="text" id="search-input" placeholder="Busca emprendimientos por nombre o producto..." aria-label="Buscar emprendimientos" autocomplete="off">
+        <i class="fas fa-search" aria-hidden="true"></i>
     </div>
 
-    <div class="producers-count" id="producers-count">
+    <div class="producers-count" id="producers-count" role="status">
         <p><span id="count">0</span> Emprendimientos</p>
     </div>
 
-    <div class="producers-list" id="producers-list">
+    <div class="producers-list" id="producers-list" aria-live="polite">
         <!-- Los datos se cargarán dinámicamente con JavaScript -->
     </div>
 
-    <div id="loading" class="loading-spinner">
+    <div id="loading" class="loading-spinner" aria-label="Cargando datos">
         <i class="fas fa-spinner fa-spin"></i>
     </div>
 
-    <div class="category-buttons">
-        <button class="category-btn main-btn" data-category="all">
+    <div class="category-buttons" role="navigation">
+        <button class="category-btn main-btn" data-category="all" aria-label="Mostrar todos los emprendimientos">
             <i class="fas fa-star"></i>
             <span class="category-label">Todos</span>
         </button>
-        <div class="category-menu">
-            <button class="category-btn sub-btn" data-category="agricultura">
+        <div class="category-menu" aria-expanded="false">
+            <button class="category-btn sub-btn" data-category="agricultura" aria-label="Filtrar por Agricultura">
                 <i class="fas fa-leaf"></i>
                 <span class="category-label">Agricultura</span>
             </button>
-            <button class="category-btn sub-btn" data-category="agroindustria">
+            <button class="category-btn sub-btn" data-category="agroindustria" aria-label="Filtrar por Agroindustria">
                 <i class="fas fa-industry"></i>
                 <span class="category-label">Agroindustria</span>
             </button>
-            <button class="category-btn sub-btn" data-category="artesania">
+            <button class="category-btn sub-btn" data-category="artesania" aria-label="Filtrar por Artesanía">
                 <i class="fas fa-cut"></i>
                 <span class="category-label">Artesanía</span>
             </button>
-            <button class="category-btn sub-btn" data-category="gastronomia">
+            <button class="category-btn sub-btn" data-category="gastronomia" aria-label="Filtrar por Gastronomía">
                 <i class="fas fa-utensils"></i>
                 <span class="category-label">Gastronomía</span>
             </button>
-            <button class="category-btn sub-btn" data-category="turismo">
+            <button class="category-btn sub-btn" data-category="turismo" aria-label="Filtrar por Turismo">
                 <i class="fas fa-map-marked-alt"></i>
                 <span class="category-label">Turismo</span>
             </button>
-            <button class="category-btn sub-btn" data-category="varios">
+            <button class="category-btn sub-btn" data-category="varios" aria-label="Filtrar por Varios">
                 <i class="fas fa-box"></i>
                 <span class="category-label">Varios</span>
             </button>
         </div>
     </div>
 
-    <footer>
-        <p>¿Eres Emprendedor? <a href="#" id="add-btn">¡Regístrate aquí!</a></p>
+    <footer role="contentinfo">
+        <p>¿Eres Emprendedor? <a href="#" id="add-btn" aria-label="Regístrate como emprendedor">¡Regístrate aquí!</a></p>
         <p>Para desarrollo de software, contactar a:</p>
         <p>Jose Alexis Tejada Angulo - Ingeniero Industrial</p>
-        <a href="https://wa.me/+573227994023?text=Hola,%20quiero%20información%20sobre%20Putumayo%20Conecta" class="whatsapp-btn" onclick="event.preventDefault(); window.open(this.href, '_blank');">
+        <a href="https://wa.me/+573227994023?text=Hola,%20quiero%20información%20sobre%20Putumayo%20Conecta" class="whatsapp-btn" onclick="event.preventDefault(); if (/Mobi|Android/i.test(navigator.userAgent)) { window.location.href = 'whatsapp://send?phone=573227994023&text=' + encodeURIComponent('Hola, quiero información sobre Putumayo Conecta'); } else { window.open(this.href, '_blank'); }">
             <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
         </a>
     </footer>
 
-    <div id="modal" class="modal">
+    <div id="modal" class="modal" role="dialog" aria-labelledby="modal-title">
         <div class="modal-content">
-            <span class="close">×</span>
-            <h2>¡Registra tu Emprendimiento!</h2>
+            <span class="close" aria-label="Cerrar modal">×</span>
+            <h2 id="modal-title">¡Registra tu Emprendimiento!</h2>
             <form id="register-form" enctype="multipart/form-data">
                 <label for="email">Correo Electrónico *</label>
                 <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required autocomplete="email">
 
                 <label for="password">Contraseña *</label>
-                <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
+                <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" required autocomplete="new-password" minlength="6">
 
                 <label for="name">Nombre del Emprendimiento *</label>
                 <input type="text" id="name" name="name" placeholder="Ej. Miel del Putumayo" required autocomplete="organization">
@@ -120,21 +121,44 @@
                 <input type="text" id="location" name="location" placeholder="Ej. Mocoa, Putumayo" required autocomplete="address-level1">
 
                 <label for="whatsapp">WhatsApp (solo 10 dígitos, ej. 3227994023) *</label>
-                <input type="text" id="whatsapp" name="whatsapp" placeholder="Ej. 3227994023" pattern="[0-9]{10}" title="El número debe tener exactamente 10 dígitos (ej. 3227994023)" required autocomplete="tel">
+                <input type="tel" id="whatsapp" name="whatsapp" placeholder="Ej. 3227994023" pattern="[0-9]{10}" title="El número debe tener exactamente 10 dígitos (ej. 3227994023)" required autocomplete="tel">
 
                 <label for="image">Imagen del Emprendimiento *</label>
                 <input type="file" id="image" name="image" accept="image/*" required>
 
                 <button type="submit">Registrar</button>
-                <p id="form-message"></p>
+                <p id="form-message" role="alert"></p>
             </form>
         </div>
     </div>
 
     <script src="script.js"></script>
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
+        // Manejo de errores al cargar la página
+        window.addEventListener('load', () => {
+            document.getElementById('loading').style.display = 'block';
+            fetch('/api/producers', { cache: 'no-store' })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('producers-list').innerHTML = data.length ? '' : '<p>No se encontraron emprendimientos.</p>';
+                    document.getElementById('count').textContent = data.length;
+                })
+                .catch(error => {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('producers-list').innerHTML = `
+                        <p style="color: red; text-align: center;">
+                            Error: No se pudo conectar al servidor. Verifica tu conexión a internet o intenta de nuevo más tarde. Detalle: ${error.message}
+                        </p>`;
+                    console.error('Error al cargar los datos:', error);
+                });
+
+            if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/service-worker.js')
                     .then(registration => {
                         console.log('Service Worker registrado con éxito:', registration);
@@ -142,6 +166,18 @@
                     .catch(error => {
                         console.log('Error al registrar el Service Worker:', error);
                     });
-            });
-        }
+            }
+        });
+
+        // Evitar que el formulario se envíe si hay errores
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            const whatsapp = document.getElementById('whatsapp').value.replace(/[^0-9]/g, '');
+            if (whatsapp.length !== 10) {
+                e.preventDefault();
+                document.getElementById('form-message').textContent = 'El número de WhatsApp debe tener exactamente 10 dígitos.';
+                return false;
+            }
+        });
     </script>
+</body>
+</html>
