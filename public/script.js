@@ -56,15 +56,17 @@ async function trackClick(producerId, whatsappNumber) {
         }
 
         const message = encodeURIComponent('Hola, estoy interesado en tu emprendimiento en Putumayo Conecta');
-        const whatsappUrl = `https://wa.me/+${cleanNumber}?text=${message}`; // Usamos https://wa.me/ como fallback seguro
+        const whatsappUrl = `https://wa.me/+${cleanNumber}?text=${message}`;
 
         console.log('Enlace de WhatsApp generado:', whatsappUrl);
 
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-            window.location.href = whatsappUrl;
-        } else {
-            window.open(whatsappUrl, '_blank');
-        }
+        // Intentar abrir WhatsApp
+        const newWindow = window.open(whatsappUrl, '_blank');
+        setTimeout(() => {
+            if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+                alert('Parece que WhatsApp no está instalado. Por favor, instala WhatsApp o contacta manualmente al número: +' + cleanNumber);
+            }
+        }, 1000);
 
     } catch (error) {
         console.error('Error al abrir WhatsApp:', error);
@@ -274,10 +276,13 @@ function setupCategoryButtons() {
                 navigator.vibrate(50);
             }
 
+            console.log(`Botón de categoría clickeado: ${category}`);
+
             stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             currentCategory = category;
+            console.log(`Categoría actual cambiada a: ${currentCategory}`);
             loadProducers(document.getElementById('search-input').value, currentCategory);
             categoryMenu.setAttribute('aria-expanded', 'false');
             mainButton.querySelector('i').outerHTML = categoryIcons[currentCategory];
@@ -285,6 +290,9 @@ function setupCategoryButtons() {
             updatedMainLabel.innerHTML = createCategorySvg(currentCategory, categoryLabels[currentCategory]);
         };
 
+        // Asegurarse de que los eventos no se dupliquen
+        button.removeEventListener('click', handleCategoryClick);
+        button.removeEventListener('touchstart', handleCategoryClick);
         button.addEventListener('click', handleCategoryClick);
         button.addEventListener('touchstart', handleCategoryClick, { passive: true });
 
@@ -323,6 +331,8 @@ function setupCategoryButtons() {
         }
     };
 
+    mainButton.removeEventListener('click', handleMainButtonClick);
+    mainButton.removeEventListener('touchstart', handleMainButtonClick);
     mainButton.addEventListener('click', handleMainButtonClick);
     mainButton.addEventListener('touchstart', handleMainButtonClick, { passive: true });
 
@@ -464,15 +474,19 @@ function setupFooterWhatsApp() {
             e.preventDefault();
             const whatsappNumber = '573227994023';
             const message = encodeURIComponent('Hola, quiero información sobre Putumayo Conecta');
-            const whatsappUrl = `https://wa.me/+${whatsappNumber}?text=${message}`; // Usamos https://wa.me/ como fallback seguro
+            const whatsappUrl = `https://wa.me/+${whatsappNumber}?text=${message}`;
             console.log('Enlace de WhatsApp del footer:', whatsappUrl);
-            if (/Mobi|Android/i.test(navigator.userAgent)) {
-                window.location.href = whatsappUrl;
-            } else {
-                window.open(whatsappUrl, '_blank');
-            }
+
+            const newWindow = window.open(whatsappUrl, '_blank');
+            setTimeout(() => {
+                if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+                    alert('Parece que WhatsApp no está instalado. Por favor, instala WhatsApp o contacta manualmente al número: +573227994023');
+                }
+            }, 1000);
         };
 
+        footerWhatsappBtn.removeEventListener('click', handleFooterClick);
+        footerWhatsappBtn.removeEventListener('touchstart', handleFooterClick);
         footerWhatsappBtn.addEventListener('click', handleFooterClick);
         footerWhatsappBtn.addEventListener('touchstart', handleFooterClick, { passive: true });
     }
