@@ -10,6 +10,14 @@ const cors = require('cors');
 // Cargar variables de entorno
 dotenv.config();
 
+// Logs para verificar las variables
+console.log('MONGODB_URI:', process.env.MONGODB_URI);
+console.log('CLOUDINARY_CLOUD_NAME:', process.env.CLOUDINARY_CLOUD_NAME);
+if (!process.env.MONGODB_URI) {
+    console.error('Error: MONGODB_URI no está definida. Verifica tu archivo .env.');
+    process.exit(1);
+}
+
 // Configurar Express
 const app = express();
 app.use(cors());
@@ -27,23 +35,16 @@ cloudinary.config({
 // Configurar Multer con Cloudinary
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
-    params: async (req, file) => {
-        const producerId = req.body.producerId || 'unknown';
-        const timestamp = Date.now();
-        return {
-            folder: 'putumayo-conecta',
-            allowed_formats: ['jpg', 'png', 'jpeg'],
-            public_id: `producer-${producerId}-${timestamp}`
-        };
+    params: {
+        folder: 'putumayo-conecta',
+        allowed_formats: ['jpg', 'png', 'jpeg'],
+        public_id: (req, file) => `producer-${req.body.producerId || 'unknown'}-${Date.now()}`
     }
 });
 const upload = multer({ storage });
 
-// Configurar Mongoose y suprimir advertencia de strictQuery
-mongoose.set('strictQuery', true);
-
 // Conectar a MongoDB
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Conectado a MongoDB'))
     .catch(err => {
         console.error('Error al conectar a MongoDB:', err.message);
@@ -83,27 +84,24 @@ app.post('/api/register-user', upload.single('image'), async (req, res) => {
         console.log('Archivo recibido:', req.file);
 
         const { email, password, name, category, product, description, location, whatsapp, producerId } = req.body;
-        let image = req.file ? req.file.path : null;
-
-        if (!image) {
-            console.log('Error: No se subió ninguna imagen');
+        if (!req.file) {
             return res.status(400).json({ success: false, error: 'Por favor, sube una imagen.' });
         }
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            console.log('Error: Email ya registrado:', email);
             return res.status(400).json({ success: false, error: 'El email ya está registrado.' });
         }
 
         const existingProducer = await Producer.findOne({ id: producerId });
         if (existingProducer) {
-            console.log('Error: producerId ya registrado:', producerId);
             return res.status(400).json({ success: false, error: 'El ID del emprendimiento ya está registrado.' });
         }
 
-        // Añadir el prefijo +57 al número de WhatsApp
-        const formattedWhatsapp = `+57${whatsapp}`;
+        const formattedWhatsapp = `+57${whatsapp.replace(/[^0-9]/g, '')}`;
+        if (formattedWhatsapp.length !== 12) {
+            return res.status(400).json({ success: false, error: 'El número de WhatsApp debe tener 10 dígitos.' });
+        }
 
         const user = new User({ email, password, producerId });
         await user.save();
@@ -117,27 +115,14 @@ app.post('/api/register-user', upload.single('image'), async (req, res) => {
             description,
             location,
             whatsapp: formattedWhatsapp,
-            image: image
+            image: req.file.path
         });
         await producer.save();
         console.log('Productor guardado:', producerId);
 
-        const newPublicId = `producer-${producerId}-${producer._id}`;
-        const originalPublicId = req.file.path
-            .split('/')
-            .slice(-2)
-            .join('/')
-            .split('.')[0];
-        await cloudinary.uploader.rename(originalPublicId, `putumayo-conecta/${newPublicId}`);
-
-        image = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/v${Date.now()}/putumayo-conecta/${newPublicId}.jpg`;
-        producer.image = image;
-        await producer.save();
-
         res.json({ success: true });
     } catch (error) {
-        console.error('Error al registrar:', error.message);
-        console.error('Detalles del error:', error);
+        console.error('Error al registrar:', error.message, error.stack);
         res.status(500).json({ success: false, error: 'Error al registrar. Intenta de nuevo.', details: error.message });
     }
 });
