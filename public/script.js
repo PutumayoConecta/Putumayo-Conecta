@@ -8,7 +8,7 @@ function showLoading(show) {
 async function fetchData() {
     try {
         showLoading(true);
-        const res = await fetch('/api/producers', { cache: 'no-store' });
+        const res = await fetch('https://putumayo-conecta.onrender.com/api/producers', { cache: 'no-store' });
         if (!res.ok) {
             throw new Error(`Error fetching producers: ${res.status} - ${await res.text()}`);
         }
@@ -17,23 +17,14 @@ async function fetchData() {
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
+        document.getElementById('producers-list').innerHTML = '<p>Error al cargar los datos. Por favor, intenta de nuevo más tarde.</p>';
         return [];
     } finally {
         showLoading(false);
     }
 }
 
-async function trackClick(producerId, whatsappNumber) {
-    if (producerId) {
-        fetch('/api/track-click', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ producerId: producerId.toString() })
-        }).catch(error => {
-            console.error('Error al registrar el clic (continuando con WhatsApp):', error);
-        });
-    }
-
+function openWhatsApp(whatsappNumber, messageText) {
     try {
         console.log('Número de WhatsApp recibido:', whatsappNumber);
 
@@ -55,84 +46,45 @@ async function trackClick(producerId, whatsappNumber) {
             throw new Error(`El número de WhatsApp debe tener 10 dígitos (ej. 3227994023) o el formato +571234567890. Valor recibido: ${cleanNumber}`);
         }
 
-        const message = encodeURIComponent('Hola, estoy interesado en tu emprendimiento en Putumayo Conecta');
+        const message = encodeURIComponent(messageText);
         const whatsappUrl = `https://wa.me/+${cleanNumber}?text=${message}`;
 
         console.log('Enlace de WhatsApp generado:', whatsappUrl);
 
-        // Intentar abrir WhatsApp
-        const newWindow = window.open(whatsappUrl, '_blank');
-        setTimeout(() => {
-            if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-                alert('Parece que WhatsApp no está instalado. Por favor, instala WhatsApp o contacta manualmente al número: +' + cleanNumber);
-            }
-        }, 1000);
-
+        window.location.href = whatsappUrl;
     } catch (error) {
         console.error('Error al abrir WhatsApp:', error);
-        alert('No se pudo abrir WhatsApp. Por favor, verifica que el número sea correcto (ej. 3227994023) o que la app esté instalada.');
+        alert('No se pudo abrir WhatsApp. Asegúrate de que la app esté instalada y el número sea correcto (ej. 3227994023).');
     }
+}
+
+async function trackClick(producerId, whatsappNumber) {
+    if (producerId) {
+        fetch('https://putumayo-conecta.onrender.com/api/track-click', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ producerId: producerId.toString() })
+        }).catch(error => {
+            console.error('Error al registrar el clic (continuando con WhatsApp):', error);
+        });
+    }
+
+    openWhatsApp(whatsappNumber, 'Hola, estoy interesado en tu emprendimiento en Putumayo Conecta');
 }
 
 let currentCategory = 'all';
-let glowAnimationRunning = false;
-let glowInterval = null;
-
-function startGlowAnimation() {
-    if (glowAnimationRunning) return;
-
-    const subButtons = document.querySelectorAll('.category-btn.sub-btn');
-    let currentIndex = 0;
-    glowAnimationRunning = true;
-
-    function glowNextButton() {
-        if (!glowAnimationRunning || !document.querySelector('.category-menu[aria-expanded="true"]')) {
-            stopGlowAnimation();
-            return;
-        }
-
-        subButtons.forEach(btn => {
-            btn.classList.remove('glow');
-            const label = btn.querySelector('.category-label');
-            if (label) label.classList.remove('visible');
-        });
-
-        const currentButton = subButtons[currentIndex];
-        if (currentButton) {
-            currentButton.classList.add('glow');
-            const label = currentButton.querySelector('.category-label');
-            if (label) label.classList.add('visible');
-        }
-
-        currentIndex = (currentIndex + 1) % subButtons.length;
-    }
-
-    glowInterval = setInterval(glowNextButton, 1500);
-    glowNextButton();
-}
-
-function stopGlowAnimation() {
-    glowAnimationRunning = false;
-    if (glowInterval) {
-        clearInterval(glowInterval);
-        glowInterval = null;
-    }
-
-    const subButtons = document.querySelectorAll('.category-btn.sub-btn');
-    subButtons.forEach(btn => {
-        btn.classList.remove('glow');
-        const label = btn.querySelector('.category-label');
-        if (label) label.classList.remove('visible');
-    });
-}
 
 async function loadProducers(searchQuery = "", category = currentCategory) {
     const producersList = document.getElementById('producers-list');
     const countElement = document.getElementById('count');
+    if (!producersList || !countElement) {
+        console.error('Elementos producers-list o count no encontrados');
+        return;
+    }
+
     producersList.innerHTML = '<p>Cargando productores...</p>';
 
     let producers = await fetchData();
-    console.log('Productores cargados:', producers);
 
     let filteredProducers = producers;
 
@@ -201,6 +153,8 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
             const whatsappNumber = button.dataset.whatsapp;
             trackClick(producerId, whatsappNumber);
         };
+        button.removeEventListener('click', handleClick);
+        button.removeEventListener('touchstart', handleClick);
         button.addEventListener('click', handleClick);
         button.addEventListener('touchstart', handleClick, { passive: true });
     });
@@ -208,8 +162,12 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
 
 function setupSearch() {
     const searchInput = document.getElementById('search-input');
-    let searchTimeout;
+    if (!searchInput) {
+        console.error('Elemento search-input no encontrado');
+        return;
+    }
 
+    let searchTimeout;
     searchInput.addEventListener('input', () => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
@@ -256,6 +214,11 @@ function setupCategoryButtons() {
     const categoryMenu = document.querySelector('.category-menu');
     const subButtons = document.querySelectorAll('.category-btn.sub-btn');
 
+    if (!mainButton || !categoryMenu || !subButtons.length) {
+        console.error('Elementos de categoría no encontrados');
+        return;
+    }
+
     mainButton.querySelector('i').outerHTML = categoryIcons['all'];
     const mainLabel = mainButton.querySelector('.category-label');
     mainLabel.innerHTML = createCategorySvg('all', categoryLabels['all']);
@@ -267,18 +230,14 @@ function setupCategoryButtons() {
         const subLabel = button.querySelector('.category-label');
         subLabel.innerHTML = createCategorySvg(category, categoryLabels[category]);
 
-        button.style.pointerEvents = 'auto';
-
         const handleCategoryClick = (e) => {
             e.preventDefault();
-            e.stopPropagation();
             if (navigator.vibrate) {
                 navigator.vibrate(50);
             }
 
             console.log(`Botón de categoría clickeado: ${category}`);
 
-            stopGlowAnimation();
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             currentCategory = category;
@@ -290,45 +249,20 @@ function setupCategoryButtons() {
             updatedMainLabel.innerHTML = createCategorySvg(currentCategory, categoryLabels[currentCategory]);
         };
 
-        // Asegurarse de que los eventos no se dupliquen
         button.removeEventListener('click', handleCategoryClick);
         button.removeEventListener('touchstart', handleCategoryClick);
         button.addEventListener('click', handleCategoryClick);
         button.addEventListener('touchstart', handleCategoryClick, { passive: true });
-
-        button.addEventListener('mouseenter', () => {
-            stopGlowAnimation();
-            button.classList.add('glow');
-            const label = button.querySelector('.category-label');
-            if (label) label.classList.add('visible');
-        });
-
-        button.addEventListener('mouseleave', () => {
-            button.classList.remove('glow');
-            const label = button.querySelector('.category-label');
-            if (label) label.classList.remove('visible');
-        });
     });
 
     const handleMainButtonClick = (e) => {
         e.preventDefault();
-        e.stopPropagation();
         if (navigator.vibrate) {
             navigator.vibrate(50);
         }
 
         const isOpen = categoryMenu.getAttribute('aria-expanded') === 'true';
-
-        document.querySelectorAll('.category-menu[aria-expanded="true"]').forEach(menu => {
-            menu.setAttribute('aria-expanded', 'false');
-        });
-
-        if (!isOpen) {
-            categoryMenu.setAttribute('aria-expanded', 'true');
-            startGlowAnimation();
-        } else {
-            stopGlowAnimation();
-        }
+        categoryMenu.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
     };
 
     mainButton.removeEventListener('click', handleMainButtonClick);
@@ -339,14 +273,12 @@ function setupCategoryButtons() {
     document.addEventListener('click', (e) => {
         if (!categoryMenu.contains(e.target) && !mainButton.contains(e.target)) {
             categoryMenu.setAttribute('aria-expanded', 'false');
-            stopGlowAnimation();
         }
     });
 
     document.addEventListener('touchstart', (e) => {
         if (!categoryMenu.contains(e.target) && !mainButton.contains(e.target)) {
             categoryMenu.setAttribute('aria-expanded', 'false');
-            stopGlowAnimation();
         }
     }, { passive: true });
 }
@@ -355,6 +287,11 @@ function setupModal() {
     const modal = document.getElementById('modal');
     const addBtn = document.getElementById('add-btn');
     const closeBtn = document.querySelector('.close');
+
+    if (!modal || !addBtn || !closeBtn) {
+        console.error('Elementos del modal no encontrados');
+        return;
+    }
 
     const openModal = (e) => {
         e.preventDefault();
@@ -389,6 +326,11 @@ function setupForm() {
     const form = document.getElementById('register-form');
     const formMessage = document.getElementById('form-message');
 
+    if (!form || !formMessage) {
+        console.error('Elementos del formulario no encontrados');
+        return;
+    }
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -413,7 +355,7 @@ function setupForm() {
         formData.append('producerId', producerId);
 
         try {
-            const response = await fetch('/api/register-user', {
+            const response = await fetch('https://putumayo-conecta.onrender.com/api/register-user', {
                 method: 'POST',
                 body: formData
             });
@@ -450,6 +392,11 @@ function setupDarkMode() {
     const toggle = document.getElementById('theme-toggle');
     const body = document.body;
 
+    if (!toggle || !body) {
+        console.error('Elementos de modo oscuro no encontrados');
+        return;
+    }
+
     if (localStorage.getItem('theme') === 'dark') {
         body.classList.add('dark-mode');
         toggle.innerHTML = '<i class="fas fa-sun"></i>';
@@ -469,30 +416,24 @@ function setupDarkMode() {
 
 function setupFooterWhatsApp() {
     const footerWhatsappBtn = document.getElementById('footer-whatsapp-btn');
-    if (footerWhatsappBtn) {
-        const handleFooterClick = (e) => {
-            e.preventDefault();
-            const whatsappNumber = '573227994023';
-            const message = encodeURIComponent('Hola, quiero información sobre Putumayo Conecta');
-            const whatsappUrl = `https://wa.me/+${whatsappNumber}?text=${message}`;
-            console.log('Enlace de WhatsApp del footer:', whatsappUrl);
-
-            const newWindow = window.open(whatsappUrl, '_blank');
-            setTimeout(() => {
-                if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-                    alert('Parece que WhatsApp no está instalado. Por favor, instala WhatsApp o contacta manualmente al número: +573227994023');
-                }
-            }, 1000);
-        };
-
-        footerWhatsappBtn.removeEventListener('click', handleFooterClick);
-        footerWhatsappBtn.removeEventListener('touchstart', handleFooterClick);
-        footerWhatsappBtn.addEventListener('click', handleFooterClick);
-        footerWhatsappBtn.addEventListener('touchstart', handleFooterClick, { passive: true });
+    if (!footerWhatsappBtn) {
+        console.error('Botón de WhatsApp del footer no encontrado');
+        return;
     }
+
+    const handleFooterClick = (e) => {
+        e.preventDefault();
+        openWhatsApp('573227994023', 'Hola, quiero información sobre Putumayo Conecta');
+    };
+
+    footerWhatsappBtn.removeEventListener('click', handleFooterClick);
+    footerWhatsappBtn.removeEventListener('touchstart', handleFooterClick);
+    footerWhatsappBtn.addEventListener('click', handleFooterClick);
+    footerWhatsappBtn.addEventListener('touchstart', handleFooterClick, { passive: true });
 }
 
 function init() {
+    console.log('Inicializando aplicación...');
     setupSearch();
     setupCategoryButtons();
     setupModal();

@@ -81,7 +81,7 @@
         <p>¿Eres Emprendedor? <a href="#" id="add-btn" aria-label="Regístrate como emprendedor">¡Regístrate aquí!</a></p>
         <p>Para desarrollo de software, contactar a:</p>
         <p>Jose Alexis Tejada Angulo - Ingeniero Industrial</p>
-        <a href="https://wa.me/+573227994023?text=Hola,%20quiero%20información%20sobre%20Putumayo%20Conecta" class="whatsapp-btn" id="footer-whatsapp-btn">
+        <a href="#" class="whatsapp-btn" id="footer-whatsapp-btn">
             <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
         </a>
     </footer>
@@ -133,51 +133,5 @@
     </div>
 
     <script src="script.js"></script>
-    <script>
-        // Manejo de errores al cargar la página
-        window.addEventListener('load', () => {
-            document.getElementById('loading').style.display = 'block';
-            fetch('/api/producers', { cache: 'no-store' })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('producers-list').innerHTML = data.length ? '' : '<p>No se encontraron emprendimientos.</p>';
-                    document.getElementById('count').textContent = data.length;
-                })
-                .catch(error => {
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('producers-list').innerHTML = `
-                        <p style="color: red; text-align: center;">
-                            Error: No se pudo conectar al servidor. Verifica tu conexión a internet o intenta de nuevo más tarde. Detalle: ${error.message}
-                        </p>`;
-                    console.error('Error al cargar los datos:', error);
-                });
-
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registrado con éxito:', registration);
-                    })
-                    .catch(error => {
-                        console.log('Error al registrar el Service Worker:', error);
-                    });
-            }
-        });
-
-        // Evitar que el formulario se envíe si hay errores
-        document.getElementById('register-form').addEventListener('submit', (e) => {
-            const whatsapp = document.getElementById('whatsapp').value.replace(/[^0-9]/g, '');
-            if (whatsapp.length !== 10) {
-                e.preventDefault();
-                document.getElementById('form-message').textContent = 'El número de WhatsApp debe tener exactamente 10 dígitos.';
-                return false;
-            }
-        });
-    </script>
 </body>
 </html>
