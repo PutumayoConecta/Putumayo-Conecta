@@ -29,20 +29,10 @@ async function updateWhatsAppNumbers() {
     try {
         const producers = await Producer.find();
         for (const producer of producers) {
-            if (producer.whatsapp) {
-                // Limpiar el número (solo dejar dígitos)
-                let cleanNumber = producer.whatsapp.replace(/[^0-9]/g, '');
-
-                // Verificar que tenga 10 dígitos
-                if (cleanNumber.length === 10) {
-                    producer.whatsapp = `+57${cleanNumber}`;
-                    await producer.save();
-                    console.log(`Actualizado número de WhatsApp para ${producer.name}: ${producer.whatsapp}`);
-                } else if (cleanNumber.length !== 0) {
-                    console.log(`Número inválido para ${producer.name}, valor original: ${producer.whatsapp}, limpio: ${cleanNumber}. Se omitió.`);
-                }
-            } else {
-                console.log(`No se encontró número de WhatsApp para ${producer.name}`);
+            if (producer.whatsapp && !producer.whatsapp.startsWith('+')) {
+                producer.whatsapp = `+${producer.whatsapp}`;
+                await producer.save();
+                console.log(`Actualizado número de WhatsApp para ${producer.name}: ${producer.whatsapp}`);
             }
         }
         console.log('Actualización completada');

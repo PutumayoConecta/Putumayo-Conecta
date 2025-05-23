@@ -6,7 +6,7 @@
     <title>Mi Dashboard - Putumayo Conecta</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <meta name="theme-color" content="#2e7d32">
 </head>
 <body>
@@ -15,7 +15,6 @@
             <a href="/index.html" class="back-btn">
                 <i class="fas fa-arrow-left"></i> Atrás
             </a>
-            <img src="/images/selva2.jpg" alt="Putumayo Conecta Logo" class="header-logo">
             <h1>🌿 Mi Dashboard</h1>
             <p>Revisa las estadísticas de tu emprendimiento</p>
             <button id="theme-toggle" aria-label="Alternar modo oscuro">
@@ -40,17 +39,10 @@
 
     <div class="stats-section" id="stats-section" style="display: none;">
         <h2>Estadísticas de tu Emprendimiento</h2>
-        <p><strong>Clics en tu WhatsApp:</strong> <span id="clicks-count">0</span></p>
-
-        <div class="donation-section">
-            <h3>Apoya a Putumayo Conecta</h3>
-            <p>Tu donación nos ayuda a seguir conectando emprendedores amazónicos y a mejorar esta plataforma para todos. ¡Cada aporte cuenta!</p>
-            <p>Envía tu donación a través de Nequi al número: <strong>3227994023</strong></p>
-        </div>
-
+        <p id="clicks-count">Cargando...</p>
         <a href="/index.html">Volver a la Página Principal</a>
     </div>
 
-    <script src="/dashboard.js"></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>

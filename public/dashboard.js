@@ -7,7 +7,7 @@ async function loadStats(producerId) {
         const clicksCount = document.getElementById('clicks-count');
         
         if (statsResponse.ok) {
-            clicksCount.textContent = statsData.clicks; // Mostrar solo el número de clics
+            clicksCount.textContent = `Tu emprendimiento ha recibido ${statsData.clicks} clics`;
         } else {
             clicksCount.textContent = 'Error al cargar estadísticas';
         }
