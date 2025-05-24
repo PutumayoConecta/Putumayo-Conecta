@@ -50,14 +50,13 @@ async function trackClick(producerId, whatsappNumber) {
         const whatsappIntent = `whatsapp://send?phone=${whatsappUrlNumber}&text=${message}`;
         const whatsappWeb = `https://wa.me/${whatsappUrlNumber}?text=${message}`;
 
-        // Intentar abrir WhatsApp directamente
+        console.log('Intentando abrir WhatsApp con:', whatsappIntent); // Depuración
         window.location.href = whatsappIntent;
 
-        // Fallback después de un breve tiempo si WhatsApp no se abre
         setTimeout(() => {
-            // Si no se abrió WhatsApp, redirigir a la URL web
+            console.log('WhatsApp no se abrió, redirigiendo a:', whatsappWeb); // Depuración
             window.location.href = whatsappWeb;
-        }, 1500);
+        }, 2000);
 
     } catch (error) {
         console.error('Error al abrir WhatsApp:', error);
