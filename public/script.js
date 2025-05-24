@@ -21,7 +21,6 @@ async function fetchData() {
 }
 
 async function trackClick(producerId, whatsappNumber) {
-    // Registrar el clic en el backend (fire-and-forget, no esperamos la respuesta)
     if (producerId) {
         fetch('/api/track-click', {
             method: 'POST',
@@ -36,33 +35,36 @@ async function trackClick(producerId, whatsappNumber) {
         if (!whatsappNumber) {
             throw new Error('Falta dato: whatsappNumber no está definido');
         }
-        
-        // Limpiar el número de WhatsApp (eliminar cualquier carácter que no sea número o el +)
+
         const cleanNumber = whatsappNumber.replace(/[^0-9+]/g, '');
-        
-        // Verificar que el número tenga el formato correcto (+57 + 10 dígitos o solo 10 dígitos)
         if (!cleanNumber.match(/^\+57[0-9]{10}$/) && !/^[0-9]{10}$/.test(cleanNumber)) {
             throw new Error('El número de WhatsApp debe empezar con +57 y tener 10 dígitos después (ej. +573227994023) o ser solo 10 dígitos (ej. 3227994023)');
         }
-        
-        // Ajustar el número si solo tiene 10 dígitos (agregar +57)
+
         let whatsappUrlNumber = cleanNumber;
         if (/^[0-9]{10}$/.test(cleanNumber)) {
             whatsappUrlNumber = `+57${cleanNumber}`;
         }
-        
-        // Mensaje predefinido
+
         const message = encodeURIComponent('Hola, quiero información sobre Putumayo Conecta');
-        const whatsappUrl = `https://wa.me/${whatsappUrlNumber}?text=${message}`;
-        
-        // Intentar abrir WhatsApp directamente (específico para Android)
-        const androidIntent = `whatsapp://send?phone=${whatsappUrlNumber}&text=${message}`;
-        window.location.href = androidIntent;
-        
-        // Si falla (WhatsApp no instalado), caerá al catch y usaremos la URL web
+        const whatsappIntent = `intent://send/${whatsappUrlNumber}?text=${message}#Intent;scheme=whatsapp;package=com.whatsapp;end`;
+        const whatsappWeb = `https://wa.me/${whatsappUrlNumber}?text=${message}`;
+
+        // Intentar abrir WhatsApp directamente
+        window.location.href = whatsappIntent;
+
+        // Verificar si el intent falló después de un breve tiempo
+        let whatsappOpened = false;
         setTimeout(() => {
-            window.location.href = whatsappUrl; // Fallback a la URL web si el intent falla
-        }, 1000); // Pequeño retraso para dar tiempo al intent
+            if (!whatsappOpened) {
+                window.location.href = whatsappWeb; // Fallback a la web si no se abre
+            }
+        }, 1000);
+
+        // Detectar si se abrió WhatsApp (esto es aproximado en APKs)
+        window.addEventListener('blur', () => {
+            whatsappOpened = true;
+        }, { once: true });
 
     } catch (error) {
         console.error('Error al abrir WhatsApp:', error);
@@ -318,20 +320,17 @@ function setupModalAndForm() {
     const formMessage = document.getElementById('form-message');
     const loading = document.getElementById('loading');
 
-    // Mostrar modal
     addBtn.addEventListener('click', (e) => {
         e.preventDefault();
         modal.style.display = 'block';
     });
 
-    // Cerrar modal
     closeBtn.addEventListener('click', () => {
         modal.style.display = 'none';
         registerForm.reset();
         formMessage.textContent = '';
     });
 
-    // Cerrar modal al hacer clic fuera
     window.addEventListener('click', (event) => {
         if (event.target === modal) {
             modal.style.display = 'none';
@@ -340,28 +339,24 @@ function setupModalAndForm() {
         }
     });
 
-    // Validación y envío del formulario
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         formMessage.textContent = '';
         const whatsapp = document.getElementById('whatsapp').value.trim();
         const imageInput = document.querySelector('input[name="image"]');
 
-        // Validación de número de WhatsApp
         if (!/^\d{10}$/.test(whatsapp)) {
             formMessage.textContent = '❌ El número de WhatsApp debe tener exactamente 10 dígitos.';
             formMessage.style.color = 'red';
             return;
         }
 
-        // Validación de imagen
         if (!imageInput.files || imageInput.files.length === 0) {
             formMessage.textContent = '❌ Por favor, selecciona una imagen para tu emprendimiento.';
             formMessage.style.color = 'red';
             return;
         }
 
-        // Mostrar spinner de carga
         showLoading(true);
 
         try {
@@ -383,7 +378,6 @@ function setupModalAndForm() {
             formMessage.style.color = 'green';
             registerForm.reset();
 
-            // Guardar credenciales si el usuario lo desea
             const email = formData.get('email');
             const password = formData.get('password');
             const saveCredentials = confirm('¿Deseas guardar tu usuario y contraseña para futuros ingresos?');
@@ -392,7 +386,6 @@ function setupModalAndForm() {
                 localStorage.setItem('savedPassword', password);
             }
 
-            // Recargar productores después del registro
             setTimeout(async () => {
                 modal.style.display = 'none';
                 formMessage.textContent = '';
@@ -432,7 +425,6 @@ function init() {
     setupDarkMode();
     loadProducers();
     
-    // Manejar clics en enlaces WhatsApp del footer
     const footerWhatsappBtn = document.querySelector('footer .whatsapp-btn');
     if (footerWhatsappBtn) {
         footerWhatsappBtn.addEventListener('click', function(e) {
