@@ -53,18 +53,14 @@ async function trackClick(producerId, whatsappNumber) {
         // Intentar abrir WhatsApp directamente
         window.location.href = whatsappIntent;
 
-        // Verificar si el intent falló después de un breve tiempo
-        let whatsappOpened = false;
+        // Pequeño retraso para dar tiempo al intent antes del fallback
         setTimeout(() => {
-            if (!whatsappOpened) {
-                window.location.href = whatsappWeb; // Fallback a la web si no se abre
+            // Verificar si estamos en una WebView o APK
+            if (navigator.userAgent.includes('WebView') || window.location.protocol === 'file:') {
+                // Si no se abrió WhatsApp, redirigir a la web
+                window.location.href = whatsappWeb;
             }
         }, 1000);
-
-        // Detectar si se abrió WhatsApp (esto es aproximado en APKs)
-        window.addEventListener('blur', () => {
-            whatsappOpened = true;
-        }, { once: true });
 
     } catch (error) {
         console.error('Error al abrir WhatsApp:', error);
