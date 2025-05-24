@@ -47,24 +47,21 @@ async function trackClick(producerId, whatsappNumber) {
         }
 
         const message = encodeURIComponent('Hola, quiero información sobre Putumayo Conecta');
-        const whatsappIntent = `intent://send/${whatsappUrlNumber}?text=${message}#Intent;scheme=whatsapp;package=com.whatsapp;end`;
+        const whatsappIntent = `whatsapp://send?phone=${whatsappUrlNumber}&text=${message}`;
         const whatsappWeb = `https://wa.me/${whatsappUrlNumber}?text=${message}`;
 
         // Intentar abrir WhatsApp directamente
         window.location.href = whatsappIntent;
 
-        // Pequeño retraso para dar tiempo al intent antes del fallback
+        // Fallback después de un breve tiempo si WhatsApp no se abre
         setTimeout(() => {
-            // Verificar si estamos en una WebView o APK
-            if (navigator.userAgent.includes('WebView') || window.location.protocol === 'file:') {
-                // Si no se abrió WhatsApp, redirigir a la web
-                window.location.href = whatsappWeb;
-            }
-        }, 1000);
+            // Si no se abrió WhatsApp, redirigir a la URL web
+            window.location.href = whatsappWeb;
+        }, 1500);
 
     } catch (error) {
         console.error('Error al abrir WhatsApp:', error);
-        alert('WhatsApp no está instalado en tu dispositivo. Puedes descargarlo desde la tienda de aplicaciones o contactarnos por otro medio.');
+        alert('No se pudo abrir WhatsApp. Por favor, instala la aplicación o usa otro medio de contacto.');
     }
 }
 
