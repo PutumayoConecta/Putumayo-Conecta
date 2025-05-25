@@ -351,26 +351,66 @@ body.dark-mode .producer-info p strong {
     color: var(--dark-text);
 }
 
+.producer-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
 .whatsapp-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 15px;
-    padding: 8px 16px;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
     background-color: #25D366;
     color: white;
-    text-decoration: none;
+    border: none;
     border-radius: 8px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    font-family: 'Rubik', sans-serif;
-    line-height: 1.5;
+    cursor: pointer;
+    font-size: 0;
     transition: background-color 0.3s, transform 0.2s;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.whatsapp-btn i {
+    font-size: 1.2rem;
+}
+
+.whatsapp-btn span {
+    display: none;
 }
 
 .whatsapp-btn:hover {
     background-color: #1EBE54;
+    transform: translateY(-2px);
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #4267B2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.share-btn i {
+    font-size: 1.2rem;
+}
+
+.share-btn span {
+    display: none;
+}
+
+.share-btn:hover {
+    background: #3A5A99;
     transform: translateY(-2px);
 }
 
@@ -548,7 +588,7 @@ body.dark-mode .category-btn.main-btn.active {
     border-radius: 50%;
     border: 2px solid #fff; /* Borde para mayor visibilidad */
     color: white;
-    font-size: 1.8rem;
+    font-size: 2rem; /* Increased for better legibility */
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s, opacity 0.3s;
     position: absolute;
@@ -562,6 +602,10 @@ body.dark-mode .category-btn.main-btn.active {
     padding-top: 0;
     pointer-events: auto; /* Asegurar que los botones sean interactivos */
     will-change: transform, opacity;
+}
+
+.category-btn.sub-btn .category-label {
+    display: none; /* Hide text to focus on icons */
 }
 
 /* Colores específicos para cada categoría */
@@ -665,42 +709,6 @@ body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="turismo"
 
 body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="varios"] {
     background-color: var(--gris-Varios);
-}
-
-.category-btn.sub-btn .category-label {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.category-btn.sub-btn .category-label.visible {
-    opacity: 1;
-}
-
-.category-btn.sub-btn .category-label svg {
-    width: 100%;
-    height: 100%;
-}
-
-.category-btn.sub-btn .category-label text {
-    font-size: 8px;
-    font-weight: 500;
-    fill: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.category-btn.sub-btn[data-category="artesania"] .category-label text {
-    fill: #333;
-}
-
-body.dark-mode .category-btn.sub-btn .category-label text {
-    fill: var(--dark-text);
-}
-
-body.dark-mode .category-btn.sub-btn[data-category="artesania"] .category-label text {
-    fill: #333;
 }
 
 .category-menu.open .category-btn.sub-btn {
@@ -1125,41 +1133,6 @@ body.dark-mode .stats-section a:hover {
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* Estilos para los botones de acción */
-.producer-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-    justify-content: center;
-}
-
-.share-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: #4267B2;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.9rem;
-    font-family: 'Rubik', sans-serif;
-    line-height: 1.5;
-    transition: background 0.3s, transform 0.2s;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.share-btn:hover {
-    background: #3A5A99;
-    transform: translateY(-2px);
-}
-
-.share-btn i {
-    font-size: 0.9rem;
-}
-
 /* Modal de compartir */
 .share-modal {
     display: none;
@@ -1213,8 +1186,9 @@ body.dark-mode .share-modal-content {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 12px;
-    border-radius: 8px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
     color: white;
     cursor: pointer;
     transition: transform 0.3s;
@@ -1226,12 +1200,11 @@ body.dark-mode .share-modal-content {
 
 .share-option i {
     font-size: 1.8rem;
-    margin-bottom: 0;
 }
 
 #whatsapp-share { background: #25D366; }
 #facebook-share { background: #4267B2; }
-#twitter-share { background: #000000; }
+#twitter-share { background: #1DA1F2; }
 #tiktok-share { background: #000000; }
 #instagram-share { background: #E1306C; }
 
@@ -1466,8 +1439,8 @@ body.dark-mode .share-modal-content {
     #theme-toggle {
         font-size: 1rem;
         top: 0.5rem;
-        right: 0;
-        padding: none;
+        right: 0.5rem;
+        padding: 4px;
     }
 
     .dashboard-link {
@@ -1491,7 +1464,6 @@ body.dark-mode .share-modal-content {
     }
 
     .producers-count {
-        font-size: none;
         font-size: 0.9rem;
     }
 
@@ -1506,144 +1478,109 @@ body.dark-mode .share-modal-content {
     }
 
     .producer-info {
-        padding: none;
+        padding: 0.75rem;
     }
 
     .producer-info h3 {
-        font-size: none;
         font-size: 1.1rem;
     }
 
     .category-badge {
-        font-size: none;
         font-size: 0.75rem;
-        padding: 10px;
+        padding: 4px 10px;
     }
 
     .whatsapp-btn {
-        padding: none;
-        font-size: none;
+        width: 35px;
+        height: 35px;
+        font-size: 0;
     }
 
     .category-buttons {
-        bottom: none;
-        width: none;
-        height: none;
+        bottom: 10px;
+        width: 50px;
+        height: 50px;
     }
 
     .category-btn.main-btn {
-        width: none;
-        height: none;
-        font-size: none;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
     }
 
     .category-btn.main-btn .category-label text {
-        font-size: none;
         font-size: 6px;
     }
 
     .category-menu {
-        bottom: none;
+        bottom: 60px;
     }
 
     .category-btn.sub-btn {
-        width: 6px;
-        height: none;
-        font-size: none;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
     }
 
     .category-btn.sub-btn .category-label text {
-        width-size: none;
-        height-size: none;
-        font-size: none;
-pxpx;
+        font-size: 6px;
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: none;
+        transform: translate(-110px, 0px) scale(1);
     }
 
-    .category-menu .sub-btn:nth-child(2) {
-        transform: none;
+    .category-menu.open .category-btn.sub-btn:nth-child(2) {
+        transform: translate(-85px, -50px) scale(1);
     }
 
-    .sub-btn {
-        transform: none;
+    .category-menu.open .category-btn.sub-btn:nth-child(3) {
+        transform: translate(-60px, -100px) scale(1);
     }
 
-    #sub-btn:nth-child(4) {
-        transform: none;
+    .category-menu.open .category-btn.sub-btn:nth-child(4) {
+        transform: translate(60px, -100px) scale(1);
     }
 
-    #sub-btn:nth-child(5) transform {
-        transform: none;
-}
+    .category-menu.open .category-btn.sub-btn:nth-child(5) {
+        transform: translate(85px, -50px) scale(1);
+    }
 
-    #sub-btn:nth-child(6) {
-    transform: none;
-}
+    .category-menu.open .category-btn.sub-btn:nth-child(6) {
+        transform: translate(110px, 0px) scale(1);
+    }
 
-#modal-content {
-    max-width: none;
-    padding: none;
-}
+    .modal-content {
+        max-width: 90%;
+        padding: 1rem;
+    }
 
-#register-form {
-    gap: none;
-}
+    #register-form {
+        gap: 10px;
+    }
 
-#register-form input {
-    padding: none;
-    font-size: none;
-}
+    #register-form input,
+    #register-form select,
+    #register-form textarea {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
 
-#register-form-input {
-    padding: none;
-    font-size: none;
+    #register-form textarea {
+        min-height: 60px;
+    }
 
-}
+    #register-form button {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
 
-#register-form textarea {
-    min-height: none;
-}
+    footer {
+        padding: 0.75rem;
+        margin-bottom: 60px;
+    }
 
-#register-form-button {
-    padding: none;
-    font-size: none;
-}
-
-footer {
-    padding: none;
-    margin-bottom: none;
-}
-
-footer p {
-    font-size: none;
-}
-
-.share-modal-content {
-    max-width: none;
-    padding: none;
-}
-
-.share-options {
-    grid-template-columns: none;
-}
-
-.share-options.share-option {
-    width: none;
-    height: none;
-}
-
-.share-option i {
-    height-size: none;
-}
-
-.share-option {
-    padding: none;
-}
-
-.close-share-btn {
-    padding: none;
-    font-size: none;
+    footer p {
+        font-size: 0.8rem;
+    }
 }
