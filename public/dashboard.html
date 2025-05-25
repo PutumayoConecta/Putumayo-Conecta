@@ -92,6 +92,39 @@
             </p>
         </div>
         
+        <!-- Sección de Acciones Rápidas -->
+        <div class="quick-actions">
+            <button id="edit-profile-btn" class="btn">✏️ Editar Perfil</button>
+            <button id="share-btn" class="btn">📢 Compartir</button>
+        </div>
+
+        <!-- Tarjeta de Metas -->
+        <div class="goals-card">
+            <h3>🎯 Tu Meta Mensual</h3>
+            <progress id="progress-bar" value="0" max="100"></progress>
+            <p id="goal-text">Establece tu meta en Configuración</p>
+        </div>
+
+        <!-- Modal de Edición (oculto por defecto) -->
+        <div id="edit-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">×</span>
+                <h2>✏️ Editar Perfil</h2>
+                <form id="edit-form" enctype="multipart/form-data">
+                    <label>Foto de perfil:</label>
+                    <input type="file" name="image" accept="image/*">
+                    
+                    <label>Descripción:</label>
+                    <textarea name="description" placeholder="Cuéntanos sobre tu emprendimiento..."></textarea>
+                    
+                    <label>Meta mensual (contactos):</label>
+                    <input type="number" name="goal" placeholder="Ej: 50">
+                    
+                    <button type="submit">💾 Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+        
         <a href="/index.html" class="btn-secondary">Volver a la Página Principal</a>
     </div>
 

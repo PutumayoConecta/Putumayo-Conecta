@@ -1,3 +1,6 @@
+// Variables globales
+let userData = {}; // Aquí guardaremos los datos actuales
+
 // Función para cargar estadísticas con diseño mejorado
 async function loadStats(producerId) {
     try {
@@ -97,8 +100,62 @@ function setupDarkMode() {
     });
 }
 
+// Abrir modal de edición
+document.getElementById('edit-profile-btn').addEventListener('click', () => {
+    document.getElementById('edit-modal').style.display = 'block';
+    // Cargar datos actuales (simulado)
+    userData = {
+        description: "Texto actual de tu emprendimiento",
+        goal: 50
+    };
+    
+    // Rellenar formulario con datos existentes
+    document.querySelector('#edit-form textarea').value = userData.description;
+    document.querySelector('#edit-form input[name="goal"]').value = userData.goal;
+});
+
+// Cerrar modal
+document.querySelector('#edit-modal .close').addEventListener('click', () => {
+    document.getElementById('edit-modal').style.display = 'none';
+});
+
+// Enviar formulario de edición
+document.getElementById('edit-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    
+    try {
+        const response = await fetch('/api/update-profile', {
+            method: 'POST',
+            body: formData // ¡Importante! No uses headers para FormData
+        });
+        
+        if (response.ok) {
+            alert("¡Perfil actualizado!");
+            location.reload(); // Recargar para ver cambios
+        }
+    } catch (error) {
+        alert("Error al guardar: " + error.message);
+    }
+});
+
+// Cargar meta al iniciar (ejemplo)
+async function loadGoal() {
+    const response = await fetch('/api/user-goal');
+    const data = await response.json();
+    
+    const progressBar = document.getElementById('progress-bar');
+    const goalText = document.getElementById('goal-text');
+    
+    progressBar.value = data.progress;
+    progressBar.max = data.goal;
+    goalText.textContent = `¡Faltan ${data.goal - data.progress} contactos para tu meta!`;
+}
+
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
     setupLoginForm();
     setupDarkMode();
+    loadGoal();
 });
