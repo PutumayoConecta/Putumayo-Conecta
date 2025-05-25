@@ -20,48 +20,41 @@ async function fetchData() {
     }
 }
 
-async function trackClick(producerId, whatsappNumber) {
-    if (producerId) {
-        fetch('/api/track-click', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ producerId: producerId.toString() })
-        }).catch(error => {
-            console.error('Error al registrar el clic (continuando con WhatsApp):', error);
+// Función para abrir WhatsApp
+function openWhatsApp(number, message = "Hola, vi tu emprendimiento en Putumayo Conecta") {
+    const cleanNumber = number.toString().replace(/[^0-9]/g, '');
+    const finalNumber = cleanNumber.length === 10 ? `+57${cleanNumber}` : `+${cleanNumber}`;
+    const url = `https://wa.me/${finalNumber}?text=${encodeURIComponent(message)}`;
+    console.log('Redirigiendo a WhatsApp con:', url); // Depuración
+    window.open(url, '_blank');
+}
+
+// Configuración de botones
+function setupWhatsAppButtons() {
+    // Botón de soporte en el footer
+    const footerWhatsappBtn = document.getElementById('footer-whatsapp-btn');
+    if (footerWhatsappBtn) {
+        footerWhatsappBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+            openWhatsApp(e.target.dataset.whatsapp || '3227994023');
         });
     }
 
-    try {
-        if (!whatsappNumber) {
-            throw new Error('Falta dato: whatsappNumber no está definido');
+    // Botones de emprendimientos (dinámicos)
+    document.addEventListener('click', (e) => {
+        const button = e.target.closest('.producer-whatsapp-btn');
+        if (button) {
+            e.preventDefault();
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+            const whatsappNumber = button.dataset.whatsapp;
+            openWhatsApp(whatsappNumber);
         }
-
-        const cleanNumber = whatsappNumber.replace(/[^0-9+]/g, '');
-        if (!cleanNumber.match(/^\+57[0-9]{10}$/) && !/^[0-9]{10}$/.test(cleanNumber)) {
-            throw new Error('El número de WhatsApp debe empezar con +57 y tener 10 dígitos después (ej. +573227994023) o ser solo 10 dígitos (ej. 3227994023)');
-        }
-
-        let whatsappUrlNumber = cleanNumber;
-        if (/^[0-9]{10}$/.test(cleanNumber)) {
-            whatsappUrlNumber = `+57${cleanNumber}`;
-        }
-
-        const message = encodeURIComponent('Hola, quiero información sobre Putumayo Conecta');
-        const whatsappIntent = `whatsapp://send?phone=${whatsappUrlNumber}&text=${message}`;
-        const whatsappWeb = `https://wa.me/${whatsappUrlNumber}?text=${message}`;
-
-        console.log('Intentando abrir WhatsApp con:', whatsappIntent); // Depuración
-        window.location.href = whatsappIntent;
-
-        setTimeout(() => {
-            console.log('WhatsApp no se abrió, redirigiendo a:', whatsappWeb); // Depuración
-            window.location.href = whatsappWeb;
-        }, 2000);
-
-    } catch (error) {
-        console.error('Error al abrir WhatsApp:', error);
-        alert('No se pudo abrir WhatsApp. Por favor, instala la aplicación o usa otro medio de contacto.');
-    }
+    });
 }
 
 let currentCategory = 'all';
@@ -172,17 +165,7 @@ async function loadProducers(searchQuery = "", category = currentCategory) {
         producersList.appendChild(card);
     });
 
-    document.querySelectorAll('.producer-whatsapp-btn').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
-            }
-            const producerId = button.dataset.producerId;
-            const whatsappNumber = button.dataset.whatsapp;
-            trackClick(producerId, whatsappNumber);
-        });
-    });
+    setupWhatsAppButtons(); // Configura los botones de WhatsApp después de renderizar las tarjetas
 }
 
 function setupSearch() {
@@ -415,16 +398,8 @@ function init() {
     setupCategoryButtons();
     setupModalAndForm();
     setupDarkMode();
+    setupWhatsAppButtons(); // Configura los botones de WhatsApp
     loadProducers();
-    
-    const footerWhatsappBtn = document.querySelector('footer .whatsapp-btn');
-    if (footerWhatsappBtn) {
-        footerWhatsappBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const whatsappNumber = this.dataset.whatsapp || '3227994023';
-            trackClick('', whatsappNumber);
-        });
-    }
 }
 
 document.addEventListener('DOMContentLoaded', init);
