@@ -559,6 +559,7 @@ body.dark-mode .category-btn.main-btn.active {
     justify-content: center;
     padding-top: 0;
     pointer-events: auto; /* Asegurar que los botones sean interactivos */
+    will-change: transform, opacity;
 }
 
 .category-btn.sub-btn .category-label {
@@ -641,31 +642,6 @@ body.dark-mode .category-btn.sub-btn[data-category="artesania"] .category-label 
 
 body.dark-mode .category-btn.sub-btn:hover {
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
-}
-
-.category-btn.sub-btn[data-category="agricultura"] {
-    background-color: var(--verde-amazonico);
-}
-
-.category-btn.sub-btn[data-category="agroindustria"] {
-    background-color: var(--morado-Agroindustria);
-}
-
-.category-btn.sub-btn[data-category="artesania"] {
-    background-color: var(--amarillo-Artesania);
-    color: #333;
-}
-
-.category-btn.sub-btn[data-category="gastronomia"] {
-    background-color: var(--terracota);
-}
-
-.category-btn.sub-btn[data-category="turismo"] {
-    background-color: var(--azul-Turismo);
-}
-
-.category-btn.sub-btn[data-category="varios"] {
-    background-color: var(--gris-Varios);
 }
 
 .category-btn.sub-btn.active {
@@ -1044,6 +1020,151 @@ body.dark-mode .stats-section a:hover {
     to { transform: translateY(0); opacity: 1; }
 }
 
+/* Estilos para los botones de acción */
+.producer-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.share-btn {
+    background: #4267B2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.share-btn:hover {
+    background: #3A5A99;
+    transform: translateY(-2px);
+}
+
+.share-btn i {
+    font-size: 1rem;
+}
+
+/* Modal de compartir */
+.share-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 1100;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.share-modal.open {
+    opacity: 1;
+}
+
+.share-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    transform: translateY(-50px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.share-modal.open .share-modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+body.dark-mode .share-modal-content {
+    background: var(--dark-card);
+}
+
+.share-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.share-option {
+    padding: 12px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.share-option:hover {
+    transform: scale(1.05);
+}
+
+.share-option i {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+#whatsapp-share { background: #25D366; }
+#facebook-share { background: #4267B2; }
+#twitter-share { background: #000000; }
+#tiktok-share { background: #000000; }
+#instagram-share { background: #E1306C; }
+
+.close-share-btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.close-share-btn:hover {
+    background: #d32f2f;
+    transform: translateY(-2px);
+}
+
+/* Mejora en la animación para evitar parpadeos */
+@keyframes smoothGlow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0);
+    }
+    50% {
+        box-shadow: 0 0 15px 5px currentColor;
+    }
+}
+
+.category-btn.sub-btn.glow {
+    animation: smoothGlow 1.5s ease-in-out infinite;
+}
+
+/* Asegura que el menú se cierre correctamente */
+.category-menu:not(.open) {
+    display: none;
+}
+
+/* Mejora en la respuesta táctil */
+@media (hover: none) {
+    .category-btn {
+        transition: none;
+    }
+}
+
 /* Media Queries para Dispositivos Móviles */
 @media (max-width: 768px) {
     body {
@@ -1377,72 +1498,26 @@ body.dark-mode .stats-section a:hover {
     footer p {
         font-size: 0.8rem;
     }
-}
-/* Agrega estas reglas al final de tu archivo CSS */
 
-.category-btn.sub-btn {
-    transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s, opacity 0.3s;
-    will-change: transform, opacity;
-}
-
-/* Mejora en la animación para evitar parpadeos */
-@keyframes smoothGlow {
-    0%, 100% {
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0);
+    .share-modal-content {
+        padding: 15px;
+        max-width: 350px;
     }
-    50% {
-        box-shadow: 0 0 15px 5px currentColor;
+
+    .share-options {
+        grid-template-columns: repeat(2, 1fr);
     }
-}
 
-.category-btn.sub-btn.glow {
-    animation: smoothGlow 1.5s ease-in-out infinite;
-}
-
-/* Asegura que el menú se cierre correctamente */
-.category-menu:not(.open) {
-    display: none;
-}
-
-/* Mejora en la respuesta táctil */
-@media (hover: none) {
-    .category-btn {
-        transition: none;
+    .share-option i {
+        font-size: 1.2rem;
     }
-}
 
-/* Modal de edición */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 100;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-}
+    .share-option {
+        padding: 10px;
+    }
 
-.modal-content {
-    background: white;
-    margin: 10% auto;
-    padding: 20px;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 10px;
-}
-
-/* Barra de progreso */
-progress {
-    width: 100%;
-    height: 20px;
-    border-radius: 10px;
-}
-
-progress::-webkit-progress-bar {
-    background: #f0f0f0;
-}
-
-progress::-webkit-progress-value {
-    background: #2e7d32; /* Verde Putumayo */
+    .close-share-btn {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
 }
