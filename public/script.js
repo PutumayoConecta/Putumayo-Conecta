@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentCategory = 'all';
     let glowAnimationRunning = false;
     let glowInterval = null;
-    const BASE_URL = 'https://putumayoconecta.com'; // Configura tu URL real aquí
+    const BASE_URL = 'https://putumayoconecta.com'; // Configura tu URL real aquí (e.g., http://localhost:3000 para pruebas locales)
 
     function showLoading(show) {
         document.getElementById('loading').style.display = show ? 'flex' : 'none';
@@ -11,35 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchData() {
         try {
             showLoading(true);
-            // Descomenta para usar API real
-            // const res = await fetch('/api/producers', { cache: 'no-store' });
-            // if (!res.ok) throw new Error(`Error fetching producers: ${res.status} - ${await res.text()}`);
-            // const data = await res.json();
-            // return data;
-
-            // Datos de ejemplo para pruebas locales
-            return [
-                {
-                    id: '123',
-                    name: 'Miel del Putumayo',
-                    product: 'Miel orgánica',
-                    category: 'agricultura',
-                    description: 'Miel 100% natural de la Amazonía',
-                    location: 'Mocoa, Putumayo',
-                    whatsapp: '3227994023',
-                    image: '/images/miel.jpg'
-                },
-                {
-                    id: '124',
-                    name: 'Artesanías Wayuu',
-                    product: 'Mochilas tejidas',
-                    category: 'artesania',
-                    description: 'Mochilas tradicionales hechas a mano',
-                    location: 'Puerto Asís, Putumayo',
-                    whatsapp: '3101234567',
-                    image: '/images/mochila.jpg'
-                }
-            ];
+            const res = await fetch('/api/producers', { cache: 'no-store' });
+            if (!res.ok) throw new Error(`Error fetching producers: ${res.status} - ${await res.text()}`);
+            const data = await res.json();
+            return data;
         } catch (error) {
             console.error('Error fetching data:', error);
             return [];
@@ -79,90 +54,92 @@ document.addEventListener('DOMContentLoaded', () => {
         whatsapp: {
             id: 'whatsapp-share',
             icon: 'fab fa-whatsapp',
-            label: 'WhatsApp',
             action: () => {
                 const modal = document.getElementById('share-modal');
                 const producerId = modal.dataset.producerId;
                 const title = document.getElementById('share-title').textContent;
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
-                const message = `🌴 ¡Descubre este increíble emprendimiento en Putumayo Conecta! ${title} 🚀\nConoce más: ${url}`;
+                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
                 window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
             }
         },
         facebook: {
             id: 'facebook-share',
             icon: 'fab fa-facebook',
-            label: 'Facebook',
-            action: () => {
-                const producerId = document.getElementById('share-modal').dataset.producerId;
-                const url = `${BASE_URL}/emprendimiento/${producerId}`;
-                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
-            }
-        },
-        twitter: {
-            id: 'twitter-share',
-            icon: 'fab fa-x-twitter',
-            label: 'X',
             action: () => {
                 const modal = document.getElementById('share-modal');
                 const producerId = modal.dataset.producerId;
                 const title = document.getElementById('share-title').textContent;
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
-                const message = `🌴 ¡Mira este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
+                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(message)}`, '_blank');
+            }
+        },
+        twitter: {
+            id: 'twitter-share',
+            icon: 'fab fa-x-twitter',
+            action: () => {
+                const modal = document.getElementById('share-modal');
+                const producerId = modal.dataset.producerId;
+                const title = document.getElementById('share-title').textContent;
+                const url = `${BASE_URL}/emprendimiento/${producerId}`;
+                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
                 window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`, '_blank');
             }
         },
         tiktok: {
             id: 'tiktok-share',
             icon: 'fab fa-tiktok',
-            label: 'TikTok',
             action: async () => {
-                const producerId = document.getElementById('share-modal').dataset.producerId;
+                const modal = document.getElementById('share-modal');
+                const producerId = modal.dataset.producerId;
+                const title = document.getElementById('share-title').textContent;
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
+                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
                 try {
                     if (navigator.clipboard) {
-                        await navigator.clipboard.writeText(url);
-                        alert('Enlace copiado. Péguelo en la descripción de tu TikTok');
+                        await navigator.clipboard.writeText(message);
+                        alert('Mensaje copiado. Pégalo en tu publicación de TikTok.');
                     } else {
-                        // Fallback para navegadores antiguos
                         const textarea = document.createElement('textarea');
-                        textarea.value = url;
+                        textarea.value = message;
                         document.body.appendChild(textarea);
                         textarea.select();
                         document.execCommand('copy');
                         document.body.removeChild(textarea);
-                        alert('Enlace copiado. Péguelo en la descripción de tu TikTok');
+                        alert('Mensaje copiado. Pégalo en tu publicación de TikTok.');
                     }
                 } catch (err) {
                     console.error('Error copying to clipboard:', err);
-                    alert('Error al copiar el enlace. Por favor, cópialo manualmente: ' + url);
+                    alert('Error al copiar. Copia manualmente: ' + message);
                 }
             }
         },
         instagram: {
             id: 'instagram-share',
             icon: 'fab fa-instagram',
-            label: 'Instagram',
             action: async () => {
-                const producerId = document.getElementById('share-modal').dataset.producerId;
+                const modal = document.getElementById('share-modal');
+                const producerId = modal.dataset.producerId;
+                const title = document.getElementById('share-title').textContent;
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
+                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
                 try {
                     if (navigator.clipboard) {
-                        await navigator.clipboard.writeText(url);
-                        alert('Enlace copiado. Péguelo en tu publicación de Instagram');
+                        await navigator.clipboard.writeText(message);
+                        alert('Mensaje copiado. Pégalo en tu publicación de Instagram.');
                     } else {
-                        // Fallback para navegadores antiguos
                         const textarea = document.createElement('textarea');
-                        textarea.value = url;
+                        textarea.value = message;
                         document.body.appendChild(textarea);
                         textarea.select();
                         document.execCommand('copy');
                         document.body.removeChild(textarea);
-                        alert('Enlace copiado. Péguelo en tu publicación de Instagram');
+                        alert('Mensaje copiado. Pégalo en tu publicación de Instagram.');
                     }
                 } catch (err) {
                     console.error('Error copying to clipboard:', err);
-                    alert('Error al copiar el enlace. Por favor, cópialo manualmente: ' + url);
+                    alert('Error al copiar. Copia manualmente: ' + message);
                 }
             }
         }
@@ -178,7 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${Object.values(shareOptions).map(option => `
                             <div class="share-option" id="${option.id}">
                                 <i class="${option.icon}"></i>
-                                <span>${option.label}</span>
                             </div>
                         `).join('')}
                     </div>
@@ -201,14 +177,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target === modal) closeShareModal();
         });
 
-        // Soporte para cerrar con tecla Esc
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && modal.style.display === 'flex') {
                 closeShareModal();
             }
         });
 
-        // Delegación de eventos para botones de compartir
         document.getElementById('producers-list').addEventListener('click', (e) => {
             const shareBtn = e.target.closest('.share-btn');
             if (shareBtn) {
@@ -231,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.dataset.producerId = producerId;
         modal.style.display = 'flex';
         modal.classList.add('open');
-        // Enfocar el modal para accesibilidad
         document.getElementById('close-share-modal').focus();
     }
 
@@ -240,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.remove('open');
         setTimeout(() => {
             modal.style.display = 'none';
-        }, 300); // Coincide con la duración de la animación
+        }, 300);
     }
 
     function startGlowAnimation() {

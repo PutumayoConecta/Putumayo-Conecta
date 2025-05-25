@@ -363,6 +363,8 @@ body.dark-mode .producer-info p strong {
     border-radius: 8px;
     font-weight: 500;
     font-size: 0.9rem;
+    font-family: 'Rubik', sans-serif;
+    line-height: 1.5;
     transition: background-color 0.3s, transform 0.2s;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -560,6 +562,109 @@ body.dark-mode .category-btn.main-btn.active {
     padding-top: 0;
     pointer-events: auto; /* Asegurar que los botones sean interactivos */
     will-change: transform, opacity;
+}
+
+/* Colores específicos para cada categoría */
+.category-btn.sub-btn[data-category="agricultura"] {
+    background-color: var(--verde-amazonico);
+}
+
+.category-btn.sub-btn[data-category="agroindustria"] {
+    background-color: var(--morado-Agroindustria);
+}
+
+.category-btn.sub-btn[data-category="artesania"] {
+    background-color: var(--amarillo-Artesania);
+    color: #333;
+}
+
+.category-btn.sub-btn[data-category="gastronomia"] {
+    background-color: var(--terracota);
+}
+
+.category-btn.sub-btn[data-category="turismo"] {
+    background-color: var(--azul-Turismo);
+}
+
+.category-btn.sub-btn[data-category="varios"] {
+    background-color: var(--gris-Varios);
+}
+
+/* Asegurar colores en modo oscuro */
+body.dark-mode .category-btn.sub-btn[data-category="agricultura"] {
+    background-color: var(--verde-amazonico);
+}
+
+body.dark-mode .category-btn.sub-btn[data-category="agroindustria"] {
+    background-color: var(--morado-Agroindustria);
+}
+
+body.dark-mode .category-btn.sub-btn[data-category="artesania"] {
+    background-color: var(--amarillo-Artesania);
+    color: #333;
+}
+
+body.dark-mode .category-btn.sub-btn[data-category="gastronomia"] {
+    background-color: var(--terracota);
+}
+
+body.dark-mode .category-btn.sub-btn[data-category="turismo"] {
+    background-color: var(--azul-Turismo);
+}
+
+body.dark-mode .category-btn.sub-btn[data-category="varios"] {
+    background-color: var(--gris-Varios);
+}
+
+/* Mantener colores cuando el menú está abierto */
+.category-menu.open .category-btn.sub-btn[data-category="agricultura"] {
+    background-color: var(--verde-amazonico);
+}
+
+.category-menu.open .category-btn.sub-btn[data-category="agroindustria"] {
+    background-color: var(--morado-Agroindustria);
+}
+
+.category-menu.open .category-btn.sub-btn[data-category="artesania"] {
+    background-color: var(--amarillo-Artesania);
+    color: #333;
+}
+
+.category-menu.open .category-btn.sub-btn[data-category="gastronomia"] {
+    background-color: var(--terracota);
+}
+
+.category-menu.open .category-btn.sub-btn[data-category="turismo"] {
+    background-color: var(--azul-Turismo);
+}
+
+.category-menu.open .category-btn.sub-btn[data-category="varios"] {
+    background-color: var(--gris-Varios);
+}
+
+body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="agricultura"] {
+    background-color: var(--verde-amazonico);
+}
+
+body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="agroindustria"] {
+    background-color: var(--morado-Agroindustria);
+}
+
+body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="artesania"] {
+    background-color: var(--amarillo-Artesania);
+    color: #333;
+}
+
+body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="gastronomia"] {
+    background-color: var(--terracota);
+}
+
+body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="turismo"] {
+    background-color: var(--azul-Turismo);
+}
+
+body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="varios"] {
+    background-color: var(--gris-Varios);
 }
 
 .category-btn.sub-btn .category-label {
@@ -1025,20 +1130,25 @@ body.dark-mode .stats-section a:hover {
     display: flex;
     gap: 10px;
     margin-top: 15px;
+    justify-content: center;
 }
 
 .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
     background: #4267B2;
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 8px 12px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    font-weight: 500;
     font-size: 0.9rem;
-    transition: background 0.3s, transform 0.3s;
+    font-family: 'Rubik', sans-serif;
+    line-height: 1.5;
+    transition: background 0.3s, transform 0.2s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .share-btn:hover {
@@ -1047,7 +1157,7 @@ body.dark-mode .stats-section a:hover {
 }
 
 .share-btn i {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 /* Modal de compartir */
@@ -1100,6 +1210,9 @@ body.dark-mode .share-modal-content {
 }
 
 .share-option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 12px;
     border-radius: 8px;
     color: white;
@@ -1112,8 +1225,8 @@ body.dark-mode .share-modal-content {
 }
 
 .share-option i {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
+    font-size: 1.8rem;
+    margin-bottom: 0;
 }
 
 #whatsapp-share { background: #25D366; }
@@ -1353,14 +1466,12 @@ body.dark-mode .share-modal-content {
     #theme-toggle {
         font-size: 1rem;
         top: 0.5rem;
-        right: 0.5rem;
-        padding: 5px;
+        right: 0;
+        padding: none;
     }
 
     .dashboard-link {
         font-size: 0.8rem;
-        top: 0.5rem;
-        left: 0.5rem;
         padding: 5px 10px;
     }
 
@@ -1380,6 +1491,7 @@ body.dark-mode .share-modal-content {
     }
 
     .producers-count {
+        font-size: none;
         font-size: 0.9rem;
     }
 
@@ -1394,130 +1506,144 @@ body.dark-mode .share-modal-content {
     }
 
     .producer-info {
-        padding: 0.75rem;
+        padding: none;
     }
 
     .producer-info h3 {
+        font-size: none;
         font-size: 1.1rem;
     }
 
     .category-badge {
+        font-size: none;
         font-size: 0.75rem;
-        padding: 4px 10px;
+        padding: 10px;
     }
 
     .whatsapp-btn {
-        padding: 6px 12px;
-        font-size: 0.8rem;
+        padding: none;
+        font-size: none;
     }
 
     .category-buttons {
-        bottom: 10px;
-        width: 50px;
-        height: 50px;
+        bottom: none;
+        width: none;
+        height: none;
     }
 
     .category-btn.main-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
+        width: none;
+        height: none;
+        font-size: none;
     }
 
     .category-btn.main-btn .category-label text {
+        font-size: none;
         font-size: 6px;
     }
 
     .category-menu {
-        bottom: 60px;
+        bottom: none;
     }
 
     .category-btn.sub-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
+        width: 6px;
+        height: none;
+        font-size: none;
     }
 
     .category-btn.sub-btn .category-label text {
-        font-size: 6px;
+        width-size: none;
+        height-size: none;
+        font-size: none;
+pxpx;
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
-        transform: translate(-100px, 0px) scale(1);
+        transform: none;
     }
 
-    .category-menu.open .category-btn.sub-btn:nth-child(2) {
-        transform: translate(-80px, -50px) scale(1);
+    .category-menu .sub-btn:nth-child(2) {
+        transform: none;
     }
 
-    .category-menu.open .category-btn.sub-btn:nth-child(3) {
-        transform: translate(-60px, -100px) scale(1);
+    .sub-btn {
+        transform: none;
     }
 
-    .category-menu.open .category-btn.sub-btn:nth-child(4) {
-        transform: translate(60px, -100px) scale(1);
+    #sub-btn:nth-child(4) {
+        transform: none;
     }
 
-    .category-menu.open .category-btn.sub-btn:nth-child(5) {
-        transform: translate(80px, -50px) scale(1);
-    }
+    #sub-btn:nth-child(5) transform {
+        transform: none;
+}
 
-    .category-menu.open .category-btn.sub-btn:nth-child(6) {
-        transform: translate(100px, 0px) scale(1);
-    }
+    #sub-btn:nth-child(6) {
+    transform: none;
+}
 
-    .modal-content {
-        max-width: 95%;
-        padding: 1rem;
-    }
+#modal-content {
+    max-width: none;
+    padding: none;
+}
 
-    #register-form {
-        gap: 10px;
-    }
+#register-form {
+    gap: none;
+}
 
-    #register-form input,
-    #register-form select,
-    #register-form textarea {
-        padding: 6px;
-        font-size: 0.8rem;
-    }
+#register-form input {
+    padding: none;
+    font-size: none;
+}
 
-    #register-form textarea {
-        min-height: 60px;
-    }
+#register-form-input {
+    padding: none;
+    font-size: none;
 
-    #register-form button {
-        padding: 6px;
-        font-size: 0.8rem;
-    }
+}
 
-    footer {
-        padding: 0.75rem;
-        margin-bottom: 60px;
-    }
+#register-form textarea {
+    min-height: none;
+}
 
-    footer p {
-        font-size: 0.8rem;
-    }
+#register-form-button {
+    padding: none;
+    font-size: none;
+}
 
-    .share-modal-content {
-        padding: 15px;
-        max-width: 350px;
-    }
+footer {
+    padding: none;
+    margin-bottom: none;
+}
 
-    .share-options {
-        grid-template-columns: repeat(2, 1fr);
-    }
+footer p {
+    font-size: none;
+}
 
-    .share-option i {
-        font-size: 1.2rem;
-    }
+.share-modal-content {
+    max-width: none;
+    padding: none;
+}
 
-    .share-option {
-        padding: 10px;
-    }
+.share-options {
+    grid-template-columns: none;
+}
 
-    .close-share-btn {
-        padding: 8px;
-        font-size: 0.85rem;
-    }
+.share-options.share-option {
+    width: none;
+    height: none;
+}
+
+.share-option i {
+    height-size: none;
+}
+
+.share-option {
+    padding: none;
+}
+
+.close-share-btn {
+    padding: none;
+    font-size: none;
 }
