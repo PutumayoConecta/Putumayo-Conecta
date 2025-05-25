@@ -6,8 +6,40 @@
     <title>Mi Dashboard - Putumayo Conecta</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Rubik:wght@400;700&display=swap" rel="stylesheet">
     <meta name="theme-color" content="#2e7d32">
+    <style>
+        .support-card {
+            background: #f0f9f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2e7d32;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: center;
+            border-top: 4px solid #2e7d32;
+        }
+        
+        .stats-card h3 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+        
+        .clicks-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2e7d32;
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -26,21 +58,41 @@
     <div class="login-section" id="login-section">
         <h2>Iniciar Sesión</h2>
         <form id="login-form">
-            <label for="email">Correo Electrónico *</label>
-            <input type="email" id="email" name="email" placeholder="Correo Electrónico" required aria-label="Correo electrónico" autocomplete="email">
+            <div class="input-group">
+                <label for="email">Correo Electrónico *</label>
+                <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Contraseña *</label>
+                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+            </div>
 
-            <label for="password">Contraseña *</label>
-            <input type="password" id="password" name="password" placeholder="Contraseña" required aria-label="Contraseña" autocomplete="current-password">
-
-            <button type="submit">Ingresar</button>
+            <button type="submit" class="btn-primary">Ingresar</button>
         </form>
         <p id="login-message"></p>
     </div>
 
-    <div class="stats-section" id="stats-section" style="display: none;">
-        <h2>Estadísticas de tu Emprendimiento</h2>
-        <p id="clicks-count">Cargando...</p>
-        <a href="/index.html">Volver a la Página Principal</a>
+    <div class="dashboard-content" id="stats-section" style="display: none;">
+        <!-- Tarjeta de Estadísticas -->
+        <div class="stats-card">
+            <h3>Interacciones con tu Emprendimiento</h3>
+            <div class="clicks-number" id="clicks-count">0</div>
+            <p>Personas interesadas en tu trabajo</p>
+        </div>
+        
+        <!-- Tarjeta de Apoyo -->
+        <div class="support-card">
+            <p style="font-size: 1.1em; text-align: center;">💚 <strong>A veces, una pequeña ayuda cambia mucho</strong> 💚</p>
+            <p>Con tu apoyo, seguimos mejorando esta app para que más personas en el Putumayo puedan aprender, conectarse y soñar en grande 🌱📱✨</p>
+            <p>Si está en tu corazón, apóyanos con lo que puedas 🙌</p>
+            <p style="text-align: center; margin-top: 15px;">
+                <strong>📲 Nequi:</strong> 3227994023<br>
+                <strong>💙 Gracias</strong> por creer en lo que estamos construyendo juntos 🤝🌍💡
+            </p>
+        </div>
+        
+        <a href="/index.html" class="btn-secondary">Volver a la Página Principal</a>
     </div>
 
     <script src="dashboard.js"></script>
