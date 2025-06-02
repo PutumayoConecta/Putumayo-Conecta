@@ -22,7 +22,18 @@
             <button id="theme-toggle" aria-label="Alternar modo oscuro">
                 <i class="fas fa-moon"></i>
             </button>
-            <a href="/dashboard.html" class="dashboard-link">✨ Mis Estadisticas</a>
+            <a href="/dashboard.html" class="dashboard-link">✨ Mis Estadísticas</a>
+            <div class="language-toggle">
+                <button id="language-btn" class="language-btn" aria-label="Cambiar idioma">
+                    <i class="fas fa-globe"></i> Idioma
+                </button>
+                <div class="language-menu" id="language-menu">
+                    <button class="language-option" data-lang="es">Español</button>
+                    <button class="language-option" data-lang="en">English</button>
+                    <button class="language-option" data-lang="pt">Português</button>
+                    <button class="language-option" data-lang="zh">中文 (简体)</button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -46,7 +57,16 @@
     <div class="category-buttons">
         <button class="category-btn main-btn" data-category="all">
             <i class="fas fa-star"></i>
-            <span class="category-label">Todos</span>
+            <span class="category-label">
+                <svg viewBox="0 0 70 70">
+                    <path id="curve-all" d="M 35,60 A 25,25 0 0,1 35,10 A 25,25 0 0,1 35,60 Z" fill="none" />
+                    <text>
+                        <textPath href="#curve-all" startOffset="50%" text-anchor="middle">
+                            Todos
+                        </textPath>
+                    </text>
+                </svg>
+            </span>
         </button>
         <div class="category-menu">
             <button class="category-btn sub-btn" data-category="agricultura">
@@ -80,7 +100,7 @@
         <p>¿Eres Emprendedor? <a href="#" id="add-btn">¡Regístrate aquí!</a></p>
         <p>Para desarrollo de software, contactar a:</p> 
         <p>Jose Alexis Tejada Angulo - Ingeniero Industrial</p>
-        <a href="#" class="whatsapp-btn" id="footer-whatsapp-btn" data-whatsapp="3227994023">
+        <a href="#" id="footer-whatsapp-btn" class="whatsapp-btn" data-whatsapp="3227994023">
             <i class="fab fa-whatsapp"></i> Soporte Técnico
         </a>
     </footer>
@@ -128,6 +148,31 @@
                 <button type="submit">Registrar</button>
                 <p id="form-message"></p>
             </form>
+        </div>
+    </div>
+
+    <div class="share-modal" id="share-modal" role="dialog" aria-modal="true" aria-label="Compartir emprendimiento">
+        <div class="share-modal-content">
+            <h3>Compartir emprendimiento</h3>
+            <p id="share-title"></p>
+            <div class="share-options">
+                <div class="share-option" id="whatsapp-share">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="share-option" id="facebook-share">
+                    <i class="fab fa-facebook"></i>
+                </div>
+                <div class="share-option" id="twitter-share">
+                    <i class="fab fa-x-twitter"></i>
+                </div>
+                <div class="share-option" id="tiktok-share">
+                    <i class="fab fa-tiktok"></i>
+                </div>
+                <div class="share-option" id="instagram-share">
+                    <i class="fab fa-instagram"></i>
+                </div>
+            </div>
+            <button id="close-share-modal" class="close-share-btn">Cerrar</button>
         </div>
     </div>
 

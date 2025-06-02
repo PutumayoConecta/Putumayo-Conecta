@@ -112,7 +112,7 @@ header {
 }
 
 #theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 256, 0.3);
     transform: scale(1.1);
 }
 
@@ -356,6 +356,7 @@ body.dark-mode .producer-info p strong {
     gap: 10px;
     margin-top: 15px;
     justify-content: center;
+    align-items: center; /* Ensure vertical centering */
 }
 
 .whatsapp-btn {
@@ -367,7 +368,7 @@ body.dark-mode .producer-info p strong {
     background-color: #25D366;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 50%; /* Make WhatsApp button round */
     cursor: pointer;
     font-size: 0;
     transition: background-color 0.3s, transform 0.2s;
@@ -395,7 +396,7 @@ body.dark-mode .producer-info p strong {
     background: #4267B2;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 50%; /* Make Share button round */
     cursor: pointer;
     font-size: 0;
     transition: background 0.3s, transform 0.2s;
@@ -586,9 +587,9 @@ body.dark-mode .category-btn.main-btn.active {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    border: 2px solid #fff; /* Borde para mayor visibilidad */
+    border: 2px solid; /* Border added back */
     color: white;
-    font-size: 2rem; /* Increased for better legibility */
+    font-size: 1.5rem; /* Reduced slightly to make space for label */
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s, opacity 0.3s;
     position: absolute;
@@ -605,110 +606,142 @@ body.dark-mode .category-btn.main-btn.active {
 }
 
 .category-btn.sub-btn .category-label {
-    display: none; /* Hide text to focus on icons */
+    /* Removed display: none to show the label */
+    position: absolute;
+    bottom: -20px; /* Position label below the button */
+    font-size: 10px; /* Smaller font size to fit */
+    font-weight: 500;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 100%;
 }
 
-/* Colores específicos para cada categoría */
+/* Colores específicos para cada categoría, incluyendo bordes */
 .category-btn.sub-btn[data-category="agricultura"] {
     background-color: var(--verde-amazonico);
+    border-color: var(--verde-amazonico);
 }
 
 .category-btn.sub-btn[data-category="agroindustria"] {
     background-color: var(--morado-Agroindustria);
+    border-color: var(--morado-Agroindustria);
 }
 
 .category-btn.sub-btn[data-category="artesania"] {
     background-color: var(--amarillo-Artesania);
+    border-color: var(--amarillo-Artesania);
     color: #333;
 }
 
 .category-btn.sub-btn[data-category="gastronomia"] {
     background-color: var(--terracota);
+    border-color: var(--terracota);
 }
 
 .category-btn.sub-btn[data-category="turismo"] {
     background-color: var(--azul-Turismo);
+    border-color: var(--azul-Turismo);
 }
 
 .category-btn.sub-btn[data-category="varios"] {
     background-color: var(--gris-Varios);
+    border-color: var(--gris-Varios);
 }
 
-/* Asegurar colores en modo oscuro */
+/* Asegurar colores y bordes en modo oscuro */
 body.dark-mode .category-btn.sub-btn[data-category="agricultura"] {
     background-color: var(--verde-amazonico);
+    border-color: var(--verde-amazonico);
 }
 
 body.dark-mode .category-btn.sub-btn[data-category="agroindustria"] {
     background-color: var(--morado-Agroindustria);
+    border-color: var(--morado-Agroindustria);
 }
 
 body.dark-mode .category-btn.sub-btn[data-category="artesania"] {
     background-color: var(--amarillo-Artesania);
+    border-color: var(--amarillo-Artesania);
     color: #333;
 }
 
 body.dark-mode .category-btn.sub-btn[data-category="gastronomia"] {
     background-color: var(--terracota);
+    border-color: var(--terracota);
 }
 
 body.dark-mode .category-btn.sub-btn[data-category="turismo"] {
     background-color: var(--azul-Turismo);
+    border-color: var(--azul-Turismo);
 }
 
 body.dark-mode .category-btn.sub-btn[data-category="varios"] {
     background-color: var(--gris-Varios);
+    border-color: var(--gris-Varios);
 }
 
-/* Mantener colores cuando el menú está abierto */
+/* Mantener colores y bordes cuando el menú está abierto */
 .category-menu.open .category-btn.sub-btn[data-category="agricultura"] {
     background-color: var(--verde-amazonico);
+    border-color: var(--verde-amazonico);
 }
 
 .category-menu.open .category-btn.sub-btn[data-category="agroindustria"] {
     background-color: var(--morado-Agroindustria);
+    border-color: var(--morado-Agroindustria);
 }
 
 .category-menu.open .category-btn.sub-btn[data-category="artesania"] {
     background-color: var(--amarillo-Artesania);
+    border-color: var(--amarillo-Artesania);
     color: #333;
 }
 
 .category-menu.open .category-btn.sub-btn[data-category="gastronomia"] {
     background-color: var(--terracota);
+    border-color: var(--terracota);
 }
 
 .category-menu.open .category-btn.sub-btn[data-category="turismo"] {
     background-color: var(--azul-Turismo);
+    border-color: var(--azul-Turismo);
 }
 
 .category-menu.open .category-btn.sub-btn[data-category="varios"] {
     background-color: var(--gris-Varios);
+    border-color: var(--gris-Varios);
 }
 
 body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="agricultura"] {
     background-color: var(--verde-amazonico);
+    border-color: var(--verde-amazonico);
 }
 
 body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="agroindustria"] {
     background-color: var(--morado-Agroindustria);
+    border-color: var(--morado-Agroindustria);
 }
 
 body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="artesania"] {
     background-color: var(--amarillo-Artesania);
+    border-color: var(--amarillo-Artesania);
     color: #333;
 }
 
 body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="gastronomia"] {
     background-color: var(--terracota);
+    border-color: var(--terracota);
 }
 
 body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="turismo"] {
     background-color: var(--azul-Turismo);
+    border-color: var(--azul-Turismo);
 }
 
 body.dark-mode .category-menu.open .category-btn.sub-btn[data-category="varios"] {
     background-color: var(--gris-Varios);
+    border-color: var(--gris-Varios);
 }
 
 .category-menu.open .category-btn.sub-btn {
@@ -1188,7 +1221,7 @@ body.dark-mode .share-modal-content {
     align-items: center;
     width: 60px;
     height: 60px;
-    border-radius: 50%;
+    border-radius: 50%; /* Already round, reinforcing */
     color: white;
     cursor: pointer;
     transition: transform 0.3s;
@@ -1204,7 +1237,10 @@ body.dark-mode .share-modal-content {
 
 #whatsapp-share { background: #25D366; }
 #facebook-share { background: #4267B2; }
-#twitter-share { background: #1DA1F2; }
+#twitter-share { 
+    background: #1DA1F2; /* Twitter/X blue */
+    color: #fff; /* Ensure white icon for visibility */
+}
 #tiktok-share { background: #000000; }
 #instagram-share { background: #E1306C; }
 
@@ -1352,11 +1388,12 @@ body.dark-mode .share-modal-content {
     .category-btn.sub-btn {
         width: 60px;
         height: 60px;
-        font-size: 1.5rem;
+        font-size: 1.2rem; /* Adjusted for smaller screens */
     }
 
-    .category-btn.sub-btn .category-label text {
-        font-size: 7px;
+    .category-btn.sub-btn .category-label {
+        font-size: 8px; /* Smaller font for smaller screens */
+        bottom: -18px;
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
@@ -1496,6 +1533,12 @@ body.dark-mode .share-modal-content {
         font-size: 0;
     }
 
+    .share-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0;
+    }
+
     .category-buttons {
         bottom: 10px;
         width: 50px;
@@ -1519,11 +1562,12 @@ body.dark-mode .share-modal-content {
     .category-btn.sub-btn {
         width: 50px;
         height: 50px;
-        font-size: 1.2rem;
+        font-size: 1rem; /* Adjusted for smaller screens */
     }
 
-    .category-btn.sub-btn .category-label text {
-        font-size: 6px;
+    .category-btn.sub-btn .category-label {
+        font-size: 7px; /* Smaller font for smaller screens */
+        bottom: -16px;
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
@@ -1583,4 +1627,60 @@ body.dark-mode .share-modal-content {
     footer p {
         font-size: 0.8rem;
     }
+}
+
+.language-toggle {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.language-btn {
+    background-color: #2e7d32;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Rubik', sans-serif;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.language-btn:hover {
+    background-color: #1b5e20;
+}
+
+.language-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    min-width: 120px;
+}
+
+.language-menu.open {
+    display: block;
+}
+
+.language-option {
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    font-family: 'Rubik', sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.language-option:hover {
+    background-color: #f5f5f5;
 }

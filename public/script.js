@@ -3,6 +3,296 @@ document.addEventListener('DOMContentLoaded', () => {
     let glowAnimationRunning = false;
     let glowInterval = null;
     const BASE_URL = 'https://putumayoconecta.com'; // Configura tu URL real aquí (e.g., http://localhost:3000 para pruebas locales)
+    let currentLang = localStorage.getItem('language') || 'es';
+
+    // Translations
+    const translations = {
+        es: {
+            headerTitle: '🤝🌴 Putumayo Conecta ♻️🌎',
+            headerSubtitle: 'Con Productores, Artesanos y Emprendedores Turísticos de la Amazonía Colombiana',
+            searchPlaceholder: 'Busca emprendimientos por nombre o producto...',
+            producersCount: 'Emprendimientos',
+            categoryAll: 'Todos',
+            categoryAgricultura: 'Agricultura',
+            categoryAgroindustria: 'Agroindustria',
+            categoryArtesania: 'Artesanía',
+            categoryGastronomia: 'Gastronomía',
+            categoryTurismo: 'Turismo',
+            categoryVarios: 'Varios',
+            registerPrompt: '¿Eres Emprendedor? ',
+            registerLink: '¡Regístrate aquí!',
+            developerNote: 'Para desarrollo de software, contactar a:',
+            developerName: 'Jose Alexis Tejada Angulo - Ingeniero Industrial',
+            whatsappSupport: 'Soporte Técnico',
+            modalTitle: '¡Registra tu Emprendimiento!',
+            emailLabel: 'Correo Electrónico *',
+            emailPlaceholder: 'ejemplo@correo.com',
+            passwordLabel: 'Contraseña *',
+            passwordPlaceholder: 'Mínimo 6 caracteres',
+            nameLabel: 'Nombre del Emprendimiento *',
+            namePlaceholder: 'Ej. Miel del Putumayo',
+            categoryLabel: 'Categoría *',
+            categoryPlaceholder: 'Selecciona una categoría',
+            productLabel: 'Producto o Servicio *',
+            productPlaceholder: 'Ej. Miel orgánica',
+            descriptionLabel: 'Descripción *',
+            descriptionPlaceholder: 'Describe tu emprendimiento',
+            locationLabel: 'Ubicación *',
+            locationPlaceholder: 'Ej. Mocoa, Putumayo',
+            whatsappLabel: 'WhatsApp (solo 10 dígitos, ej. 3227994023) *',
+            whatsappPlaceholder: 'Ej. 3227994023',
+            whatsappTitle: 'El número debe tener exactamente 10 dígitos (ej. 3227994023)',
+            imageLabel: 'Imagen del Emprendimiento *',
+            submitButton: 'Registrar',
+            shareTitle: 'Compartir emprendimiento',
+            closeShareButton: 'Cerrar',
+            errorWhatsapp: '❌ El número de WhatsApp debe tener exactamente 10 dígitos.',
+            errorImage: '❌ Por favor, selecciona una imagen para tu emprendimiento.',
+            successMessage: '✅ ¡Registro exitoso!',
+            errorMessage: '❌ Hubo un error al registrar. Inténtalo más tarde.',
+            saveCredentialsPrompt: '¿Deseas guardar tu usuario y contraseña para futuros ingresos?',
+            noProducers: 'No se encontraron emprendimientos.',
+            loadingProducers: 'Cargando productores...',
+            contactWhatsApp: 'Contactar por WhatsApp',
+            shareButton: 'Compartir'
+        },
+        en: {
+            headerTitle: '🤝🌴 Putumayo Connects ♻️🌎',
+            headerSubtitle: 'With Producers, Artisans, and Tourism Entrepreneurs of the Colombian Amazon',
+            searchPlaceholder: 'Search for ventures by name or product...',
+            producersCount: 'Ventures',
+            categoryAll: 'All',
+            categoryAgricultura: 'Agriculture',
+            categoryAgroindustria: 'Agroindustry',
+            categoryArtesania: 'Handicrafts',
+            categoryGastronomia: 'Gastronomy',
+            categoryTurismo: 'Tourism',
+            categoryVarios: 'Various',
+            registerPrompt: 'Are you an Entrepreneur? ',
+            registerLink: 'Register here!',
+            developerNote: 'For software development, contact:',
+            developerName: 'Jose Alexis Tejada Angulo - Industrial Engineer',
+            whatsappSupport: 'Technical Support',
+            modalTitle: 'Register Your Venture!',
+            emailLabel: 'Email *',
+            emailPlaceholder: 'example@email.com',
+            passwordLabel: 'Password *',
+            passwordPlaceholder: 'Minimum 6 characters',
+            nameLabel: 'Venture Name *',
+            namePlaceholder: 'E.g. Putumayo Honey',
+            categoryLabel: 'Category *',
+            categoryPlaceholder: 'Select a category',
+            productLabel: 'Product or Service *',
+            productPlaceholder: 'E.g. Organic Honey',
+            descriptionLabel: 'Description *',
+            descriptionPlaceholder: 'Describe your venture',
+            locationLabel: 'Location *',
+            locationPlaceholder: 'E.g. Mocoa, Putumayo',
+            whatsappLabel: 'WhatsApp (10 digits, e.g. 3227994023) *',
+            whatsappPlaceholder: 'E.g. 3227994023',
+            whatsappTitle: 'The number must have exactly 10 digits (e.g. 3227994023)',
+            imageLabel: 'Venture Image *',
+            submitButton: 'Register',
+            shareTitle: 'Share Venture',
+            closeShareButton: 'Close',
+            errorWhatsapp: '❌ The WhatsApp number must have exactly 10 digits.',
+            errorImage: '❌ Please select an image for your venture.',
+            successMessage: '✅ Registration successful!',
+            errorMessage: '❌ There was an error registering. Please try again later.',
+            saveCredentialsPrompt: 'Do you want to save your username and password for future logins?',
+            noProducers: 'No ventures found.',
+            loadingProducers: 'Loading ventures...',
+            contactWhatsApp: 'Contact via WhatsApp',
+            shareButton: 'Share'
+        },
+        pt: {
+            headerTitle: '🤝🌴 Putumayo Conecta ♻️🌎',
+            headerSubtitle: 'Com Produtores, Artesãos e Empreendedores Turísticos da Amazônia Colombiana',
+            searchPlaceholder: 'Pesquise empreendimentos por nome ou produto...',
+            producersCount: 'Empreendimentos',
+            categoryAll: 'Todos',
+            categoryAgricultura: 'Agricultura',
+            categoryAgroindustria: 'Agroindústria',
+            categoryArtesania: 'Artesanato',
+            categoryGastronomia: 'Gastronomia',
+            categoryTurismo: 'Turismo',
+            categoryVarios: 'Vários',
+            registerPrompt: 'É empreendedor? ',
+            registerLink: 'Registre-se aqui!',
+            developerNote: 'Para desenvolvimento de software, contate:',
+            developerName: 'Jose Alexis Tejada Angulo - Engenheiro Industrial',
+            whatsappSupport: 'Suporte Técnico',
+            modalTitle: 'Registre seu Empreendimento!',
+            emailLabel: 'E-mail *',
+            emailPlaceholder: 'exemplo@correio.com',
+            passwordLabel: 'Senha *',
+            passwordPlaceholder: 'Mínimo 6 caracteres',
+            nameLabel: 'Nome do Empreendimento *',
+            namePlaceholder: 'Ex. Mel do Putumayo',
+            categoryLabel: 'Categoria *',
+            categoryPlaceholder: 'Selecione uma categoria',
+            productLabel: 'Produto ou Serviço *',
+            productPlaceholder: 'Ex. Mel orgânico',
+            descriptionLabel: 'Descrição *',
+            descriptionPlaceholder: 'Descreva seu empreendimento',
+            locationLabel: 'Localização *',
+            locationPlaceholder: 'Ex. Mocoa, Putumayo',
+            whatsappLabel: 'WhatsApp (10 dígitos, ex. 3227994023) *',
+            whatsappPlaceholder: 'Ex. 3227994023',
+            whatsappTitle: 'O número deve ter exatamente 10 dígitos (ex. 3227994023)',
+            imageLabel: 'Imagem do Empreendimento *',
+            submitButton: 'Registrar',
+            shareTitle: 'Compartilhar empreendimento',
+            closeShareButton: 'Fechar',
+            errorWhatsapp: '❌ O número de WhatsApp deve ter exatamente 10 dígitos.',
+            errorImage: '❌ Por favor, selecione uma imagem para seu empreendimento.',
+            successMessage: '✅ Registro bem-sucedido!',
+            errorMessage: '❌ Ocorreu um erro ao registrar. Tente novamente mais tarde.',
+            saveCredentialsPrompt: 'Deseja salvar seu usuário e senha para futuros acessos?',
+            noProducers: 'Nenhum empreendimento encontrado.',
+            loadingProducers: 'Carregando empreendimentos...',
+            contactWhatsApp: 'Contatar pelo WhatsApp',
+            shareButton: 'Compartilhar'
+        },
+        zh: {
+            headerTitle: '🤝🌴 普图马约连接 ♻️🌎',
+            headerSubtitle: '连接哥伦比亚亚马逊的种植者、手工艺者和旅游企业家',
+            searchPlaceholder: '按名称或产品搜索创业项目...',
+            producersCount: '创业项目',
+            categoryAll: '全部',
+            categoryAgricultura: '农业',
+            categoryAgroindustria: '农业工业',
+            categoryArtesania: '手工艺',
+            categoryGastronomia: '美食',
+            categoryTurismo: '旅游',
+            categoryVarios: '其他',
+            registerPrompt: '你是企业家吗？ ',
+            registerLink: '在这里注册！',
+            developerNote: '如需软件开发，请联系：',
+            developerName: '何塞·亚历克西斯·特哈达·安古洛 - 工业工程师',
+            whatsappSupport: '技术支持',
+            modalTitle: '注册您的创业项目！',
+            emailLabel: '电子邮件 *',
+            emailPlaceholder: 'example@email.com',
+            passwordLabel: '密码 *',
+            passwordPlaceholder: '最低6个字符',
+            nameLabel: '创业项目名称 *',
+            namePlaceholder: '如普图马约蜂蜜',
+            categoryLabel: '类别 *',
+            categoryPlaceholder: '选择一个类别',
+            productLabel: '产品或服务 *',
+            productPlaceholder: '如有机蜂蜜',
+            descriptionLabel: '描述 *',
+            descriptionPlaceholder: '描述您的创业项目',
+            locationLabel: '位置 *',
+            locationPlaceholder: '如Mocoa, Putumayo',
+            whatsappLabel: 'WhatsApp (10位数字，例如3227994023) *',
+            whatsappPlaceholder: '如3227994023',
+            whatsappTitle: '号码必须正好有10位数字（例如3227994023）',
+            imageLabel: '创业项目图片 *',
+            submitButton: '注册',
+            shareTitle: '分享创业项目',
+            closeShareButton: '关闭',
+            errorWhatsapp: '❌ WhatsApp号码必须正好有10位数字。',
+            errorImage: '❌ 请为您的创业项目选择一张图片。',
+            successMessage: '✅ 注册成功！',
+            errorMessage: '❌ 注册时出错。请稍后重试。',
+            saveCredentialsPrompt: '您想为未来的登录保存用户名和密码吗？',
+            noProducers: '未找到创业项目。',
+            loadingProducers: '加载创业项目...',
+            contactWhatsApp: '通过WhatsApp联系',
+            shareButton: '分享'
+        }
+    };
+
+    function translatePage(lang) {
+        const t = translations[lang];
+
+        // Header
+        document.querySelector('h1').textContent = t.headerTitle;
+        document.querySelector('header p').textContent = t.headerSubtitle;
+        document.getElementById('search-input').placeholder = t.searchPlaceholder;
+        document.getElementById('producers-count').querySelector('p').textContent = `${document.getElementById('count').textContent} ${t.producersCount}`;
+        
+        // Category Buttons
+        document.querySelector('.category-btn.main-btn .category-label textPath').textContent = t.categoryAll;
+        document.querySelector('[data-category="agricultura"] .category-label').textContent = t.categoryAgricultura;
+        document.querySelector('[data-category="agroindustria"] .category-label').textContent = t.categoryAgroindustria;
+        document.querySelector('[data-category="artesania"] .category-label').textContent = t.categoryArtesania;
+        document.querySelector('[data-category="gastronomia"] .category-label').textContent = t.categoryGastronomia;
+        document.querySelector('[data-category="turismo"] .category-label').textContent = t.categoryTurismo;
+        document.querySelector('[data-category="varios"] .category-label').textContent = t.categoryVarios;
+
+        // Footer
+        document.querySelector('footer p:nth-child(1)').textContent = `${t.registerPrompt}<a href="#" id="add-btn">${t.registerLink}</a>`;
+        document.querySelector('footer p:nth-child(2)').textContent = t.developerNote;
+        document.querySelector('footer p:nth-child(3)').textContent = t.developerName;
+        document.querySelector('#footer-whatsapp-btn').textContent = `${t.whatsappSupport}`;
+
+        // Modal
+        document.querySelector('#modal h2').textContent = t.modalTitle;
+        document.querySelector('label[for="email"]').textContent = t.emailLabel;
+        document.getElementById('email').placeholder = t.emailPlaceholder;
+        document.querySelector('label[for="password"]').textContent = t.passwordLabel;
+        document.getElementById('password').placeholder = t.passwordPlaceholder;
+        document.querySelector('label[for="name"]').textContent = t.nameLabel;
+        document.getElementById('name').placeholder = t.namePlaceholder;
+        document.querySelector('label[for="category"]').textContent = t.categoryLabel;
+        document.querySelector('#category option[disabled]').textContent = t.categoryPlaceholder;
+        document.querySelector('label[for="product"]').textContent = t.productLabel;
+        document.getElementById('product').placeholder = t.productPlaceholder;
+        document.querySelector('label[for="description"]').textContent = t.descriptionLabel;
+        document.getElementById('description').placeholder = t.descriptionPlaceholder;
+        document.querySelector('label[for="location"]').textContent = t.locationLabel;
+        document.getElementById('location').placeholder = t.locationPlaceholder;
+        document.querySelector('label[for="whatsapp"]').textContent = t.whatsappLabel;
+        document.getElementById('whatsapp').placeholder = t.whatsappPlaceholder;
+        document.getElementById('whatsapp').title = t.whatsappTitle;
+        document.querySelector('label[for="image"]').textContent = t.imageLabel;
+        document.querySelector('#register-form button[type="submit"]').textContent = t.submitButton;
+
+        // Share Modal
+        document.querySelector('#share-modal h3').textContent = t.shareTitle;
+        document.querySelector('#close-share-modal').textContent = t.closeShareButton;
+
+        // Dynamic Content
+        document.querySelectorAll('.producer-whatsapp-btn').forEach(btn => {
+            btn.textContent = `${t.contactWhatsApp}`;
+        });
+        document.querySelectorAll('.share-btn').forEach(btn => {
+            btn.textContent = `${t.shareButton}`;
+        });
+    }
+
+    function setupLanguageToggle() {
+        const languageBtn = document.getElementById('language-btn');
+        const languageMenu = document.getElementById('language-menu');
+
+        languageBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            languageMenu.classList.toggle('open');
+            if (navigator.vibrate) navigator.vibrate(50);
+        });
+
+        document.querySelectorAll('.language-option').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = btn.dataset.lang;
+                currentLang = lang;
+                localStorage.setItem('language', lang);
+                translatePage(lang);
+                languageMenu.classList.remove('open');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!languageBtn.contains(e.target) && !languageMenu.contains(e.target)) {
+                languageMenu.classList.remove('open');
+            }
+        });
+
+        translatePage(currentLang);
+    }
 
     function showLoading(show) {
         document.getElementById('loading').style.display = show ? 'flex' : 'none';
@@ -26,8 +316,28 @@ document.addEventListener('DOMContentLoaded', () => {
     function openWhatsApp(number, message = "Hola, vi tu emprendimiento en Putumayo Conecta") {
         const cleanNumber = number.toString().replace(/[^0-9]/g, '');
         const finalNumber = cleanNumber.length === 10 ? `+57${cleanNumber}` : `+${cleanNumber}`;
-        const url = `https://wa.me/${finalNumber}?text=${encodeURIComponent(message)}`;
-        window.open(url, '_blank');
+
+        if (navigator.share) {
+            navigator.share({
+                title: 'Putumayo Conecta',
+                text: message,
+                url: `${BASE_URL}/emprendimiento/${Date.now()}`
+            }).catch(err => console.error('Error sharing via Web Share:', err));
+        } else {
+            const whatsappUrl = `whatsapp://send?phone=${finalNumber}&text=${encodeURIComponent(message)}`;
+            const fallbackUrl = `https://wa.me/${finalNumber}?text=${encodeURIComponent(message)}`;
+
+            const link = document.createElement('a');
+            link.href = whatsappUrl;
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            setTimeout(() => {
+                window.location.href = fallbackUrl;
+            }, 1000);
+        }
     }
 
     function setupWhatsAppButtons() {
@@ -36,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
             footerWhatsappBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (navigator.vibrate) navigator.vibrate(50);
-                openWhatsApp(e.target.dataset.whatsapp || '3227994023');
+                openWhatsApp('3227994023');
             });
         }
 
@@ -54,120 +364,116 @@ document.addEventListener('DOMContentLoaded', () => {
         whatsapp: {
             id: 'whatsapp-share',
             icon: 'fab fa-whatsapp',
-            action: () => {
-                const modal = document.getElementById('share-modal');
-                const producerId = modal.dataset.producerId;
-                const title = document.getElementById('share-title').textContent;
-                const url = `${BASE_URL}/emprendimiento/${producerId}`;
-                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
-                window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+            action: (producerId, title) => {
+                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${BASE_URL}/emprendimiento/${producerId}`;
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Putumayo Conecta',
+                        text: message,
+                        url: `${BASE_URL}/emprendimiento/${producerId}`
+                    }).catch(err => console.error('Error sharing via Web Share:', err));
+                } else {
+                    const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(message)}`;
+                    const fallbackUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                    setTimeout(() => window.location.href = fallbackUrl, 1000);
+                }
             }
         },
         facebook: {
             id: 'facebook-share',
             icon: 'fab fa-facebook',
-            action: () => {
-                const modal = document.getElementById('share-modal');
-                const producerId = modal.dataset.producerId;
-                const title = document.getElementById('share-title').textContent;
+            action: (producerId, title) => {
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
                 const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
-                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(message)}`, '_blank');
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Putumayo Conecta',
+                        text: message,
+                        url: url
+                    }).catch(err => console.error('Error sharing via Web Share:', err));
+                } else {
+                    const fbUrl = `fb://share/?text=${encodeURIComponent(message)}`;
+                    const fallbackUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                    window.open(fbUrl, '_blank');
+                    setTimeout(() => window.location.href = fallbackUrl, 1000);
+                }
             }
         },
         twitter: {
             id: 'twitter-share',
             icon: 'fab fa-x-twitter',
-            action: () => {
-                const modal = document.getElementById('share-modal');
-                const producerId = modal.dataset.producerId;
-                const title = document.getElementById('share-title').textContent;
+            action: (producerId, title) => {
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
                 const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
-                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`, '_blank');
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Putumayo Conecta',
+                        text: message,
+                        url: url
+                    }).catch(err => console.error('Error sharing via Web Share:', err));
+                } else {
+                    const twitterUrl = `twitter://post?text=${encodeURIComponent(message)}`;
+                    const fallbackUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
+                    window.open(twitterUrl, '_blank');
+                    setTimeout(() => window.location.href = fallbackUrl, 1000);
+                }
             }
         },
         tiktok: {
             id: 'tiktok-share',
             icon: 'fab fa-tiktok',
-            action: async () => {
-                const modal = document.getElementById('share-modal');
-                const producerId = modal.dataset.producerId;
-                const title = document.getElementById('share-title').textContent;
+            action: (producerId, title) => {
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
                 const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
-                try {
-                    if (navigator.clipboard) {
-                        await navigator.clipboard.writeText(message);
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Putumayo Conecta',
+                        text: message,
+                        url: url
+                    }).catch(err => console.error('Error sharing via Web Share:', err));
+                } else {
+                    navigator.clipboard.writeText(message).then(() => {
                         alert('Mensaje copiado. Pégalo en tu publicación de TikTok.');
-                    } else {
-                        const textarea = document.createElement('textarea');
-                        textarea.value = message;
-                        document.body.appendChild(textarea);
-                        textarea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(textarea);
-                        alert('Mensaje copiado. Pégalo en tu publicación de TikTok.');
-                    }
-                } catch (err) {
-                    console.error('Error copying to clipboard:', err);
-                    alert('Error al copiar. Copia manualmente: ' + message);
+                    }).catch(err => {
+                        console.error('Error copying to clipboard:', err);
+                        alert('Error al copiar. Copia manualmente: ' + message);
+                    });
                 }
             }
         },
         instagram: {
             id: 'instagram-share',
             icon: 'fab fa-instagram',
-            action: async () => {
-                const modal = document.getElementById('share-modal');
-                const producerId = modal.dataset.producerId;
-                const title = document.getElementById('share-title').textContent;
+            action: (producerId, title) => {
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
                 const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
-                try {
-                    if (navigator.clipboard) {
-                        await navigator.clipboard.writeText(message);
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Putumayo Conecta',
+                        text: message,
+                        url: url
+                    }).catch(err => console.error('Error sharing via Web Share:', err));
+                } else {
+                    navigator.clipboard.writeText(message).then(() => {
                         alert('Mensaje copiado. Pégalo en tu publicación de Instagram.');
-                    } else {
-                        const textarea = document.createElement('textarea');
-                        textarea.value = message;
-                        document.body.appendChild(textarea);
-                        textarea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(textarea);
-                        alert('Mensaje copiado. Pégalo en tu publicación de Instagram.');
-                    }
-                } catch (err) {
-                    console.error('Error copying to clipboard:', err);
-                    alert('Error al copiar. Copia manualmente: ' + message);
+                    }).catch(err => {
+                        console.error('Error copying to clipboard:', err);
+                        alert('Error al copiar. Copia manualmente: ' + message);
+                    });
                 }
             }
         }
     };
 
     function setupShareButtons() {
-        const shareModalHTML = `
-            <div class="share-modal" id="share-modal" role="dialog" aria-modal="true" aria-label="Compartir emprendimiento">
-                <div class="share-modal-content">
-                    <h3>Compartir emprendimiento</h3>
-                    <p id="share-title"></p>
-                    <div class="share-options">
-                        ${Object.values(shareOptions).map(option => `
-                            <div class="share-option" id="${option.id}">
-                                <i class="${option.icon}"></i>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <button id="close-share-modal" class="close-share-btn">Cerrar</button>
-                </div>
-            </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', shareModalHTML);
-
         const modal = document.getElementById('share-modal');
         Object.values(shareOptions).forEach(option => {
-            document.getElementById(option.id)?.addEventListener('click', () => {
-                option.action();
+            document.getElementById(option.id)?.addEventListener('click', (e) => {
+                e.preventDefault();
+                const producerId = modal.dataset.producerId;
+                const title = document.getElementById('share-title').textContent;
+                option.action(producerId, title);
                 closeShareModal();
             });
         });
@@ -262,7 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadProducers(searchQuery = "", category = currentCategory) {
         const producersList = document.getElementById('producers-list');
         const countElement = document.getElementById('count');
-        producersList.innerHTML = '<p>Cargando productores...</p>';
+        producersList.innerHTML = '<p>' + translations[currentLang].loadingProducers + '</p>';
 
         let producers = await fetchData();
         let filteredProducers = producers;
@@ -286,18 +592,18 @@ document.addEventListener('DOMContentLoaded', () => {
         producersList.innerHTML = '';
 
         if (filteredProducers.length === 0) {
-            producersList.innerHTML = '<p>No se encontraron emprendimientos.</p>';
+            producersList.innerHTML = '<p>' + translations[currentLang].noProducers + '</p>';
             return;
         }
 
         filteredProducers.forEach((producer, index) => {
             const categoryName =
-                producer.category.toLowerCase() === 'agricultura' ? 'Agricultura' :
-                producer.category.toLowerCase() === 'artesania' ? 'Artesanía' :
-                producer.category.toLowerCase() === 'turismo' ? 'Turismo' :
-                producer.category.toLowerCase() === 'gastronomia' ? 'Gastronomía' :
-                producer.category.toLowerCase() === 'agroindustria' ? 'Agroindustria' :
-                'Varios';
+                producer.category.toLowerCase() === 'agricultura' ? translations[currentLang].categoryAgricultura :
+                producer.category.toLowerCase() === 'artesania' ? translations[currentLang].categoryArtesania :
+                producer.category.toLowerCase() === 'turismo' ? translations[currentLang].categoryTurismo :
+                producer.category.toLowerCase() === 'gastronomia' ? translations[currentLang].categoryGastronomia :
+                producer.category.toLowerCase() === 'agroindustria' ? translations[currentLang].categoryAgroindustria :
+                translations[currentLang].categoryVarios;
 
             const card = document.createElement('div');
             card.className = 'producer-card';
@@ -312,10 +618,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p>${producer.description}</p>
                     <div class="producer-actions">
                         <a href="#" class="producer-whatsapp-btn whatsapp-btn" data-producer-id="${producer.id}" data-whatsapp="${producer.whatsapp}">
-                            <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+                            <i class="fab fa-whatsapp"></i> ${translations[currentLang].contactWhatsApp}
                         </a>
                         <button class="share-btn" data-producer-id="${producer.id}" data-name="${producer.name}" data-product="${producer.product}">
-                            <i class="fas fa-share-nodes"></i> Compartir
+                            <i class="fas fa-share-nodes"></i> ${translations[currentLang].shareButton}
                         </button>
                     </div>
                 </div>
@@ -363,13 +669,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const categoryLabels = {
-            'all': 'Todos',
-            'agricultura': 'Agricultura',
-            'agroindustria': 'Agroindustria',
-            'artesania': 'Artesanía',
-            'gastronomia': 'Gastronomía',
-            'turismo': 'Turismo',
-            'varios': 'Varios'
+            'all': translations[currentLang].categoryAll,
+            'agricultura': translations[currentLang].categoryAgricultura,
+            'agroindustria': translations[currentLang].categoryAgroindustria,
+            'artesania': translations[currentLang].categoryArtesania,
+            'gastronomia': translations[currentLang].categoryGastronomia,
+            'turismo': translations[currentLang].categoryTurismo,
+            'varios': translations[currentLang].categoryVarios
         };
 
         const mainButton = document.querySelector('.category-btn.main-btn');
@@ -474,13 +780,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const imageInput = document.querySelector('input[name="image"]');
 
             if (!/^\d{10}$/.test(whatsapp)) {
-                formMessage.textContent = '❌ El número de WhatsApp debe tener exactamente 10 dígitos.';
+                formMessage.textContent = translations[currentLang].errorWhatsapp;
                 formMessage.style.color = 'red';
                 return;
             }
 
             if (!imageInput.files || imageInput.files.length === 0) {
-                formMessage.textContent = '❌ Por favor, selecciona una imagen para tu emprendimiento.';
+                formMessage.textContent = translations[currentLang].errorImage;
                 formMessage.style.color = 'red';
                 return;
             }
@@ -502,13 +808,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
                 if (!result.success) throw new Error(result.error || 'Error al registrar el emprendimiento');
 
-                formMessage.textContent = '✅ ¡Registro exitoso!';
+                formMessage.textContent = translations[currentLang].successMessage;
                 formMessage.style.color = 'green';
                 registerForm.reset();
 
                 const email = formData.get('email');
                 const password = formData.get('password');
-                const saveCredentials = confirm('¿Deseas guardar tu usuario y contraseña para futuros ingresos?');
+                const saveCredentials = confirm(translations[currentLang].saveCredentialsPrompt);
                 if (saveCredentials) {
                     localStorage.setItem('savedEmail', email);
                     localStorage.setItem('savedPassword', password);
@@ -520,7 +826,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     await loadProducers(document.getElementById('search-input').value, currentCategory);
                 }, 2000);
             } catch (error) {
-                formMessage.textContent = '❌ Hubo un error al registrar. Inténtalo más tarde.';
+                formMessage.textContent = translations[currentLang].errorMessage;
                 formMessage.style.color = 'red';
                 console.error('Error:', error);
             } finally {
@@ -553,6 +859,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setupDarkMode();
         setupWhatsAppButtons();
         setupShareButtons();
+        setupLanguageToggle();
         loadProducers();
     }
 
