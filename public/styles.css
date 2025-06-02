@@ -606,15 +606,25 @@ body.dark-mode .category-btn.main-btn.active {
 }
 
 .category-btn.sub-btn .category-label {
-    /* Removed display: none to show the label */
     position: absolute;
-    bottom: -20px; /* Position label below the button */
-    font-size: 10px; /* Smaller font size to fit */
-    font-weight: 500;
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    text-align: center;
     width: 100%;
+    height: 100%;
+}
+
+.category-btn.sub-btn .category-label svg {
+    width: 100%;
+    height: 100%;
+}
+
+.category-btn.sub-btn .category-label text {
+    font-size: 8px;
+    font-weight: 500;
+    fill: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .category-btn.sub-btn .category-label text {
+    fill: var(--dark-text);
 }
 
 /* Colores específicos para cada categoría, incluyendo bordes */
@@ -1391,9 +1401,8 @@ body.dark-mode .share-modal-content {
         font-size: 1.2rem; /* Adjusted for smaller screens */
     }
 
-    .category-btn.sub-btn .category-label {
-        font-size: 8px; /* Smaller font for smaller screens */
-        bottom: -18px;
+    .category-btn.sub-btn .category-label text {
+        font-size: 7px;
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {
@@ -1565,9 +1574,8 @@ body.dark-mode .share-modal-content {
         font-size: 1rem; /* Adjusted for smaller screens */
     }
 
-    .category-btn.sub-btn .category-label {
-        font-size: 7px; /* Smaller font for smaller screens */
-        bottom: -16px;
+    .category-btn.sub-btn .category-label text {
+        font-size: 6px;
     }
 
     .category-menu.open .category-btn.sub-btn:nth-child(1) {

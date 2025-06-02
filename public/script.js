@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentCategory = 'all';
     let glowAnimationRunning = false;
     let glowInterval = null;
-    const BASE_URL = 'https://putumayoconecta.com'; // Configura tu URL real aquí (e.g., http://localhost:3000 para pruebas locales)
+    const BASE_URL = 'https://putumayoconecta.com';
     let currentLang = localStorage.getItem('language') || 'es';
+    let searchQuery = '';
 
     // Translations
     const translations = {
@@ -21,9 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
             categoryVarios: 'Varios',
             registerPrompt: '¿Eres Emprendedor? ',
             registerLink: '¡Regístrate aquí!',
-            developerNote: 'Para desarrollo de software, contactar a:',
+            developerNote: 'Para desarrollo de software, contactar con Putumayo Conecta',
             developerName: 'Jose Alexis Tejada Angulo - Ingeniero Industrial',
-            whatsappSupport: 'Soporte Técnico',
             modalTitle: '¡Registra tu Emprendimiento!',
             emailLabel: 'Correo Electrónico *',
             emailPlaceholder: 'ejemplo@correo.com',
@@ -54,7 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
             noProducers: 'No se encontraron emprendimientos.',
             loadingProducers: 'Cargando productores...',
             contactWhatsApp: 'Contactar por WhatsApp',
-            shareButton: 'Compartir'
+            shareButton: 'Compartir',
+            languageLabel: 'Idioma'
         },
         en: {
             headerTitle: '🤝🌴 Putumayo Connects ♻️🌎',
@@ -70,9 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
             categoryVarios: 'Various',
             registerPrompt: 'Are you an Entrepreneur? ',
             registerLink: 'Register here!',
-            developerNote: 'For software development, contact:',
+            developerNote: 'For software development, contact Putumayo Conecta',
             developerName: 'Jose Alexis Tejada Angulo - Industrial Engineer',
-            whatsappSupport: 'Technical Support',
             modalTitle: 'Register Your Venture!',
             emailLabel: 'Email *',
             emailPlaceholder: 'example@email.com',
@@ -103,7 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
             noProducers: 'No ventures found.',
             loadingProducers: 'Loading ventures...',
             contactWhatsApp: 'Contact via WhatsApp',
-            shareButton: 'Share'
+            shareButton: 'Share',
+            languageLabel: 'Language'
         },
         pt: {
             headerTitle: '🤝🌴 Putumayo Conecta ♻️🌎',
@@ -119,9 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
             categoryVarios: 'Vários',
             registerPrompt: 'É empreendedor? ',
             registerLink: 'Registre-se aqui!',
-            developerNote: 'Para desenvolvimento de software, contate:',
+            developerNote: 'Para desenvolvimento de software, contate Putumayo Conecta',
             developerName: 'Jose Alexis Tejada Angulo - Engenheiro Industrial',
-            whatsappSupport: 'Suporte Técnico',
             modalTitle: 'Registre seu Empreendimento!',
             emailLabel: 'E-mail *',
             emailPlaceholder: 'exemplo@correio.com',
@@ -152,7 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
             noProducers: 'Nenhum empreendimento encontrado.',
             loadingProducers: 'Carregando empreendimentos...',
             contactWhatsApp: 'Contatar pelo WhatsApp',
-            shareButton: 'Compartilhar'
+            shareButton: 'Compartilhar',
+            languageLabel: 'Idioma'
         },
         zh: {
             headerTitle: '🤝🌴 普图马约连接 ♻️🌎',
@@ -168,9 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
             categoryVarios: '其他',
             registerPrompt: '你是企业家吗？ ',
             registerLink: '在这里注册！',
-            developerNote: '如需软件开发，请联系：',
+            developerNote: '如需软件开发，请联系普图马约连接',
             developerName: '何塞·亚历克西斯·特哈达·安古洛 - 工业工程师',
-            whatsappSupport: '技术支持',
             modalTitle: '注册您的创业项目！',
             emailLabel: '电子邮件 *',
             emailPlaceholder: 'example@email.com',
@@ -201,7 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
             noProducers: '未找到创业项目。',
             loadingProducers: '加载创业项目...',
             contactWhatsApp: '通过WhatsApp联系',
-            shareButton: '分享'
+            shareButton: '分享',
+            languageLabel: '语言'
         }
     };
 
@@ -213,21 +214,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('header p').textContent = t.headerSubtitle;
         document.getElementById('search-input').placeholder = t.searchPlaceholder;
         document.getElementById('producers-count').querySelector('p').textContent = `${document.getElementById('count').textContent} ${t.producersCount}`;
+        document.getElementById('language-btn').innerHTML = `<i class="fas fa-globe"></i> ${t.languageLabel}`;
         
         // Category Buttons
         document.querySelector('.category-btn.main-btn .category-label textPath').textContent = t.categoryAll;
-        document.querySelector('[data-category="agricultura"] .category-label').textContent = t.categoryAgricultura;
-        document.querySelector('[data-category="agroindustria"] .category-label').textContent = t.categoryAgroindustria;
-        document.querySelector('[data-category="artesania"] .category-label').textContent = t.categoryArtesania;
-        document.querySelector('[data-category="gastronomia"] .category-label').textContent = t.categoryGastronomia;
-        document.querySelector('[data-category="turismo"] .category-label').textContent = t.categoryTurismo;
-        document.querySelector('[data-category="varios"] .category-label').textContent = t.categoryVarios;
+        document.querySelector('[data-category="agricultura"] .category-label textPath').textContent = t.categoryAgricultura;
+        document.querySelector('[data-category="agroindustria"] .category-label textPath').textContent = t.categoryAgroindustria;
+        document.querySelector('[data-category="artesania"] .category-label textPath').textContent = t.categoryArtesania;
+        document.querySelector('[data-category="gastronomia"] .category-label textPath').textContent = t.categoryGastronomia;
+        document.querySelector('[data-category="turismo"] .category-label textPath').textContent = t.categoryTurismo;
+        document.querySelector('[data-category="varios"] .category-label textPath').textContent = t.categoryVarios;
 
         // Footer
-        document.querySelector('footer p:nth-child(1)').textContent = `${t.registerPrompt}<a href="#" id="add-btn">${t.registerLink}</a>`;
-        document.querySelector('footer p:nth-child(2)').textContent = t.developerNote;
-        document.querySelector('footer p:nth-child(3)').textContent = t.developerName;
-        document.querySelector('#footer-whatsapp-btn').textContent = `${t.whatsappSupport}`;
+        document.getElementById('register-prompt').innerHTML = `${t.registerPrompt}<a href="#" id="add-btn">${t.registerLink}</a>`;
+        document.getElementById('developer-note').textContent = t.developerNote;
+        document.getElementById('developer-name').textContent = t.developerName;
 
         // Modal
         document.querySelector('#modal h2').textContent = t.modalTitle;
@@ -239,6 +240,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('name').placeholder = t.namePlaceholder;
         document.querySelector('label[for="category"]').textContent = t.categoryLabel;
         document.querySelector('#category option[disabled]').textContent = t.categoryPlaceholder;
+
+        // Translate category options in the select dropdown
+        document.querySelector('#category option[value="agricultura"]').textContent = t.categoryAgricultura;
+        document.querySelector('#category option[value="agroindustria"]').textContent = t.categoryAgroindustria;
+        document.querySelector('#category option[value="artesania"]').textContent = t.categoryArtesania;
+        document.querySelector('#category option[value="gastronomia"]').textContent = t.categoryGastronomia;
+        document.querySelector('#category option[value="turismo"]').textContent = t.categoryTurismo;
+        document.querySelector('#category option[value="varios"]').textContent = t.categoryVarios;
+
         document.querySelector('label[for="product"]').textContent = t.productLabel;
         document.getElementById('product').placeholder = t.productPlaceholder;
         document.querySelector('label[for="description"]').textContent = t.descriptionLabel;
@@ -255,13 +265,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#share-modal h3').textContent = t.shareTitle;
         document.querySelector('#close-share-modal').textContent = t.closeShareButton;
 
-        // Dynamic Content
-        document.querySelectorAll('.producer-whatsapp-btn').forEach(btn => {
-            btn.textContent = `${t.contactWhatsApp}`;
-        });
-        document.querySelectorAll('.share-btn').forEach(btn => {
-            btn.textContent = `${t.shareButton}`;
-        });
+        // Reload producers to ensure dynamic content is translated
+        loadProducers(searchQuery, currentCategory);
     }
 
     function setupLanguageToggle() {
@@ -281,7 +286,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentLang = lang;
                 localStorage.setItem('language', lang);
                 translatePage(lang);
-                languageMenu.classList.remove('open');
+                languageMenu.classList.remove('open'); // Ensure menu closes after selection
+                searchQuery = document.getElementById('search-input').value; // Preserve search query
+                loadProducers(searchQuery, currentCategory); // Reload producers after language change
             });
         });
 
@@ -313,13 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function openWhatsApp(number, message = "Hola, vi tu emprendimiento en Putumayo Conecta") {
+    function openWhatsApp(number, message = translations[currentLang].contactWhatsApp) {
         const cleanNumber = number.toString().replace(/[^0-9]/g, '');
         const finalNumber = cleanNumber.length === 10 ? `+57${cleanNumber}` : `+${cleanNumber}`;
 
         if (navigator.share) {
             navigator.share({
-                title: 'Putumayo Conecta',
+                title: translations[currentLang].headerTitle,
                 text: message,
                 url: `${BASE_URL}/emprendimiento/${Date.now()}`
             }).catch(err => console.error('Error sharing via Web Share:', err));
@@ -341,22 +348,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setupWhatsAppButtons() {
-        const footerWhatsappBtn = document.getElementById('footer-whatsapp-btn');
-        if (footerWhatsappBtn) {
-            footerWhatsappBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (navigator.vibrate) navigator.vibrate(50);
-                openWhatsApp('3227994023');
-            });
-        }
-
-        document.addEventListener('click', (e) => {
-            const button = e.target.closest('.producer-whatsapp-btn');
-            if (button) {
+        document.querySelectorAll('.producer-whatsapp-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (navigator.vibrate) navigator.vibrate(50);
                 openWhatsApp(button.dataset.whatsapp);
-            }
+            });
         });
     }
 
@@ -365,10 +362,10 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'whatsapp-share',
             icon: 'fab fa-whatsapp',
             action: (producerId, title) => {
-                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${BASE_URL}/emprendimiento/${producerId}`;
+                const message = `🌴 ${translations[currentLang].shareTitle}: ${title} 🚀 ${BASE_URL}/emprendimiento/${producerId}`;
                 if (navigator.share) {
                     navigator.share({
-                        title: 'Putumayo Conecta',
+                        title: translations[currentLang].headerTitle,
                         text: message,
                         url: `${BASE_URL}/emprendimiento/${producerId}`
                     }).catch(err => console.error('Error sharing via Web Share:', err));
@@ -385,10 +382,10 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'fab fa-facebook',
             action: (producerId, title) => {
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
-                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
+                const message = `🌴 ${translations[currentLang].shareTitle}: ${title} 🚀 ${url}`;
                 if (navigator.share) {
                     navigator.share({
-                        title: 'Putumayo Conecta',
+                        title: translations[currentLang].headerTitle,
                         text: message,
                         url: url
                     }).catch(err => console.error('Error sharing via Web Share:', err));
@@ -405,10 +402,10 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'fab fa-x-twitter',
             action: (producerId, title) => {
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
-                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
+                const message = `🌴 ${translations[currentLang].shareTitle}: ${title} 🚀 ${url}`;
                 if (navigator.share) {
                     navigator.share({
-                        title: 'Putumayo Conecta',
+                        title: translations[currentLang].headerTitle,
                         text: message,
                         url: url
                     }).catch(err => console.error('Error sharing via Web Share:', err));
@@ -425,10 +422,10 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'fab fa-tiktok',
             action: (producerId, title) => {
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
-                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
+                const message = `🌴 ${translations[currentLang].shareTitle}: ${title} 🚀 ${url}`;
                 if (navigator.share) {
                     navigator.share({
-                        title: 'Putumayo Conecta',
+                        title: translations[currentLang].headerTitle,
                         text: message,
                         url: url
                     }).catch(err => console.error('Error sharing via Web Share:', err));
@@ -447,10 +444,10 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'fab fa-instagram',
             action: (producerId, title) => {
                 const url = `${BASE_URL}/emprendimiento/${producerId}`;
-                const message = `🌴 ¡Conoce este emprendimiento en Putumayo Conecta! ${title} 🚀 ${url}`;
+                const message = `🌴 ${translations[currentLang].shareTitle}: ${title} 🚀 ${url}`;
                 if (navigator.share) {
                     navigator.share({
-                        title: 'Putumayo Conecta',
+                        title: translations[currentLang].headerTitle,
                         text: message,
                         url: url
                     }).catch(err => console.error('Error sharing via Web Share:', err));
@@ -535,14 +532,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             subButtons.forEach(btn => {
                 btn.classList.remove('glow');
-                const label = btn.querySelector('.category-label');
-                if (label) label.classList.remove('visible');
             });
             const currentButton = subButtons[currentIndex];
             if (currentButton) {
                 currentButton.classList.add('glow');
-                const label = currentButton.querySelector('.category-label');
-                if (label) label.classList.add('visible');
             }
             currentIndex = (currentIndex + 1) % subButtons.length;
         }
@@ -560,8 +553,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const subButtons = document.querySelectorAll('.category-btn.sub-btn');
         subButtons.forEach(btn => {
             btn.classList.remove('glow');
-            const label = btn.querySelector('.category-label');
-            if (label) label.classList.remove('visible');
         });
     }
 
@@ -613,8 +604,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="producer-info">
                     <h3>${producer.name}</h3>
                     <span class="category-badge ${producer.category.toLowerCase()}">${categoryName}</span>
-                    <p><strong>Producto:</strong> ${producer.product}</p>
-                    <p><strong>Ubicación:</strong> ${producer.location}</p>
+                    <p><strong>${translations[currentLang].productLabel.split(' *')[0]}:</strong> ${producer.product}</p>
+                    <p><strong>${translations[currentLang].locationLabel.split(' *')[0]}:</strong> ${producer.location}</p>
                     <p>${producer.description}</p>
                     <div class="producer-actions">
                         <a href="#" class="producer-whatsapp-btn whatsapp-btn" data-producer-id="${producer.id}" data-whatsapp="${producer.whatsapp}">
@@ -630,6 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         setupWhatsAppButtons();
+        setupShareButtons();
     }
 
     function setupSearch() {
@@ -639,7 +631,8 @@ document.addEventListener('DOMContentLoaded', () => {
         searchInput.addEventListener('input', () => {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
-                loadProducers(searchInput.value, currentCategory);
+                searchQuery = searchInput.value;
+                loadProducers(searchQuery, currentCategory);
             }, 300);
         });
     }
@@ -713,14 +706,10 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('mouseenter', () => {
                 stopGlowAnimation();
                 button.classList.add('glow');
-                const label = button.querySelector('.category-label');
-                if (label) label.classList.add('visible');
             });
 
             button.addEventListener('mouseleave', () => {
                 button.classList.remove('glow');
-                const label = button.querySelector('.category-label');
-                if (label) label.classList.remove('visible');
             });
         });
 
